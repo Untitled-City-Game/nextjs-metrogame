@@ -15,6 +15,8 @@ interface mapProps {
 }
 
 export default function Map({regionData}: mapProps) {
+	const [position, setPosition] = useState(center);
+
 	//Load the map
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -23,33 +25,28 @@ export default function Map({regionData}: mapProps) {
 	})
 
 	//Location marker
-	const [location, setLocation] = useState(center);
 	const [currentRegion, setCurrentRegion] = useState("");
 	const [infoWindowPos, setInfoWindowPos] = useState(center);
 	const locationMarker = <Marker 
-		position={location}
+		position={position}
 		title="You are here"
 	/>
 
 	//Track user location
 	useEffect(() => {
-		//Track user location
-		const watchID = navigator.geolocation.watchPosition(showPosition)
-		return () => {
-			navigator.geolocation.clearWatch(watchID)
+		console.log("useEffect")
+		if(navigator.geolocation) {
+			navigator.geolocation.watchPosition((position) => {
+				setPosition({
+					lat: position.coords.latitude,
+					lng: position.coords.longitude
+				}),
+				console.log("pos not found")
+			})
+		} else {
+			console.log("location not found")
 		}
-	})
-
-	function showPosition(current_pos: GeolocationPosition) {
-		console.log(
-			"Location: " + current_pos.coords.latitude + 
-			"," + current_pos.coords.longitude
-		);
-		setLocation({
-			lat: current_pos.coords.latitude,
-			lng: current_pos.coords.longitude
-		});
-	}
+	}, []);
 
 	//Info window
 	const regionWindow = <InfoWindow 
@@ -89,6 +86,10 @@ export default function Map({regionData}: mapProps) {
 			<Polygon
 				path = {regionCoords}
 				key = {regionName}
+				onClick = {() => {
+					setCurrentRegion(regionName);
+					setInfoWindowPos(regionCoords[0]);
+				}}
 			/>
 		)
 		})
@@ -110,6 +111,7 @@ export default function Map({regionData}: mapProps) {
 	{/* This is the info window popup */}
 	{currentRegion? regionWindow: null}
 	{/* This is the location marker */}
+	
 	{locationMarker}
     </GoogleMap>
         </div>
@@ -131,12 +133,12 @@ const infoWindowStyle = {
   
   //Map center location
 
-//   const center = {
-// 	lat:  45.529819917244254,
-// 	lng: -73.60361034602055,
-//   }
+  const center = {
+	lat:  45.529819917244254,
+	lng: -73.60361034602055,
+  }
 //melbourne
-const center = {
-	lat: -37.8136,
-	lng: 144.9631
-} 
+// const center: google.maps.LatLngLiteral = {
+// 	lat: -37.8136,
+// 	lng: 144.9631
+//   }
