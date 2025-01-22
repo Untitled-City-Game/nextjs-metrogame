@@ -1,16 +1,20 @@
-//TODO: Add custom info window
-//TODO: Route to location claim page
-//TODO: UseEffect cleanup
+//TODO: Experiment with lines to show row of 4
+//TODO: Try with polygons instead of KML
+
 'use client';
 
-import {useState, useEffect} from 'react'
+import {useState, useEffect, ReactNode} from 'react'
 import Link from 'next/link'
-import { GoogleMap, useJsApiLoader, KmlLayer, Marker, InfoWindow } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, KmlLayer, Marker, InfoWindow, Polygon } from '@react-google-maps/api';
 import { Library } from '@googlemaps/js-api-loader';
 
 const libraries : Library[] = ['places', 'geometry'];
 
-export default function Map() {
+interface mapProps {
+	regionData: string
+}
+
+export default function Map({regionData}: mapProps) {
 	//Load the map
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -30,7 +34,10 @@ export default function Map() {
 	//Track user location
 	useEffect(() => {
 		//Track user location
-		navigator.geolocation.watchPosition(showPosition)
+		const watchID = navigator.geolocation.watchPosition(showPosition)
+		return () => {
+			navigator.geolocation.clearWatch(watchID)
+		}
 	})
 
 	function showPosition(current_pos: GeolocationPosition) {
@@ -50,7 +57,9 @@ export default function Map() {
 			onCloseClick = {() => setCurrentRegion("")}
 		>
 		<div style = {infoWindowStyle}>
-			{currentRegion}
+			<div >
+				{currentRegion}
+			</div>
 			<Link href={{
 				pathname: '/claim',
 				query: {region: currentRegion}
@@ -59,6 +68,32 @@ export default function Map() {
 			</Link>
 		</div>
 	</InfoWindow>
+
+	//Make the polygons
+	function makePolygons(regionData: string) {
+		//Parse the region data
+		const regionDataObj = JSON.parse(regionData);
+
+		//Create the polygons
+		const regionPolygons: ReactNode[] = regionDataObj.features.map((region: any) => {
+			//check if region is a polygon
+			if(region.geometry.type !== "Polygon") {
+				return null;
+			}
+			const regionName = region.properties.name;
+			//convert coords to latlong
+			const regionCoords = region.geometry.coordinates[0].map((coord: any) => {
+				return {lat: coord[1], lng: coord[0]}
+			})
+			return (
+			<Polygon
+				path = {regionCoords}
+				key = {regionName}
+			/>
+		)
+		})
+		return regionPolygons;
+	}
 
 	//Render the map or loading screen
 	return isLoaded ? (
@@ -69,27 +104,9 @@ export default function Map() {
       zoom={12}
     >
 	{/* This does the montreal grid */}
-      <KmlLayer
-      url="https://drive.google.com/uc?export=kml&id=1ro8t3OM2T_RNs7QNwACjvmo1XhmUcN2e"
-      options={{ 
-		preserveViewport: true, 
-		suppressInfoWindows: true,
-	}}
+	
+	{makePolygons(regionData)}
 
-	// Click on a region
-	  onClick={(event: google.maps.KmlMouseEvent) => {
-		console.log("click!");
-		if(event.featureData != null && event.latLng != null) {
-			//Open the info window
-			setCurrentRegion(event.featureData.name);
-			setInfoWindowPos({
-				lat: event.latLng.lat(),
-				lng: event.latLng.lng()
-			});
-		}
-	  }}
-    >
-	</KmlLayer>		
 	{/* This is the info window popup */}
 	{currentRegion? regionWindow: null}
 	{/* This is the location marker */}
@@ -102,8 +119,8 @@ export default function Map() {
 
 //Styles to make map appear
 const containerStyle = {
-	width: '800px',
-	height: '800px',
+	width: '400px',
+	height: '100%',
   }
 
 const infoWindowStyle = {
@@ -113,7 +130,13 @@ const infoWindowStyle = {
 	  }
   
   //Map center location
-  const center = {
-	lat:  45.529819917244254,
-	lng: -73.60361034602055,
-  }
+
+//   const center = {
+// 	lat:  45.529819917244254,
+// 	lng: -73.60361034602055,
+//   }
+//melbourne
+const center = {
+	lat: -37.8136,
+	lng: 144.9631
+} 
