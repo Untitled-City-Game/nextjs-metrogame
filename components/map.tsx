@@ -48,7 +48,7 @@ export default function Map({regions, lines}: mapProps) {
 	//Load the map
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
-		googleMapsApiKey: process.env.MAPS_API as string,
+		googleMapsApiKey: 'AIzaSyAhg8bq82cx8W6bqb-KTjk1QmrgOi43gdA',
 		libraries: libraries,
 	})
 
