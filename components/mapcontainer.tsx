@@ -3,16 +3,20 @@ import Map from './map';
 import {ReactNode, ReactElement} from 'react'
 import { Polygon, PolygonProps, Polyline } from '@react-google-maps/api';
 import { Position, LineString } from 'geojson';
+import PointInPolygon from 'point-in-polygon';
 
 export default async function MapContainer() {
 	const regionData = await fs.readFile(process.cwd() + '/app/data/melbourne.geojson', 'utf8');
 	const regionDataObj: GeoJSON.FeatureCollection = JSON.parse(regionData);
-	const regionLines = makeLines(regionDataObj);
-	const regionPolygons = makePolygons(regionDataObj);
+	const regionLines: featureData[] = makeLines(regionDataObj);
+	const regionPolygons: PolyData[] = makePolygons(regionDataObj, regionLines);
 	type featureData = {
 		featureName : string,
 		coords: { lat: number; lng: number; }[]
 	};
+	interface PolyData extends featureData {
+		matchedLines : featureData[]
+	}
 	return(
 		<Map regionData = {regionData} regions = {regionPolygons} lines = {regionLines}/>
 	)
@@ -21,7 +25,7 @@ export default async function MapContainer() {
 			properties: GeoJSON.GeoJsonProperties & {Name: string};
 		}
 		//Make the polygons
-		function makePolygons(regionDataObj: GeoJSON.FeatureCollection) {
+		function makePolygons(regionDataObj: GeoJSON.FeatureCollection, regionLines: featureData[]) {
 
 			//filter to polygons
 			const isPolygon = (region: GeoJSON.Feature) => region.geometry.type === "Polygon";
@@ -32,12 +36,17 @@ export default async function MapContainer() {
 			//Create the regions
 			const regionPolygons = validPolygons.map((region: PolygonFeature) => {
 				const regionName: string = region.properties.Name;
+				//Find lines which have a point in the polygon
+				const matchedLines = regionLines.filter((line: featureData) => {
+					return line.coords.some((coord) => PointInPolygon([coord.lng, coord.lat], region.geometry.coordinates[0]));
+				});
+
 				//convert coords to latlong (for some reason polygon has an extra array layer than polyline)
 				const regionCoords = region.geometry.coordinates[0].map((coord: Position) => {
 					const latlong = coord as number[];
 					return {lat: latlong[1], lng: latlong[0]}
 				})
-				return {featureName: regionName, coords: regionCoords};
+				return {featureName: regionName, coords: regionCoords, matchedLines : matchedLines};
 			})
 			
 			return regionPolygons;

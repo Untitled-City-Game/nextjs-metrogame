@@ -4,7 +4,7 @@
 
 import {useState, useEffect, ReactNode, ReactElement} from 'react'
 import Link from 'next/link'
-import { GoogleMap, useJsApiLoader, KmlLayer, Marker, InfoWindow, Polygon, Polyline } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, KmlLayer, Marker, InfoWindow, Polygon, Polyline, PolylineProps } from '@react-google-maps/api';
 import { Library } from '@googlemaps/js-api-loader';
 import { LineString, Position } from 'geojson';
 
@@ -13,15 +13,38 @@ type featureData = {
 	featureName : string,
 	coords: { lat: number; lng: number; }[]
 };
+interface PolyData extends featureData {
+	matchedLines : featureData[]
+	matchedLineElements?: ReactElement[]
+}
 interface mapProps {
 	regionData: string
-	regions?: featureData[]; //TODO: make this global
+	regions?: PolyData[]; //TODO: make this global
 	lines?: featureData[];
 }
 
 export default function Map({regions, lines}: mapProps) {
 	const [position, setPosition] = useState(center);
 	
+	//create line visibility state object
+	const lineVisibilityState = lines?.reduce((acc, line) => {
+		acc[line.featureName] = useState(false);
+		return acc;
+	}, {} as {[key: string]: [boolean, React.Dispatch<React.SetStateAction<boolean>>]});
+	
+	//Render region lines
+	const lineElements = lines?.map((line) => {
+		return <Polyline 
+		key = {line.featureName}
+		path = {line.coords}
+		visible = {lineVisibilityState![line.featureName][0]} //assert not undefined because lines is not undefined
+		options = {{
+			strokeColor: 'red',
+			strokeOpacity: 1.0,
+			strokeWeight: 3
+		}}
+		/>
+	})
 	//Load the map
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -53,19 +76,34 @@ export default function Map({regions, lines}: mapProps) {
 		}
 	}, []);
 
+
 	//Render region polygons
 	const regionElements = regions?.map((region) => {
+		//get matched lines
+		const matchedLineElements = region.matchedLines?.map((line) => {
+			//find lineElement in lineElements
+			const lineElement = lineElements?.find((lineElement) => {
+				return lineElement.key === line.featureName;
+			})
+			return lineElement ? lineElement : null;
+		})
 		return <Polygon 
 		path = {region.coords}
 		key = {region.featureName}
+		onClick = {() => {
+			//setCurrentRegion(region.featureName);
+			//make all line elements invisible
+			Object.values(lineVisibilityState!).forEach((lineState) => {
+				lineState[1](false);
+			})
+			//make matched line elements visible
+			matchedLineElements?.forEach((lineElement) => {
+				if(lineElement) {
+					lineVisibilityState![lineElement.key as string][1](true);
+				}
+			})
+		}}
 		/>
-	})
-
-	//Render region lines
-	const lineElements = lines?.map((line) => {
-		return <Polyline 
-		key = {line.featureName}
-		path = {line.coords}/>
 	})
 
 	//Info window

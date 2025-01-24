@@ -11,7 +11,9 @@
   "dependencies": {
     "@react-google-maps/api": "^2.20.5",
     "@types/geojson": "^7946.0.15",
+    "@types/point-in-polygon": "^1.1.5",
     "next": "15.1.5",
+    "point-in-polygon": "^1.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },
