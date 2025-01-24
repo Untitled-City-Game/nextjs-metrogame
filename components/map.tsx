@@ -40,15 +40,15 @@ export default function Map({regions, lines}: mapProps) {
 		visible = {lineVisibilityState![line.featureName][0]} //assert not undefined because lines is not undefined
 		options = {{
 			strokeColor: 'red',
-			strokeOpacity: 1.0,
-			strokeWeight: 3
+			strokeOpacity: 0.5,
+			strokeWeight: 6
 		}}
 		/>
 	})
 	//Load the map
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
-		googleMapsApiKey: 'AIzaSyAhg8bq82cx8W6bqb-KTjk1QmrgOi43gdA',
+		googleMapsApiKey: process.env.MAPS_API as string,
 		libraries: libraries,
 	})
 
