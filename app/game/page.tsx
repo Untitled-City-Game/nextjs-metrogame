@@ -1,5 +1,5 @@
 import MapContainer from "@components/mapcontainer";
-import { Flex, Tabs, TabsTab, TabsList, TabsPanel, Container } from "@mantine/core";
+import { Tabs, TabsTab, TabsList, TabsPanel, Container } from "@mantine/core";
 export default function Home() {
   return (
 	<Container mih = "100vh" h="0">
