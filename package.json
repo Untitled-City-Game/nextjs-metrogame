@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mantine/core": "^7.16.2",
+    "@mantine/hooks": "^7.16.2",
+    "@mantine/modals": "^7.16.2",
+    "@mantine/notifications": "^7.16.2",
     "@react-google-maps/api": "^2.20.5",
     "@types/geojson": "^7946.0.15",
     "@types/point-in-polygon": "^1.1.5",
