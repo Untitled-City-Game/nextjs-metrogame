@@ -161,7 +161,7 @@ function RegionPolygon(region: PolyData, onClick: () => void, currentRegion: str
 
 //Styles to make map appear
 const containerStyle = {
-	width: '400px',
+	width: '100%',
 	height: '100%',
   }
 
