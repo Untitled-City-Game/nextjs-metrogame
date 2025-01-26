@@ -70,33 +70,22 @@ export default function Map({regions, lines}: mapProps) {
 	
 	//Render region lines
 	const lineElements = lines?.map((line) => {
-		return <Polyline 
-		key = {line.featureName}
-		path = {line.coords}
-		visible = {lineVisibility![line.featureName]} //assert not undefined because lines is not undefined
-		options = {{
-			strokeColor: 'red',
-			strokeOpacity: 0.5,
-			strokeWeight: 6
-		}}
-		/>
+		return mapLine(line, lineVisibility);
 	})
 
 	//Render region polygons
 	const regionElements = regions?.map((region) => {
-		return <Polygon 
-		path = {region.coords}
-		key = {region.featureName}
-		onClick = {() => {
+		const onClick = function () {
 			//create a shallow copy of lineVisibility with matched lines set to true and others set to false
 			const lineVisibilityTemp = {...lineVisibility};
 			lines?.forEach((line) => {
 				lineVisibilityTemp[line.featureName] = region.matchedLines.some((matchedLine) => matchedLine.featureName === line.featureName);
 			})
 			setLineVisibility(lineVisibilityTemp);
-			setCurrentRegion(region.featureName);
-		}}
-		/>
+			// setCurrentRegion(region.featureName);
+		}
+		return RegionPolygon(region, onClick);
+
 	})
 
 	//Info window
@@ -140,6 +129,40 @@ export default function Map({regions, lines}: mapProps) {
 	) : <>Loading...</>
 }
 
+function mapLine(line: featureData, lineVisibility: {[key: string]: boolean}) {
+	return <Polyline 
+	key = {line.featureName}
+	path = {line.coords}
+	visible = {lineVisibility[line.featureName]}
+	options = {{
+		strokeColor: 'red',
+		strokeOpacity: 0.5,
+		strokeWeight: 6
+	}}
+	/>
+}
+
+function RegionPolygon(region: PolyData, onClick: () => void) {
+	const [hovered, setHovered] = useState(false);
+	return <Polygon 
+		path = {region.coords}
+		key = {region.featureName}
+		options = {{
+			strokeColor: 'black',
+			strokeOpacity: 0.8,
+			strokeWeight: hovered ? 4 : 2,
+			fillColor: 'black',
+			fillOpacity: 0.35
+		}}
+		onClick = {onClick}
+		onMouseOver = {() => {
+			setHovered(true)
+		}}
+		onMouseOut = {() => {
+			setHovered(false)
+		}}
+		/>
+}
 
 //Styles to make map appear
 const containerStyle = {
