@@ -2,11 +2,10 @@
 
 'use client';
 
-import {useState, useEffect, ReactNode, ReactElement} from 'react'
+import {useState, useEffect, ReactElement} from 'react'
 import Link from 'next/link'
-import { GoogleMap, useJsApiLoader, KmlLayer, Marker, InfoWindow, Polygon, Polyline, PolylineProps } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Polygon, Polyline } from '@react-google-maps/api';
 import { Library } from '@googlemaps/js-api-loader';
-import { LineString, Position } from 'geojson';
 
 const libraries : Library[] = ['places', 'geometry'];
 type featureData = {
@@ -25,26 +24,19 @@ interface mapProps {
 
 export default function Map({regions, lines}: mapProps) {
 	const [position, setPosition] = useState(center);
+	// const [lineVisibility, setLineVisibility] = useState({} as {[key: string]: boolean});
 	
-	//create line visibility state object
-	const lineVisibilityState = lines?.reduce((acc, line) => {
-		acc[line.featureName] = useState(false);
-		return acc;
-	}, {} as {[key: string]: [boolean, React.Dispatch<React.SetStateAction<boolean>>]});
-	
-	//Render region lines
-	const lineElements = lines?.map((line) => {
-		return <Polyline 
-		key = {line.featureName}
-		path = {line.coords}
-		visible = {lineVisibilityState![line.featureName][0]} //assert not undefined because lines is not undefined
-		options = {{
-			strokeColor: 'red',
-			strokeOpacity: 0.5,
-			strokeWeight: 6
-		}}
-		/>
-	})
+	// //create line visibility state object
+	// const lineVisibilityTemp = lines?.reduce((acc, line) => {
+	// 	acc[line.featureName] = false;
+	// 	return acc;
+	// }, {} as {[key: string]: boolean});
+	// lines?setLineVisibility(lineVisibilityTemp!):null;
+	const [lineVisibility, setLineVisibility] = useState(lines? lines.reduce((acc, line) => {
+			acc[line.featureName] = false;
+			return acc;
+		}, {} as {[key: string]: boolean}): {})
+
 	//Load the map
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -54,7 +46,7 @@ export default function Map({regions, lines}: mapProps) {
 
 	//Location marker
 	const [currentRegion, setCurrentRegion] = useState("");
-	const [infoWindowPos, setInfoWindowPos] = useState(center);
+	//const [infoWindowPos, setInfoWindowPos] = useState(center);
 	const locationMarker = <Marker 
 		position={position}
 		title="You are here"
@@ -75,40 +67,41 @@ export default function Map({regions, lines}: mapProps) {
 			console.log("location not found")
 		}
 	}, []);
-
+	
+	//Render region lines
+	const lineElements = lines?.map((line) => {
+		return <Polyline 
+		key = {line.featureName}
+		path = {line.coords}
+		visible = {lineVisibility![line.featureName]} //assert not undefined because lines is not undefined
+		options = {{
+			strokeColor: 'red',
+			strokeOpacity: 0.5,
+			strokeWeight: 6
+		}}
+		/>
+	})
 
 	//Render region polygons
 	const regionElements = regions?.map((region) => {
-		//get matched lines
-		const matchedLineElements = region.matchedLines?.map((line) => {
-			//find lineElement in lineElements
-			const lineElement = lineElements?.find((lineElement) => {
-				return lineElement.key === line.featureName;
-			})
-			return lineElement ? lineElement : null;
-		})
 		return <Polygon 
 		path = {region.coords}
 		key = {region.featureName}
 		onClick = {() => {
-			//setCurrentRegion(region.featureName);
-			//make all line elements invisible
-			Object.values(lineVisibilityState!).forEach((lineState) => {
-				lineState[1](false);
+			//create a shallow copy of lineVisibility with matched lines set to true and others set to false
+			const lineVisibilityTemp = {...lineVisibility};
+			lines?.forEach((line) => {
+				lineVisibilityTemp[line.featureName] = region.matchedLines.some((matchedLine) => matchedLine.featureName === line.featureName);
 			})
-			//make matched line elements visible
-			matchedLineElements?.forEach((lineElement) => {
-				if(lineElement) {
-					lineVisibilityState![lineElement.key as string][1](true);
-				}
-			})
+			setLineVisibility(lineVisibilityTemp);
+			setCurrentRegion(region.featureName);
 		}}
 		/>
 	})
 
 	//Info window
 	const regionWindow = <InfoWindow 
-			position = {infoWindowPos}
+			position = {center}
 			onCloseClick = {() => setCurrentRegion("")}
 		>
 		<div style = {infoWindowStyle}>
@@ -123,66 +116,6 @@ export default function Map({regions, lines}: mapProps) {
 			</Link>
 		</div>
 	</InfoWindow>
-
-	//Make the polygons
-	function makePolygons(regionData: string) {
-		//Parse the region data
-		const regionDataObj: GeoJSON.FeatureCollection = JSON.parse(regionData);
-
-		//Create the polygons
-		const regionPolygons: ReactNode[] = regionDataObj.features.map((region: GeoJSON.Feature) => {
-			//check if region is a polygon
-			if(region.geometry.type !== "Polygon" || !region.properties) {
-				return null;
-			}
-			const regionName: string = region.properties.Name;
-			//convert coords to latlong
-			const regionCoords = region.geometry.coordinates[0].map((coord: any) => {
-				return {lat: coord[1], lng: coord[0]}
-			})
-			return (
-			<Polygon
-				path = {regionCoords}
-				key = {regionName}
-				onClick = {(evt) => {
-					evt.latLng ? setInfoWindowPos(evt.latLng.toJSON()) : null;
-					setCurrentRegion(regionName);
-				}}
-			/>
-		)
-		})
-		return regionPolygons;
-	}
-
-	function makeLines(regionData: string) {
-		//Parse the region data
-		const regionDataObj: GeoJSON.FeatureCollection = JSON.parse(regionData);
-
-		//Create the lines
-		const regionLines: ReactNode[] = regionDataObj.features.map((line: GeoJSON.Feature) => {
-			//check if region is a polygon
-			if(line.geometry.type !== "LineString" || !line.properties) {
-				return null;
-			}
-			const lineName: string = line.properties.Name;
-			//convert coords to latlong
-			const lineCoords = line.geometry.coordinates.map((coord: Position) => {
-				const latlong = coord as number[];
-				return {lat: latlong[1], lng: latlong[0]}
-			})
-			return (
-			<Polyline
-				path = {lineCoords}
-				key = {lineName}
-				onClick = {(evt) => {
-					evt.latLng ? setInfoWindowPos(evt.latLng.toJSON()) : null;
-					setCurrentRegion(lineName);
-				}}
-			/>
-		)
-		})
-		return regionLines;
-	}
 
 	//Render the map or loading screen
 	return isLoaded ? (

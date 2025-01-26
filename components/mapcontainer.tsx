@@ -1,7 +1,5 @@
 import {promises as fs} from 'fs';
 import Map from './map';
-import {ReactNode, ReactElement} from 'react'
-import { Polygon, PolygonProps, Polyline } from '@react-google-maps/api';
 import { Position, LineString } from 'geojson';
 import PointInPolygon from 'point-in-polygon';
 
