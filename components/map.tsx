@@ -75,16 +75,17 @@ export default function Map({regions, lines}: mapProps) {
 
 	//Render region polygons
 	const regionElements = regions?.map((region) => {
+		//create a shallow copy of lineVisibility with matched lines set to true
+		const lineVisibilityTemp = {...lineVisibility};
+		lines?.forEach((line) => {
+			lineVisibilityTemp[line.featureName] = region.matchedLines.some((matchedLine) => matchedLine.featureName === line.featureName);
+		})
 		const onClick = function () {
-			//create a shallow copy of lineVisibility with matched lines set to true and others set to false
-			const lineVisibilityTemp = {...lineVisibility};
-			lines?.forEach((line) => {
-				lineVisibilityTemp[line.featureName] = region.matchedLines.some((matchedLine) => matchedLine.featureName === line.featureName);
-			})
+			//set line visibility
 			setLineVisibility(lineVisibilityTemp);
-			// setCurrentRegion(region.featureName);
+			setCurrentRegion(region.featureName);
 		}
-		return RegionPolygon(region, onClick);
+		return RegionPolygon(region, onClick, currentRegion);
 
 	})
 
@@ -142,25 +143,19 @@ function mapLine(line: featureData, lineVisibility: {[key: string]: boolean}) {
 	/>
 }
 
-function RegionPolygon(region: PolyData, onClick: () => void) {
-	const [hovered, setHovered] = useState(false);
+function RegionPolygon(region: PolyData, onClick: () => void, currentRegion: string) {
+	const amCurrentRegion = region.featureName === currentRegion;
 	return <Polygon 
 		path = {region.coords}
 		key = {region.featureName}
 		options = {{
 			strokeColor: 'black',
 			strokeOpacity: 0.8,
-			strokeWeight: hovered ? 4 : 2,
+			strokeWeight: amCurrentRegion ? 4 : 2,
 			fillColor: 'black',
-			fillOpacity: 0.35
+			fillOpacity: amCurrentRegion ? 0.5 : 0.2
 		}}
 		onClick = {onClick}
-		onMouseOver = {() => {
-			setHovered(true)
-		}}
-		onMouseOut = {() => {
-			setHovered(false)
-		}}
 		/>
 }
 
