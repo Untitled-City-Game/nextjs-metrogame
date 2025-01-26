@@ -83,7 +83,7 @@ export default function Map({regions, lines}: mapProps) {
 		const onClick = function () {
 			//set line visibility
 			setLineVisibility(lineVisibilityTemp);
-			setCurrentRegion(region.featureName);
+			//setCurrentRegion(region.featureName);
 		}
 		return RegionPolygon(region, onClick, currentRegion);
 
