@@ -106,6 +106,7 @@ export default function Map({regions, lines}: mapProps) {
 			{locationMarker}
 		</GoogleMap>
     </div>
+	{currentRegion ? (
 	<Paper style={infoRegionStyles}>
 		{currentRegion}
 		<Button component={Link} href={{
@@ -115,6 +116,7 @@ export default function Map({regions, lines}: mapProps) {
 			Claim
 		</Button>
 	</Paper>
+	) : null}
 	</>
 	) : <>Loading...</>
 }
