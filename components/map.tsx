@@ -6,6 +6,7 @@ import {useState, useEffect, ReactElement} from 'react'
 import Link from 'next/link'
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Polygon, Polyline } from '@react-google-maps/api';
 import { Library } from '@googlemaps/js-api-loader';
+import { Paper, Button } from '@mantine/core';
 
 const libraries : Library[] = ['places', 'geometry'];
 type featureData = {
@@ -83,7 +84,7 @@ export default function Map({regions, lines}: mapProps) {
 		const onClick = function () {
 			//set line visibility
 			setLineVisibility(lineVisibilityTemp);
-			//setCurrentRegion(region.featureName);
+			setCurrentRegion(region.featureName);
 		}
 		return RegionPolygon(region, onClick, currentRegion);
 
@@ -109,7 +110,8 @@ export default function Map({regions, lines}: mapProps) {
 
 	//Render the map or loading screen
 	return isLoaded ? (
-	<div id="map">
+		<>
+	<div id="map" style = {mapStyles}>
 		<GoogleMap
 		mapContainerStyle={containerStyle}
 		center={center}
@@ -127,6 +129,16 @@ export default function Map({regions, lines}: mapProps) {
 		{locationMarker}
 		</GoogleMap>
     </div>
+	<Paper style={infoRegionStyles}>
+		{currentRegion}
+		<Button component={Link} href={{
+			pathname: '/claim',
+			query: {region: currentRegion}
+		}}>
+			Claim
+		</Button>
+	</Paper>
+	</>
 	) : <>Loading...</>
 }
 
@@ -184,3 +196,12 @@ const center: google.maps.LatLngLiteral = {
 	lat: -37.8136,
 	lng: 144.9631
   }
+  const mapStyles: React.CSSProperties = {
+	flexBasis: "200px",
+	flexGrow: 5
+}
+
+const infoRegionStyles: React.CSSProperties = {
+	flexBasis: "100px",
+	flexGrow: 1
+}
