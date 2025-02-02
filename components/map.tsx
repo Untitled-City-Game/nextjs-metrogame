@@ -4,7 +4,7 @@
 
 import {useState, useEffect, ReactElement} from 'react'
 import Link from 'next/link'
-import { GoogleMap, useJsApiLoader, Marker, InfoWindow, Polygon, Polyline } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker, Polygon, Polyline } from '@react-google-maps/api';
 import { Library } from '@googlemaps/js-api-loader';
 import { Paper, Button } from '@mantine/core';
 
@@ -47,7 +47,6 @@ export default function Map({regions, lines}: mapProps) {
 
 	//Location marker
 	const [currentRegion, setCurrentRegion] = useState("");
-	//const [infoWindowPos, setInfoWindowPos] = useState(center);
 	const locationMarker = <Marker 
 		position={position}
 		title="You are here"
@@ -90,43 +89,21 @@ export default function Map({regions, lines}: mapProps) {
 
 	})
 
-	//Info window
-	const regionWindow = <InfoWindow 
-			position = {center}
-			onCloseClick = {() => setCurrentRegion("")}
-		>
-		<div style = {infoWindowStyle}>
-			<div >
-				{currentRegion}
-			</div>
-			<Link href={{
-				pathname: '/claim',
-				query: {region: currentRegion}
-			}}>
-				Claim
-			</Link>
-		</div>
-	</InfoWindow>
-
 	//Render the map or loading screen
 	return isLoaded ? (
 		<>
 	<div id="map" style = {mapStyles}>
 		<GoogleMap
-		mapContainerStyle={containerStyle}
-		center={center}
-		zoom={12}
-		>
-		{/* This does the montreal grid */}
-		
-		{regionElements}
-		{lineElements}
-
-		{/* This is the info window popup */}
-		{currentRegion? regionWindow: null}
-		{/* This is the location marker */}
-		
-		{locationMarker}
+			mapContainerStyle={containerStyle}
+			center={center}
+			zoom={12}
+			>
+			{/* This does the montreal grid */}
+			{regionElements}
+			{lineElements}
+			
+			{/* This is the location marker */}
+			{locationMarker}
 		</GoogleMap>
     </div>
 	<Paper style={infoRegionStyles}>
@@ -175,14 +152,7 @@ function RegionPolygon(region: PolyData, onClick: () => void, currentRegion: str
 const containerStyle = {
 	width: '100%',
 	height: '100%',
-  }
-
-const infoWindowStyle = {
-	color: 'black',
-	fontWeight: 'bold',
-	fontSize: '24px',
-	  }
-  
+  }  
   //Map center location
 
 //   const center = {
