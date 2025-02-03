@@ -4,7 +4,7 @@
 
 import {useState, useEffect, ReactElement} from 'react'
 import Link from 'next/link'
-import { GoogleMap, useJsApiLoader, Marker, Polygon, Polyline } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker, Polygon, Polyline, Circle } from '@react-google-maps/api';
 import { Library } from '@googlemaps/js-api-loader';
 import { Paper, Button } from '@mantine/core';
 
@@ -25,19 +25,18 @@ interface mapProps {
 
 export default function Map({regions, lines}: mapProps) {
 	const [position, setPosition] = useState(center);
-	// const [lineVisibility, setLineVisibility] = useState({} as {[key: string]: boolean});
-	
-	// //create line visibility state object
-	// const lineVisibilityTemp = lines?.reduce((acc, line) => {
-	// 	acc[line.featureName] = false;
-	// 	return acc;
-	// }, {} as {[key: string]: boolean});
-	// lines?setLineVisibility(lineVisibilityTemp!):null;
+	//tracks which lines should be visible
 	const [lineVisibility, setLineVisibility] = useState(lines? lines.reduce((acc, line) => {
 			acc[line.featureName] = false;
 			return acc;
-		}, {} as {[key: string]: boolean}): {})
+		}, {} as {[key: string]: boolean}): {});
+	//tracks which polygons should be highlighted
+	const [highlightedRegions, setHighlightedRegions] = useState(regions? regions.reduce((acc, region) => {
+		acc[region.featureName] = false;
+		return acc;
+	}, {} as {[key: string]: boolean}): {});
 
+	const [currentRegion, setCurrentRegion] = useState("");
 	//Load the map
 	const { isLoaded } = useJsApiLoader({
 		id: 'google-map-script',
@@ -46,7 +45,6 @@ export default function Map({regions, lines}: mapProps) {
 	})
 
 	//Location marker
-	const [currentRegion, setCurrentRegion] = useState("");
 	const locationMarker = <Marker 
 		position={position}
 		title="You are here"
@@ -80,13 +78,19 @@ export default function Map({regions, lines}: mapProps) {
 		lines?.forEach((line) => {
 			lineVisibilityTemp[line.featureName] = region.matchedLines.some((matchedLine) => matchedLine.featureName === line.featureName);
 		})
+		//create shallow copy of highlightedRegions with any regions that are associated with the lines set to true
+		const highlightedRegionsTemp = {...highlightedRegions};
+		regions?.forEach((region) => {
+			highlightedRegionsTemp[region.featureName] = region.matchedLines.some((matchedLine) => lineVisibilityTemp[matchedLine.featureName]);
+		});
 		const onClick = function () {
 			//set line visibility
 			setLineVisibility(lineVisibilityTemp);
+			//set region highlight
+			setHighlightedRegions(highlightedRegionsTemp);
 			setCurrentRegion(region.featureName);
 		}
-		return RegionPolygon(region, onClick, currentRegion);
-
+		return RegionPolygon(region, onClick, currentRegion, highlightedRegions);
 	})
 
 	//Render the map or loading screen
@@ -122,19 +126,52 @@ export default function Map({regions, lines}: mapProps) {
 }
 
 function mapLine(line: featureData, lineVisibility: {[key: string]: boolean}) {
-	return <Polyline 
-	key = {line.featureName}
-	path = {line.coords}
-	visible = {lineVisibility[line.featureName]}
-	options = {{
-		strokeColor: 'red',
-		strokeOpacity: 0.5,
-		strokeWeight: 6
-	}}
-	/>
+	return(
+		<>
+			<Polyline 
+			key = {line.featureName}
+			path = {line.coords}
+			visible = {lineVisibility[line.featureName]}
+			options = {{
+				strokeColor: 'red',
+				strokeOpacity: 0.8,
+				strokeWeight: 6
+			}}
+			/>
+			{/* Make a circle at each vertex of the polyline */}
+			{line.coords.map((coord, index) => {
+				return (<><Circle
+					center = {coord}
+					radius = {0}
+					visible = {lineVisibility[line.featureName]}
+					key = {line.featureName + String(index)}
+					options = {{
+						strokeColor: 'red',
+						strokeOpacity: 1,
+						strokeWeight: 12,
+						fillColor: 'red',
+						fillOpacity: 1
+					}}
+				/>
+				<Circle
+					center = {coord}
+					radius = {0}
+					visible = {lineVisibility[line.featureName]}
+					key = {line.featureName + String(index) + "inner"}
+					options = {{
+						strokeColor: 'white',
+						strokeOpacity: 1,
+						strokeWeight: 6,
+						zIndex: 1
+					}}
+				/>
+				</>)
+			})}
+		</>
+	)
 }
 
-function RegionPolygon(region: PolyData, onClick: () => void, currentRegion: string) {
+function RegionPolygon(region: PolyData, onClick: () => void, currentRegion: string, highlightedRegions: {[key: string]: boolean}) {
 	const amCurrentRegion = region.featureName === currentRegion;
 	return <Polygon 
 		path = {region.coords}
@@ -143,7 +180,7 @@ function RegionPolygon(region: PolyData, onClick: () => void, currentRegion: str
 			strokeColor: 'black',
 			strokeOpacity: 0.8,
 			strokeWeight: amCurrentRegion ? 4 : 2,
-			fillColor: 'black',
+			fillColor: highlightedRegions[region.featureName] ? 'blue' : 'black',
 			fillOpacity: amCurrentRegion ? 0.5 : 0.2
 		}}
 		onClick = {onClick}
@@ -155,7 +192,8 @@ const containerStyle = {
 	width: '100%',
 	height: '100%',
   }  
-  //Map center location
+
+ //Montreal
 
 //   const center = {
 // 	lat:  45.529819917244254,
