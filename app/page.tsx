@@ -8,7 +8,6 @@ export default function Home() {
       <Title>Metro Game</Title>
       <Button component={Link} href="/game">Start Game</Button>
       <MapContainer />
-
     </Flex>
   );
 }
