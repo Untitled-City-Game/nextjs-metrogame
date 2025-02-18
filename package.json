@@ -6,7 +6,9 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "serve": "ts-node server.ts",
+    "dev:server": "concurrently --kill-others \"npm run dev\" \"npm run serve\""
   },
   "dependencies": {
     "@mantine/core": "^7.16.2",
@@ -16,6 +18,7 @@
     "@react-google-maps/api": "^2.20.5",
     "@types/geojson": "^7946.0.15",
     "@types/point-in-polygon": "^1.1.5",
+    "boardgame.io": "^0.50.2",
     "next": "15.1.5",
     "point-in-polygon": "^1.1.0",
     "react": "^19.0.0",
@@ -27,10 +30,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "concurrently": "^9.1.2",
     "eslint": "^9",
     "eslint-config-next": "15.1.5",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }
