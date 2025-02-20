@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import GameContainer from "@/components/GameContainer";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -20,7 +21,9 @@ export default function RootLayout({
       </head>
 
       <body>
-        <MantineProvider>{children}</MantineProvider>
+        <MantineProvider>
+          <GameContainer> {children} </GameContainer>
+        </MantineProvider>
       </body>
     </html>
   );

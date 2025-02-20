@@ -7,3 +7,10 @@
  border: thin solid #333;
  border-left: none;
  }
+
+ .mapPanel {
+	& .bgio-client {
+		flex-basis: "200px";
+		flex-grow: 5;
+	}
+ }

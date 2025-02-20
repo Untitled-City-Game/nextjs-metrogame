@@ -7,6 +7,7 @@ import Link from 'next/link'
 import { GoogleMap, useJsApiLoader, Marker, Polygon, Polyline, Circle } from '@react-google-maps/api';
 import { Library } from '@googlemaps/js-api-loader';
 import { Paper, Button } from '@mantine/core';
+import type { GameState } from '@/app/types.js';
 
 const libraries : Library[] = ['places', 'geometry'];
 type featureData = {
@@ -19,19 +20,19 @@ interface PolyData extends featureData {
 }
 interface mapProps {
 	regionData: string
-	regions?: PolyData[]; //TODO: make this global
-	lines?: featureData[];
+	zones?: PolyData[]; //TODO: make this global
+	winningLines?: featureData[];
 }
 
-export default function Map({regions, lines}: mapProps) {
-	const [position, setPosition] = useState(center);
+export default function DrawGoogleMap({zones, winningLines}: mapProps) {
+	const [position, setPosition] = useState(gameLocationCenter);
 	//tracks which lines should be visible
-	const [lineVisibility, setLineVisibility] = useState(lines? lines.reduce((acc, line) => {
+	const [lineVisibility, setLineVisibility] = useState(winningLines? winningLines.reduce((acc, line) => {
 			acc[line.featureName] = false;
 			return acc;
 		}, {} as {[key: string]: boolean}): {});
 	//tracks which polygons should be highlighted
-	const [highlightedRegions, setHighlightedRegions] = useState(regions? regions.reduce((acc, region) => {
+	const [highlightedRegions, setHighlightedRegions] = useState(zones? zones.reduce((acc, region) => {
 		acc[region.featureName] = false;
 		return acc;
 	}, {} as {[key: string]: boolean}): {});
@@ -67,20 +68,20 @@ export default function Map({regions, lines}: mapProps) {
 	}, []);
 	
 	//Render region lines
-	const lineElements = lines?.map((line) => {
+	const lineElements = winningLines?.map((line) => {
 		return mapLine(line, lineVisibility);
 	})
 
 	//Render region polygons
-	const regionElements = regions?.map((region) => {
+	const regionElements = zones?.map((region) => {
 		//create a shallow copy of lineVisibility with matched lines set to true
 		const lineVisibilityTemp = {...lineVisibility};
-		lines?.forEach((line) => {
+		winningLines?.forEach((line) => {
 			lineVisibilityTemp[line.featureName] = region.matchedLines.some((matchedLine) => matchedLine.featureName === line.featureName);
 		})
 		//create shallow copy of highlightedRegions with any regions that are associated with the lines set to true
 		const highlightedRegionsTemp = {...highlightedRegions};
-		regions?.forEach((region) => {
+		zones?.forEach((region) => {
 			highlightedRegionsTemp[region.featureName] = region.matchedLines.some((matchedLine) => lineVisibilityTemp[matchedLine.featureName]);
 		});
 		const onClick = function () {
@@ -99,7 +100,7 @@ export default function Map({regions, lines}: mapProps) {
 	<div id="map" style = {mapStyles}>
 		<GoogleMap
 			mapContainerStyle={containerStyle}
-			center={center}
+			center={gameLocationCenter}
 			zoom={12}
 			>
 			{/* This does the montreal grid */}
@@ -202,7 +203,7 @@ const containerStyle = {
 
 //melbourne
 
-const center: google.maps.LatLngLiteral = {
+const gameLocationCenter: google.maps.LatLngLiteral = {
 	lat: -37.8136,
 	lng: 144.9631
   }

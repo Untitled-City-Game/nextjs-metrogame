@@ -1,11 +1,29 @@
 import {promises as fs} from 'fs';
-import Map from './map';
+import DrawGoogleMap from './map';
 import { Position, LineString } from 'geojson';
 import PointInPolygon from 'point-in-polygon';
+import DrawGoogleMapAsBoardgame, { MapBoard } from './googleMaps/mapAsBoardgame';
+import { MetroMayhem } from '@/scripts/Game';
+import { Client } from 'boardgame.io/react';
+import { ReactElement } from 'react';
+type featureData = {
+	featureName : string,
+	coords: { lat: number; lng: number; }[]
+};
+interface PolyData extends featureData {
+	matchedLines : featureData[]
+	matchedLineElements?: ReactElement[]
+}
+
+type mapProps = {
+	zoneData: string
+	zones?: PolyData[];
+	winningLines?: featureData[];
+}
 
 export default async function MapContainer() {
-	const regionData = await fs.readFile(process.cwd() + '/app/data/melbourne.geojson', 'utf8');
-	const regionDataObj: GeoJSON.FeatureCollection = JSON.parse(regionData);
+	const zoneData = await fs.readFile(process.cwd() + '/app/data/melbourne.geojson', 'utf8');
+	const regionDataObj: GeoJSON.FeatureCollection = JSON.parse(zoneData);
 	const regionLines: LineData[] = makeLines(regionDataObj);
 	const regionPolygons: PolyData[] = makePolygons(regionDataObj, regionLines);
 	type featureData = {
@@ -19,7 +37,9 @@ export default async function MapContainer() {
 		matchedPolygons : PolyData[]
 	}
 	return(
-		<Map regionData = {regionData} regions = {regionPolygons} lines = {regionLines}/>
+		// <DrawGoogleMap regionData = {regionData} zones = {regionPolygons} winningLines = {regionLines}/>
+		<DrawGoogleMapAsBoardgame zoneData={zoneData} zones = {regionPolygons} winningLines = {regionLines}/>
+		
 	)
 		interface PolygonFeature extends GeoJSON.Feature {
 			geometry: GeoJSON.Polygon;
