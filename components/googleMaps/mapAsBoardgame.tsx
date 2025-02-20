@@ -1,14 +1,12 @@
 "use client";
 
 import { useState, useContext } from "react";
-import Link from "next/link";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
-import { Paper, Button } from "@mantine/core";
 import { GameData, zoneData } from "@/app/types.js";
 import { gameLocationCenter, highlightColor } from "@/app/consts";
 import { GameContext } from "../ClientContainer";
-import LocationMarker from "../location";
+import LocationMarker from "./location";
 import MapLine from "./GoogleMapsLine";
 import ZonePolygon from "./GoogleMapsPolygon";
 import SelectedZonePopup from "./SelectedZonePopup";

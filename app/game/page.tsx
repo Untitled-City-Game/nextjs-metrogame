@@ -1,5 +1,4 @@
 import MapBoard from "@/components/googleMaps/mapAsBoardgame";
-import MapContainer from "@components/mapcontainer";
 import { Tabs, TabsTab, TabsList, TabsPanel, Container } from "@mantine/core";
 export default function Home() {
 	return (
