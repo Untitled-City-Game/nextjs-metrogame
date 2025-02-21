@@ -1,4 +1,4 @@
-import { GameState, PolyData, zoneStatus } from "@/app/types";
+import { GameState, PolyData, zoneStatus } from "@/scripts/types";
 import type { FnContext, Game } from "boardgame.io";
 
 // function functionMove({G, ctx, playerID}: FnContext<GameState>, claimId: number, teamID: zoneNames, ...args: unknown[]){

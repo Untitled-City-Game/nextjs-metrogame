@@ -1,4 +1,4 @@
-import {LineData, PolyData } from '@/app/types';
+import {LineData, PolyData } from '@/scripts/types';
 import {promises as fs} from 'fs';
 import makeLines from './geojson/makeLines';
 import makePolygons from './geojson/makePolygons';

@@ -1,4 +1,4 @@
-import { zoneData } from "@/app/types";
+import { zoneData } from "@/scripts/types";
 import { Paper, Button } from "@mantine/core";
 import Link from "next/link";
 

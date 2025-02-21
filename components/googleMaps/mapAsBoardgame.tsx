@@ -3,7 +3,7 @@
 import { useState, useContext } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
-import { GameData, zoneData } from "@/app/types.js";
+import { GameData, zoneData } from "@/scripts/types.js";
 import { gameLocationCenter, highlightColor } from "@/app/consts";
 import { GameContext } from "../ClientContainer";
 import LocationMarker from "./location";
@@ -12,6 +12,7 @@ import ZonePolygon from "./GoogleMapsPolygon";
 import SelectedZonePopup from "./SelectedZonePopup";
 
 const libraries: Library[] = ["places", "geometry"];
+
 
 export default function MapBoard() {
 	const props: GameData = useContext(GameContext);
@@ -45,9 +46,10 @@ export default function MapBoard() {
 	});
 
 	//Render zone lines
-	const lineElements = winningLines?.map((line, index) => {
+	const lineElements = winningLines.map((line, index) => {
 		return (
 			<MapLine
+				index={index}
 				line={line}
 				lineVisibility={lineVisibility[line.featureName]}
 				key={index}
@@ -90,7 +92,7 @@ export default function MapBoard() {
 						zoom={12}>
 						{/* This does the montreal grid */}
 						{zoneElements}
-						{lineElements}
+						<>{lineElements}</>
 						{/* This is the location marker */}
 						<LocationMarker initialPosition={gameLocationCenter} />
 					</GoogleMap>
@@ -120,3 +122,5 @@ const mapContainerStyles: React.CSSProperties = {
 	flexDirection: "column",
 	height: "100%",
 };
+
+let map: google.maps.Map;

@@ -1,4 +1,4 @@
-import { LineData, PolyData, PolygonFeature } from "@/app/types";
+import { LineData, PolyData, PolygonFeature } from "@/scripts/types";
 import { Position } from "geojson";
 import PointInPolygon from 'point-in-polygon';
 

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import '@mantine/core/styles.css';
-import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import { ColorSchemeScript, MantineProvider, createTheme, mantineHtmlProps } from '@mantine/core';
 import GameContainer from "@/components/GameContainer";
 
 export const metadata: Metadata = {
@@ -20,8 +20,8 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
 
-      <body>
-        <MantineProvider>
+      <body style={{ backgroundColor: backgroundColor }}>
+        <MantineProvider theme={theme}>
           <GameContainer> {children} </GameContainer>
         </MantineProvider>
       </body>
@@ -29,4 +29,36 @@ export default function RootLayout({
   );
 }
 
-//TODO: Make the layout mobile friendly
+
+const backgroundColor = "#F6F2E6";
+const theme = createTheme({
+  primaryShade: 7,
+  primaryColor: "actionColor",
+  colors: {
+    secondaryColor: [
+      "#ffedf5",
+      "#f5dbe5",
+      "#e4b6c8",
+      "#d58eaa",
+      "#c76d90",
+      "#bf577f",
+      "#bc4c77",
+      "#a63d66",
+      "#95345a",
+      "#84294e"
+    ],
+    actionColor:  [
+      "#ffedeb",
+      "#fadbd8",
+      "#eab6b2",
+      "#db8f89",
+      "#cf6e65",
+      "#c8594f",
+      "#c64d43",
+      "#af3e35",
+      "#9d352d",
+      "#8a2a24"
+    ]
+  }
+
+});

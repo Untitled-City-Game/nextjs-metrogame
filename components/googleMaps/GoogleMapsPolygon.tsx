@@ -1,4 +1,4 @@
-import { PolyData, zoneData, Color } from "@/app/types";
+import { PolyData, zoneData, Color } from "@/scripts/types";
 import { Polygon } from "@react-google-maps/api";
 
 type ZonePolygonProps = {

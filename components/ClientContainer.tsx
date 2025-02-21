@@ -1,9 +1,11 @@
 'use client';
 import { MetroMayhem } from '@/scripts/Game';
-import { MetroGameProps, GameState, GameData } from '@/app/types';
+import { MetroGameProps, GameState, GameData } from '@/scripts/types';
 import { createContext } from 'react';
 import { BoardProps, Client } from 'boardgame.io/react';
 export const GameContext = createContext({} as MetroGameProps & BoardProps<GameState>);
+
+
 
 export default function ClientContainer(props: MetroGameProps) {
 const App = Client({

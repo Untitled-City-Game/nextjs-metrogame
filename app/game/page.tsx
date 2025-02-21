@@ -1,3 +1,4 @@
+import GameLog from "@/components/GameLog";
 import MapBoard from "@/components/googleMaps/mapAsBoardgame";
 import { Tabs, TabsTab, TabsList, TabsPanel, Container } from "@mantine/core";
 export default function Home() {
@@ -12,7 +13,7 @@ export default function Home() {
 					<MapBoard />
 				</TabsPanel>
 				<TabsPanel value="log" style={panelStyles}>
-					<h1>Log</h1>
+					<GameLog />
 				</TabsPanel>
 				<TabsList
 					pos="fixed"
@@ -20,6 +21,7 @@ export default function Home() {
 					left={0}
 					h={tabHeight}
 					w="100%"
+					bg="white"
 					grow={true}>
 					<TabsTab value="cards">Cards</TabsTab>
 					<TabsTab value="map">Map</TabsTab>

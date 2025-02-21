@@ -1,4 +1,4 @@
-import { LineFeature } from "@/app/types";
+import { LineFeature } from "@/scripts/types";
 import { Position } from "geojson";
 
 export default function makeLines(regionDataObj: GeoJSON.FeatureCollection) {
