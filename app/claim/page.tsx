@@ -3,7 +3,7 @@
 import { GameContext } from "@/components/ClientContainer";
 import { Button } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useContext } from "react";
+import { Suspense, useContext, useEffect } from "react";
 import { GameData } from "../../scripts/types";
 import { useRouter } from "next/navigation";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
 import { GameData, zoneData } from "@/scripts/types.js";
@@ -16,8 +16,7 @@ const libraries: Library[] = ["places", "geometry"];
 
 export default function MapBoard() {
 	const props: GameData = useContext(GameContext);
-	const { zones, winningLines, G } = props;
-
+	const { zones, winningLines, G, moves } = props;
 	const [lineVisibility, setLineVisibility] = useState(
 		winningLines
 			? winningLines.reduce((acc, line) => {
@@ -81,25 +80,31 @@ export default function MapBoard() {
 		);
 	});
 
+	useEffect(() => {
+	//TODO: Make this way way more efficient, no need to check every time
+		if (!G.active) {
+			moves.startGame();
+		}
+	}
+	, [G.active, moves]);
+
 	//Render the map or loading screen
 	return isLoaded ? (
-		<>
-			<div style={mapContainerStyles}>
-				<div id="map" style={mapStyles}>
-					<GoogleMap
-						mapContainerStyle={containerStyle}
-						center={gameLocationCenter}
-						zoom={12}>
-						{/* This does the montreal grid */}
-						{zoneElements}
-						<>{lineElements}</>
-						{/* This is the location marker */}
-						<LocationMarker initialPosition={gameLocationCenter} />
-					</GoogleMap>
-				</div>
-				<SelectedZonePopup currentZone={currentZone} />
+		<div style={mapContainerStyles}>
+			<div id="map" style={mapStyles}>
+				<GoogleMap
+					mapContainerStyle={containerStyle}
+					center={gameLocationCenter}
+					zoom={12}>
+					{/* This does the montreal grid */}
+					{zoneElements}
+					<>{lineElements}</>
+					{/* This is the location marker */}
+					<LocationMarker initialPosition={gameLocationCenter} />
+				</GoogleMap>
 			</div>
-		</>
+			<SelectedZonePopup currentZone={currentZone} />
+		</div>
 	) : (
 		<>Loading...</>
 	);

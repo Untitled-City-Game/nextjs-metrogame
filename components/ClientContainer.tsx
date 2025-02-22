@@ -1,9 +1,11 @@
 'use client';
 import { MetroMayhem } from '@/scripts/Game';
-import { MetroGameProps, GameState, GameData } from '@/scripts/types';
-import { createContext } from 'react';
+import { MetroGameProps, GameState, GameData, LogEntryWithTime, ModifiedGameData } from '@/scripts/types';
+import { createContext, useEffect, useState } from 'react';
 import { BoardProps, Client } from 'boardgame.io/react';
-export const GameContext = createContext({} as MetroGameProps & BoardProps<GameState>);
+import { LogEntry } from 'boardgame.io';
+import { Local } from 'boardgame.io/multiplayer';
+export const GameContext = createContext({} as ModifiedGameData);
 
 
 
@@ -12,12 +14,32 @@ const App = Client({
 	game: MetroMayhem(props.zones),
 	board: AppAsBoardgame,
 	debug: true,
-}) as React.JSXElementConstructor<MetroGameProps>;
-return <App {...props} />;
+	multiplayer: Local({
+		// persist: true,
+		// storageKey: 'bgio'
+	}),
+}) as React.JSXElementConstructor<MetroGameProps & {playerID : string}>;
+return <>
+	<App playerID="0" {...props} />
+	<App playerID="1" {...props} />
+	</>;
 }
 
 
 function AppAsBoardgame(props: GameData) {
+	const [logWithTime, setLog] = useState<LogEntryWithTime[]>([]);
+
+	useEffect(() => {
+		if (props.log && props.log.length > logWithTime.length) {
+			const newEntries = logWithTime ? props.log.slice(logWithTime.length) : props.log;
+			const time = new Date();
+			const newEntriesWithTime = newEntries.map((entry) => {
+				return {time, ...entry};
+			});
+			setLog([...logWithTime, ...newEntriesWithTime]);
+		}
+	}, [props.log, logWithTime]);
+
 	const {children, ...rest} = props;
-	return <GameContext.Provider value={rest}>{children}</GameContext.Provider>;
+	return <GameContext.Provider value={{...rest, logWithTime }}>{children}</GameContext.Provider>;
 }

@@ -1,4 +1,4 @@
-import { GameState, PolyData, zoneStatus } from "@/scripts/types";
+import { GameState, PolyData, zoneData, zoneStatus } from "@/scripts/types";
 import type { FnContext, Game } from "boardgame.io";
 
 // function functionMove({G, ctx, playerID}: FnContext<GameState>, claimId: number, teamID: zoneNames, ...args: unknown[]){
@@ -17,8 +17,9 @@ function claimZone(
 	claimedZone.color = zoneStatus === "team1" ? "red" : "blue";
 }
 
-function startGame({ events }: FnContext<GameState>) {
+function startGame({ events, G }: FnContext<GameState>) {
 	events.setActivePlayers({ all: "claim" });
+	G.active = true;
 }
 
 export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
@@ -26,7 +27,7 @@ export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
 		name: "metro-mayhem",
 
 		//set up game board using map json info
-		setup: () => createBoardFromMapJson(internalSetupData),
+		setup: () => gameSetup(internalSetupData),
 		moves: {
 			claimZone,
 			startGame,
@@ -41,17 +42,24 @@ export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
 			},
 		},
 	};
+};
 
-	function createBoardFromMapJson(internalSetupData: PolyData[]): GameState {
+function gameSetup(internalSetupData: PolyData[]): GameState {
+	return {
+		zones: createBoardFromMapJson(internalSetupData),
+		active: false,
+	};
+}
+
+function createBoardFromMapJson(internalSetupData: PolyData[]): zoneData[] {
+	return internalSetupData.map((zone, index) => {
 		return {
-			zones: internalSetupData.map((zone, index) => {
-				return {
-					id: index,
-					status: "empty",
-					name: zone.featureName,
-					color: "grey",
-				};
-			}),
+			id: index,
+			status: "empty",
+			name: zone.featureName,
+			color: "grey",
 		};
 	}
-};
+	);
+}
+

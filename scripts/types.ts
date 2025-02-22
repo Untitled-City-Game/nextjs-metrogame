@@ -1,6 +1,7 @@
 import { LineString } from "geojson";
 import { ReactElement } from "react";
 import { BoardProps } from 'boardgame.io/react';
+import { LogEntry } from "boardgame.io";
 
 export type geospatialFeature = {
 	featureName : string,
@@ -27,7 +28,8 @@ export interface PolygonFeature extends GeoJSON.Feature {
 
 
 export interface GameState {
-	zones: zoneData[]
+	zones: zoneData[],
+	active: boolean
   }
 
 export type zoneStatus = "team1" | "team2" | "empty";
@@ -39,8 +41,10 @@ export type MetroGameProps = {
 	children?: React.ReactNode;
 }
 
-export type GameData = BoardProps<GameState> & MetroGameProps;
+export type LogEntryWithTime = LogEntry & {time: Date};
 
+export type GameData = BoardProps<GameState> & MetroGameProps;
+export type ModifiedGameData = GameData & {logWithTime: LogEntryWithTime[]};
 
 export type zoneData = {
 	id: number;
