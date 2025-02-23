@@ -1,4 +1,4 @@
-import { MetroGameProps } from '@/scripts/types';
+import { GameSetupData } from '@/scripts/types';
 import ClientContainer from './ClientContainer';
 
 export default async function GameContainer({
@@ -7,9 +7,9 @@ export default async function GameContainer({
 	children: React.ReactNode;
   }>) {
 	const res = await fetch("http://localhost:8000/map-data")
-	const mapData = await res.json() as MetroGameProps;
+	const mapData = await res.json() as GameSetupData;
 	return(
-	<ClientContainer zones={mapData.zones} winningLines={mapData.winningLines}>{children}</ClientContainer>
+	<ClientContainer zonePolygons={mapData.zonePolygons} winningLines={mapData.winningLines}>{children}</ClientContainer>
 	)
 }
 

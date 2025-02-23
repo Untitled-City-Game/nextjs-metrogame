@@ -3,9 +3,10 @@
 import { useState, useContext, useEffect } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
-import { GameData, zoneData } from "@/scripts/types.js";
+import { MetroGameBoardProps, zoneData } from "@/scripts/types.js";
 import { gameLocationCenter, highlightColor } from "@/scripts/consts";
 import { GameContext } from "../ClientContainer";
+import { Text } from "@mantine/core";
 import LocationMarker from "./location";
 import MapLine from "./GoogleMapsLine";
 import ZonePolygon from "./GoogleMapsPolygon";
@@ -15,8 +16,9 @@ const libraries: Library[] = ["places", "geometry"];
 
 
 export default function MapBoard() {
-	const props: GameData = useContext(GameContext);
-	const { zones, winningLines, G, moves } = props;
+	const props: MetroGameBoardProps = useContext(GameContext);
+	console.log("playerdata", props.G.playerData);
+	const { zonePolygons, winningLines, G } = props;
 	const [lineVisibility, setLineVisibility] = useState(
 		winningLines
 			? winningLines.reduce((acc, line) => {
@@ -27,8 +29,8 @@ export default function MapBoard() {
 	);
 
 	const [highlightedZones, setHighlightedZones] = useState(
-		zones
-			? zones.reduce((acc, zone) => {
+		zonePolygons
+			? zonePolygons.reduce((acc, zone) => {
 					acc[zone.featureName] = false;
 					return acc;
 			  }, {} as { [key: string]: boolean })
@@ -57,7 +59,7 @@ export default function MapBoard() {
 	});
 
 	//Render zone polygons
-	const zoneElements = zones?.map((zone, index) => {
+	const zoneElements = zonePolygons?.map((zone, index) => {
 		const onClick = function (
 			lineVisibilityTemp: { [key: string]: boolean },
 			highlightedZonesTemp: { [key: string]: boolean }
@@ -65,7 +67,7 @@ export default function MapBoard() {
 			//set line visibility
 			setLineVisibility(lineVisibilityTemp);
 			setHighlightedZones(highlightedZonesTemp);
-			setCurrentZone(G.zones[index]);
+			setCurrentZone(G.zoneData[index]);
 		};
 		return (
 			<ZonePolygon
@@ -74,7 +76,7 @@ export default function MapBoard() {
 				currentZone={currentZone}
 				highlightedZones={highlightedZones}
 				highlightColor={highlightColor}
-				zoneGameData={G.zones[index]}
+				zoneGameData={G.zoneData[index]}
 				key={index}
 			/>
 		);

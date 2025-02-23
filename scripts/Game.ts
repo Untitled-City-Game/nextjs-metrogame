@@ -1,5 +1,5 @@
-import { GameState, PolyData, zoneData, zoneStatus } from "@/scripts/types";
-import type { Ctx, FnContext, Game, LogEntry } from "boardgame.io";
+import { GameState, PlayerData, PolyData, zoneData, zoneStatus } from "@/scripts/types";
+import type { Ctx, FnContext, Game } from "boardgame.io";
 import { LogAPI } from "boardgame.io/dist/types/src/plugins/plugin-log";
 // function functionMove({G, ctx, playerID}: FnContext<GameState>, claimId: number, teamID: zoneNames, ...args: unknown[]){
 // 	G.zones[claimId] = teamID;
@@ -8,13 +8,13 @@ import { LogAPI } from "boardgame.io/dist/types/src/plugins/plugin-log";
 // }
 
 function claimZone(
-	{ G, log }: { G: GameState, ctx: Ctx, log : LogAPI },
+	{ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
 	zoneID: number,
 	zoneStatus: zoneStatus
 ) {
-	const claimedZone = G.zones[zoneID];
+	const claimedZone = G.zoneData[zoneID];
 	claimedZone.status = zoneStatus;
-	claimedZone.color = zoneStatus === "team1" ? "red" : "blue";
+	claimedZone.color = G.playerData[playerID].teamColor;
 	log.setMetadata(new Date())
 }
 
@@ -27,7 +27,7 @@ export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
 	return {
 		name: "metro-mayhem",
 		//set up game board using map json info
-		setup: () => gameSetup(internalSetupData),
+		setup: ({ctx}) => gameSetup(internalSetupData, ctx),
 		moves: {
 			claimZone,
 			startGame,
@@ -44,10 +44,13 @@ export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
 	};
 };
 
-function gameSetup(internalSetupData: PolyData[]): GameState {
+function gameSetup(internalSetupData: PolyData[], ctx: Ctx): GameState {
+	console.log(ctx.numPlayers);
+	console.log(ctx.currentPlayer);
 	return {
-		zones: createBoardFromMapJson(internalSetupData),
+		zoneData: createBoardFromMapJson(internalSetupData),
 		active: false,
+		playerData : {} as PlayerData
 	};
 }
 

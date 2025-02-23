@@ -2,7 +2,7 @@ import { Server, Origins } from 'boardgame.io/server';
 import { MetroMayhem } from '@/scripts/Game';
 import makeLines from '@/components/geojson/makeLines';
 import makePolygons from '@/components/geojson/makePolygons';
-import { LineData, MetroGameProps, PolyData } from './types';
+import { GameSetupData, LineData, PolyData } from './types';
 import {promises as fs} from 'fs';
 
 
@@ -11,13 +11,13 @@ async function fetchData(){
 	const zoneDataObj: GeoJSON.FeatureCollection = JSON.parse(zoneData);
 	const zoneLines: LineData[] = makeLines(zoneDataObj);
 	const zonePolygons: PolyData[] = makePolygons(zoneDataObj, zoneLines);
-	return {zones: zonePolygons, winningLines: zoneLines};
+	return {zonePolygons : zonePolygons, winningLines: zoneLines};
 }
 
 async function buildServer(){
-	const mapData : MetroGameProps = await fetchData();
+	const mapData : GameSetupData = await fetchData();
 	const server = Server({
-		games: [MetroMayhem(mapData.zones)],
+		games: [MetroMayhem(mapData.zonePolygons)],
 		origins: [Origins.LOCALHOST],
 	});
 	server.router.get('/hello', (ctx, next) => {
