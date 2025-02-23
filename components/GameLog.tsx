@@ -5,7 +5,7 @@ import { GameContext } from "./ClientContainer";
 import { Alert, Blockquote, Container, MenuLabel, Stack, Text } from "@mantine/core";
 
 export default function GameLog() {
-const props: ModifiedGameData = useContext(GameContext);
+const props: GameData = useContext(GameContext);
 const dummyMessages = Array.from({ length: 15 }, () => ("wheee"));
 
   return (
@@ -13,7 +13,7 @@ const dummyMessages = Array.from({ length: 15 }, () => ("wheee"));
 	<Container>
 	<h1>Game Log</h1>
 	 <Stack >
-		{props.logWithTime.map((entry, index) => (
+		{props.log.map((entry, index) => (
 		   <MessageBox key={index}>
 			<Text>Team: {entry.action.payload.playerID}</Text>
 			<Text>payload type: {entry.action.payload.type}</Text> 
@@ -22,7 +22,6 @@ const dummyMessages = Array.from({ length: 15 }, () => ("wheee"));
 			<Text>metadata: {entry.metadata}</Text> 
 			<Text>stateid: {entry._stateID}</Text>
 			<Text>turn: {entry.turn}</Text>
-			<Text>time: {entry.time.toLocaleString()}</Text>
 
 		   </MessageBox>
 		)).toReversed()

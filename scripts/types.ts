@@ -14,7 +14,7 @@ export interface PolyData extends geospatialFeature {
 }
 
 export interface LineData extends geospatialFeature {
-	matchedPolygons : PolyData[]
+	matchedPolygons : string[]
 }
 
 export interface LineFeature extends GeoJSON.Feature {
@@ -35,7 +35,6 @@ export interface GameState {
 export type zoneStatus = "team1" | "team2" | "empty";
 
 export type MetroGameProps = {
-	zoneData: string
 	zones: PolyData[];
 	winningLines: LineData[];
 	children?: React.ReactNode;

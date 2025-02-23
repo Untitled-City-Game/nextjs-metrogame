@@ -26,7 +26,7 @@ export default function makePolygons(zoneDataObj: GeoJSON.FeatureCollection, zon
 		const newPoly: PolyData = {featureName: zoneName, coords: zoneCoords, matchedLines : matchedLines};
 		//add matched lines to the line's matchedPolygons
 		matchedLines.forEach((line) => {
-			line.matchedPolygons.push(newPoly);
+			line.matchedPolygons.push(newPoly.featureName); //TODO: Unique IDs
 		});
 		return newPoly;
 	})

@@ -4,7 +4,7 @@ import { useState, useContext, useEffect } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
 import { GameData, zoneData } from "@/scripts/types.js";
-import { gameLocationCenter, highlightColor } from "@/app/consts";
+import { gameLocationCenter, highlightColor } from "@/scripts/consts";
 import { GameContext } from "../ClientContainer";
 import LocationMarker from "./location";
 import MapLine from "./GoogleMapsLine";
@@ -79,14 +79,6 @@ export default function MapBoard() {
 			/>
 		);
 	});
-
-	useEffect(() => {
-	//TODO: Make this way way more efficient, no need to check every time
-		if (!G.active) {
-			moves.startGame();
-		}
-	}
-	, [G.active, moves]);
 
 	//Render the map or loading screen
 	return isLoaded ? (

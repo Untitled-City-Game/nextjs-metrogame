@@ -1,27 +1,16 @@
-import {LineData, PolyData } from '@/scripts/types';
-import {promises as fs} from 'fs';
-import makeLines from './geojson/makeLines';
-import makePolygons from './geojson/makePolygons';
+import { MetroGameProps } from '@/scripts/types';
 import ClientContainer from './ClientContainer';
-
 
 export default async function GameContainer({
 	children,
   }: Readonly<{
 	children: React.ReactNode;
   }>) {
-	const {zonePolygons: zonePolygons, zoneLines: zoneLines} = await fetchData();
+	const res = await fetch("http://localhost:8000/map-data")
+	const mapData = await res.json() as MetroGameProps;
 	return(
-	<ClientContainer zoneData={'zoneData'} zones={zonePolygons} winningLines={zoneLines}>{children}</ClientContainer>
+	<ClientContainer zones={mapData.zones} winningLines={mapData.winningLines}>{children}</ClientContainer>
 	)
 }
 
-
-async function fetchData(){
-	const zoneData = await fs.readFile(process.cwd() + '/app/data/melbourne.geojson', 'utf8');
-	const zoneDataObj: GeoJSON.FeatureCollection = JSON.parse(zoneData);
-	const zoneLines: LineData[] = makeLines(zoneDataObj);
-	const zonePolygons: PolyData[] = makePolygons(zoneDataObj, zoneLines);
-	return {zonePolygons: zonePolygons, zoneLines};
-}
 

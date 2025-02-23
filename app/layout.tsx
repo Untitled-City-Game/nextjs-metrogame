@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@/styles/globals.css";
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, MantineProvider, createTheme, mantineHtmlProps } from '@mantine/core';
 import GameContainer from "@/components/GameContainer";
