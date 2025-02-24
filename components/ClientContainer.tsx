@@ -1,6 +1,6 @@
 "use client";
 import { MetroMayhem } from "@/scripts/Game";
-import { createContext, Dispatch, SetStateAction, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 import {
@@ -14,52 +14,59 @@ import {
 	Paper,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import type { GameSetupData, MetroGameBoardProps } from "@/scripts/types";
+import type { Color, GameSetupData, MetroGameBoardProps, PlayerData } from "@/scripts/types";
 
 export const GameContext = createContext({} as MetroGameBoardProps);
 
 export default function ClientContainer(
 	props: GameSetupData & { children: React.ReactNode }
 ) {
-	const [playerID, setPlayerID] = useState<string>("");
+	const [playerData, setPlayerData] = useState<PlayerData>();
 	const GameClient = Client({
 		game: MetroMayhem(props.zonePolygons),
 		board: AppAsBoardgame,
 		debug: true,
-		numPlayers: 3,
+		numPlayers: 10,
 		multiplayer: SocketIO({
 			server: "localhost:8000",
 			//persist: true,
 			// storageKey: 'bgio'
 		}),
-	}) as React.JSXElementConstructor<GameSetupData & { playerID: string }>;
-	return playerID ? (
-		<GameClient playerID={"0"} {...props} />
-	) : (
-		<Lobby setPlayerID={setPlayerID} />
-	);
-	//<GameClient playerID={"0"} {...props} />
+	}) as React.JSXElementConstructor<GameSetupData & { playerID: string } & {playerData : PlayerData}>;
+	return (
+	playerData? <GameClient playerData={playerData} playerID={playerData.playerID} {...props} /> : <Lobby setPlayerData={setPlayerData} />
+	)
 }
 
 function AppAsBoardgame(props: MetroGameBoardProps) {
-	const { children, ...rest } = props;
+	const { children, playerData, playerID, moves, ...rest } = props;
+	const triedConnect = useRef(false)
+	useEffect(() => {
+		if(!triedConnect.current && playerID && !props.G.AllPlayersData[playerID]){
+			console.log("setting up player ", playerID, " on client");
+			triedConnect.current = true;
+			moves.playerSetup(playerData);
+		}
+	})
 	return (
-		<GameContext.Provider value={{ ...rest }}>
+		<GameContext.Provider value={{ ...rest, moves, playerID }}>
+			<div>Hello I am the game board</div>
+			<div>Player: {playerID}</div>
 			{children}
 		</GameContext.Provider>
 	);
 }
 
 function Lobby({
-	setPlayerID,
+	setPlayerData,
 }: {
-	setPlayerID: Dispatch<SetStateAction<string>>;
+	setPlayerData: Dispatch<SetStateAction<PlayerData | undefined>>;
 }) {
 	const joinGameForm = useForm({
 		mode: "uncontrolled",
 		initialValues: {
 			PlayerName: "",
-			teamID: "",
+			teamID: "blue",
 		},
 	});
 	const teamOptions = [
@@ -84,8 +91,8 @@ function Lobby({
 		<Center>
 			<form
 				onSubmit={joinGameForm.onSubmit((values) => {
-					const playerID = values.PlayerName + "_" + values.teamID;
-					setPlayerID(playerID);
+					const playerData : PlayerData = {name: values.PlayerName, playerID: values.PlayerName as `${number}`, teamColor: values.teamID as Color};
+					setPlayerData(playerData);
 				})}>
 				<Stack>
 					<h1>Untitled City Game</h1>

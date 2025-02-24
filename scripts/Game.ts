@@ -1,4 +1,4 @@
-import { GameState, PlayerData, PolyData, zoneData, zoneStatus } from "@/scripts/types";
+import { GameState, AllPlayersData, PolyData, zoneData, zoneStatus, PlayerData } from "@/scripts/types";
 import type { Ctx, FnContext, Game } from "boardgame.io";
 import { LogAPI } from "boardgame.io/dist/types/src/plugins/plugin-log";
 // function functionMove({G, ctx, playerID}: FnContext<GameState>, claimId: number, teamID: zoneNames, ...args: unknown[]){
@@ -10,12 +10,18 @@ import { LogAPI } from "boardgame.io/dist/types/src/plugins/plugin-log";
 function claimZone(
 	{ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
 	zoneID: number,
-	zoneStatus: zoneStatus
 ) {
 	const claimedZone = G.zoneData[zoneID];
-	claimedZone.status = zoneStatus;
-	claimedZone.color = G.playerData[playerID].teamColor;
+	claimedZone.color = G.AllPlayersData[playerID].teamColor;
 	log.setMetadata(new Date())
+}
+
+function playerSetup(
+	{ G, playerID }: { G: GameState , playerID: string },
+	newPlayerData : PlayerData
+){
+	G.AllPlayersData[playerID] = newPlayerData
+	console.log("added player data for ", playerID)
 }
 
 function startGame({ events, G }: FnContext<GameState>) {
@@ -24,6 +30,7 @@ function startGame({ events, G }: FnContext<GameState>) {
 }
 
 export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
+	console.log("running metromayhem function")
 	return {
 		name: "metro-mayhem",
 		//set up game board using map json info
@@ -31,12 +38,21 @@ export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
 		moves: {
 			claimZone,
 			startGame,
+			playerSetup,
 		},
 		turn: {
+			onBegin: ({events}) => {events.setActivePlayers({all: "join"})},
 			stages: {
+				join: {
+					moves: {
+						playerSetup,
+						startGame
+					}
+				},
 				claim: {
 					moves: {
-						claimZone
+						claimZone,
+						playerSetup
 					},
 				},
 			},
@@ -45,12 +61,13 @@ export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
 };
 
 function gameSetup(internalSetupData: PolyData[], ctx: Ctx): GameState {
-	console.log(ctx.numPlayers);
-	console.log(ctx.currentPlayer);
+	console.log("Setting up game of metromayhem");
+	console.log("players: ", ctx.numPlayers);
+	console.log("currentplayer ", ctx.currentPlayer);
 	return {
 		zoneData: createBoardFromMapJson(internalSetupData),
 		active: false,
-		playerData : {} as PlayerData
+		AllPlayersData : {} as AllPlayersData
 	};
 }
 

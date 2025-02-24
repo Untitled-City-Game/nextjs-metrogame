@@ -17,7 +17,7 @@ const libraries: Library[] = ["places", "geometry"];
 
 export default function MapBoard() {
 	const props: MetroGameBoardProps = useContext(GameContext);
-	console.log("playerdata", props.G.playerData);
+	console.log("playerdata", props.G.AllPlayersData);
 	const { zonePolygons, winningLines, G } = props;
 	const [lineVisibility, setLineVisibility] = useState(
 		winningLines

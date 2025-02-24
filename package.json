@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "serve": "ts-node server.ts",
-    "dev:server": "concurrently --kill-others \"npm run dev\" \"npm run serve\""
+    "dev:server": "concurrently --kill-others \"npm run dev\" \"npm run serve\"",
+    "server" : "tsx watch ./scripts/server.ts",
+    "server:debug": "set DEBUG=* & tsx watch ./scripts/server.ts"
   },
   "dependencies": {
     "@mantine/core": "^7.16.2",

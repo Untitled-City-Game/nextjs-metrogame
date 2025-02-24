@@ -15,6 +15,7 @@ async function fetchData(){
 }
 
 async function buildServer(){
+	console.log("building server")
 	const mapData : GameSetupData = await fetchData();
 	const server = Server({
 		games: [MetroMayhem(mapData.zonePolygons)],

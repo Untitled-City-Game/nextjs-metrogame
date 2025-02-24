@@ -22,9 +22,6 @@ export default function GameLog() {
 								<Text>
 									payload type: {entry.action.payload.type}
 								</Text>
-								<Text>
-									payload args: {entry.action.payload.args}
-								</Text>
 								<Text>action type: {entry.action.type}</Text>
 								<Text>metadata: {entry.metadata}</Text>
 								<Text>stateid: {entry._stateID}</Text>

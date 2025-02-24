@@ -35,19 +35,22 @@ export type zoneData = {
 }
 
 export type PlayerData = {
-	[key: string]: {
-		name: string;
-		teamColor: Color;
-	}
+	playerID: `${number}`;
+	name: string;
+	teamColor: Color;
+}
+
+export type AllPlayersData = {
+	[key:string] : PlayerData
 }
 
 export interface GameState {
 	zoneData: zoneData[],
 	active: boolean,
-	playerData : PlayerData,
+	AllPlayersData : AllPlayersData,
   }
 
-export type zoneStatus = "team1" | "team2" | "empty";
+export type zoneStatus = Color | "empty";
 
 export type GameSetupData = {
 	zonePolygons: PolyData[];
@@ -58,6 +61,7 @@ export interface MetroGameBoardProps extends BoardProps<GameState> {
 	zonePolygons: PolyData[];
 	winningLines: LineData[];
 	children?: React.ReactNode;
+	playerData?: PlayerData;
 }
 
 

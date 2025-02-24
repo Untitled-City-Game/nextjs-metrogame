@@ -25,7 +25,7 @@ function ClaimPanel() {
 			<h1>Claim {props.G.zoneData[Number(claimRegion)].name}</h1>
 			<Button
 				onClick={() => {
-					props.moves.claimZone(claimRegion, "team1");
+					props.moves.claimZone(claimRegion);
 					router.push("/game");
 				}}>
 				Claim
