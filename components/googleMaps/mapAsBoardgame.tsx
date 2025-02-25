@@ -121,5 +121,3 @@ const mapContainerStyles: React.CSSProperties = {
 	flexDirection: "column",
 	height: "100%",
 };
-
-let map: google.maps.Map;

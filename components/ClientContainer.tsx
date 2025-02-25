@@ -1,20 +1,13 @@
 "use client";
 import { MetroMayhem } from "@/scripts/Game";
-import { createContext, Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { createContext, useEffect, useRef, useState } from "react";
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import {
-	TextInput,
-	Button,
-	Stack,
-	Center,
-	Group,
-	Radio,
-	Text,
-	Paper,
-} from "@mantine/core";
-import { useForm } from "@mantine/form";
-import type { Color, GameSetupData, MetroGameBoardProps, PlayerData } from "@/scripts/types";
+import type { GameSetupData, MetroGameBoardProps, PlayerData } from "@/scripts/types";
+import JoinGameLobby from "./lobby/JoinGame";
+import CreateGameLobby from "./lobby/CreateGame";
+import { LobbyClient } from "boardgame.io/client";
+import { Center, Stack } from "@mantine/core";
 
 export const GameContext = createContext({} as MetroGameBoardProps);
 
@@ -29,12 +22,23 @@ export default function ClientContainer(
 		numPlayers: 10,
 		multiplayer: SocketIO({
 			server: "localhost:8000",
-			//persist: true,
-			// storageKey: 'bgio'
 		}),
-	}) as React.JSXElementConstructor<GameSetupData & { playerID: string } & {playerData : PlayerData}>;
+	}) as React.JSXElementConstructor<GameSetupData & Record<string, unknown>>
+	
+	if (playerData){
+		return (
+			<GameClient playerData={playerData} playerID={playerData.playerID} credentials = {playerData.playerCredentials} {...props} />
+		)
+	}
+	
+	const lobbyClient = new LobbyClient({ server: 'http://localhost:8000' });
 	return (
-	playerData? <GameClient playerData={playerData} playerID={playerData.playerID} {...props} /> : <Lobby setPlayerData={setPlayerData} />
+	<Center>
+		<Stack>
+			<h1>Untitled City Game</h1>
+			<JoinGameLobby setPlayerData={setPlayerData} lobbyClient={lobbyClient} gameSetupData={props.zonePolygons}/>
+		</Stack>
+	</Center>
 	)
 }
 
@@ -50,67 +54,11 @@ function AppAsBoardgame(props: MetroGameBoardProps) {
 	})
 	return (
 		<GameContext.Provider value={{ ...rest, moves, playerID }}>
-			<div>Hello I am the game board</div>
-			<div>Player: {playerID}</div>
+			<div style={{position: "fixed"}} >
+				<p>Hello I am the game board</p>
+				<p>Player: {playerID}</p>
+			</div>
 			{children}
 		</GameContext.Provider>
-	);
-}
-
-function Lobby({
-	setPlayerData,
-}: {
-	setPlayerData: Dispatch<SetStateAction<PlayerData | undefined>>;
-}) {
-	const joinGameForm = useForm({
-		mode: "uncontrolled",
-		initialValues: {
-			PlayerName: "",
-			teamID: "blue",
-		},
-	});
-	const teamOptions = [
-		{ label: "Red", value: "red", members: ["Leo", "Tristan"] },
-		{ label: "Blue", value: "blue", members: ["Kyle", "Jules"] },
-	];
-	const teamCards = teamOptions.map((item) => (
-		<Radio.Card radius="md" value={item.label} key={item.value}>
-			<Paper radius="md" p="md">
-			<Group wrap="nowrap" align="center">
-				<Radio.Indicator color={item.label} size="lg" />
-				<div>
-					<Text>{item.label}</Text>
-					<Text>Current members: {item.members.join(" ")}</Text>
-				</div>
-			</Group>
-			</Paper>
-		</Radio.Card>
-	));
-
-	return (
-		<Center>
-			<form
-				onSubmit={joinGameForm.onSubmit((values) => {
-					const playerData : PlayerData = {name: values.PlayerName, playerID: values.PlayerName as `${number}`, teamColor: values.teamID as Color};
-					setPlayerData(playerData);
-				})}>
-				<Stack>
-					<h1>Untitled City Game</h1>
-					<TextInput
-						label="Name"
-						key={joinGameForm.key("PlayerName")}
-						{...joinGameForm.getInputProps("PlayerName")}
-					/>
-					<Radio.Group label="Choose a team" key={joinGameForm.key("teamID")}
-											{...joinGameForm.getInputProps("teamID")}
-					>
-						<Stack pt="md" gap="xs">
-							{teamCards}
-						</Stack>
-					</Radio.Group>
-					<Button type="submit">Join Game</Button>
-				</Stack>
-			</form>
-		</Center>
 	);
 }

@@ -38,6 +38,7 @@ export type PlayerData = {
 	playerID: `${number}`;
 	name: string;
 	teamColor: Color;
+	playerCredentials?: string;
 }
 
 export type AllPlayersData = {
