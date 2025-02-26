@@ -45,11 +45,25 @@ export type AllPlayersData = {
 	[key:string] : PlayerData
 }
 
+export type Challenge = {
+	title: string,
+	description: string,
+}
+
+export type ChallengeData = Challenge[]
+
+export type TeamData = {
+	challengeDeck : Challenge[]
+}
+
+export type AllTeamsData = Partial<Record<Color, TeamData>>
+
 export interface GameState {
 	zoneData: zoneData[],
 	active: boolean,
-	AllPlayersData : AllPlayersData,
-  }
+	allPlayersData : AllPlayersData,
+	allTeamsData : AllTeamsData
+}
 
 export type zoneStatus = Color | "empty";
 
@@ -58,11 +72,15 @@ export type GameSetupData = {
 	winningLines: LineData[];
 }
 
-export interface MetroGameBoardProps extends BoardProps<GameState> {
-	zonePolygons: PolyData[];
-	winningLines: LineData[];
+export interface ClientSetupData extends GameSetupData {
+	initialPlayerData: PlayerData;
+	playerID : `${number}`
+	credentials?: string
+}
+
+export type MetroGameBoardProps = BoardProps<GameState> & GameSetupData & {
+	initialPlayerData: PlayerData;
 	children?: React.ReactNode;
-	playerData?: PlayerData;
 }
 
 

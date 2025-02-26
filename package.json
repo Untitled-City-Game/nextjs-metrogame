@@ -9,7 +9,7 @@
     "lint": "next lint",
     "serve": "ts-node server.ts",
     "dev:server": "concurrently --kill-others \"npm run dev\" \"npm run serve\"",
-    "server" : "tsx watch ./scripts/server.ts",
+    "server": "tsx watch ./scripts/server.ts",
     "server:debug": "set DEBUG=* & tsx watch ./scripts/server.ts"
   },
   "dependencies": {
@@ -34,6 +34,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "concurrently": "^9.1.2",
+    "convert-csv-to-json": "^2.50.0",
     "eslint": "^9",
     "eslint-config-next": "15.1.5",
     "nodemon": "^3.1.9",

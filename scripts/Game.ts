@@ -1,6 +1,10 @@
-import { GameState, AllPlayersData, PolyData, zoneData, zoneStatus, PlayerData } from "@/scripts/types";
+import { GameState, AllPlayersData, PolyData, zoneData, zoneStatus, PlayerData, AllTeamsData, Color, ChallengeData } from "@/scripts/types";
 import type { Ctx, FnContext, Game } from "boardgame.io";
 import { LogAPI } from "boardgame.io/dist/types/src/plugins/plugin-log";
+import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
+import challengeDataJSON from 'data/challenges.json'
+const challengeData : ChallengeData = challengeDataJSON
+
 // function functionMove({G, ctx, playerID}: FnContext<GameState>, claimId: number, teamID: zoneNames, ...args: unknown[]){
 // 	G.zones[claimId] = teamID;
 // 	console.log(playerID);
@@ -12,7 +16,7 @@ function claimZone(
 	zoneID: number,
 ) {
 	const claimedZone = G.zoneData[zoneID];
-	claimedZone.color = G.AllPlayersData[playerID].teamColor;
+	claimedZone.color = G.allPlayersData[playerID].teamColor;
 	log.setMetadata(new Date())
 }
 
@@ -20,13 +24,25 @@ function playerSetup(
 	{ G, playerID }: { G: GameState , playerID: string },
 	newPlayerData : PlayerData
 ){
-	G.AllPlayersData[playerID] = newPlayerData
-	console.log("added player data for ", playerID)
+	G.allPlayersData[playerID] = newPlayerData
+	console.log("added player data for", playerID, newPlayerData, newPlayerData.name, newPlayerData.teamColor)
 }
 
-function startGame({ events, G }: FnContext<GameState>) {
+function startGame({ events, G, random }: FnContext<GameState>) {
+	//shuffle and create decks
 	events.setActivePlayers({ all: "claim" });
+	teamSetup(G.allTeamsData, random)
 	G.active = true;
+}
+
+function teamSetup(teams : AllTeamsData, random : RandomAPI){
+	console.log("setting up teams")
+	//iterate over keys in teams object
+	for (const teamColor in teams){
+		console.log("team color: ", teamColor);
+		const shuffledDeck = random.Shuffle(challengeData);
+		teams[teamColor as Color] = {challengeDeck: shuffledDeck}
+	}
 }
 
 export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
@@ -67,7 +83,11 @@ function gameSetup(internalSetupData: PolyData[], ctx: Ctx): GameState {
 	return {
 		zoneData: createBoardFromMapJson(internalSetupData),
 		active: false,
-		AllPlayersData : {} as AllPlayersData
+		allPlayersData : {} as AllPlayersData,
+		allTeamsData : {
+			red: undefined,
+			blue: undefined
+		}
 	};
 }
 
@@ -82,4 +102,3 @@ function createBoardFromMapJson(internalSetupData: PolyData[]): zoneData[] {
 	}
 	);
 }
-

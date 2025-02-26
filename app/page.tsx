@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 
 export default function Home() {
 	const props: MetroGameBoardProps = useContext(GameContext);
-	const playerData = props.G.AllPlayersData
+	const playerData = props.G.allPlayersData
 	const router = useRouter()
 	if(props.G.active) {
 		router.push('/game');
@@ -24,8 +24,8 @@ export default function Home() {
 					return <Container key={index}>{player.name}, {player.teamColor} team</Container>
 				})}
 				<Button onClick={() => {
-					props.moves.startGame()
 					router.push("/game")
+					props.moves.startGame()
 				}
 				}>Start the Game</Button>
 			</Stack>
