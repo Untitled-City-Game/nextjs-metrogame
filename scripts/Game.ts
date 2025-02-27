@@ -14,10 +14,11 @@ const challengeData : ChallengeData = challengeDataJSON
 function claimZone(
 	{ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
 	zoneID: number,
+
 ) {
 	const claimedZone = G.zoneData[zoneID];
 	claimedZone.color = G.allPlayersData[playerID].teamColor;
-	log.setMetadata(new Date())
+	log.setMetadata(new Date());
 }
 
 function playerSetup(

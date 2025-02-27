@@ -1,5 +1,4 @@
 "use client";
-
 import { GameContext } from "@/components/ClientContainer";
 import {
 	Button,
@@ -11,8 +10,10 @@ import {
 	Stack,
 	FileInput,
 	Stepper,
-	Image,
 	Container,
+	TextInput,
+	Image,
+	Code,
 } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useContext, useState } from "react";
@@ -21,7 +22,18 @@ import { useRouter } from "next/navigation";
 import { useForm, UseFormReturnType } from "@mantine/form";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Form = UseFormReturnType<Record<string, any>, (values: Record<string, any>) => Record<string, any>>
+type Form = UseFormReturnType<
+	{
+		challenge: string;
+		evidence: string;
+		test: string;
+	},
+	(values: { challenge: string; evidence: string; test: string }) => {
+		challenge: string;
+		evidence: string;
+		test: string;
+	}
+>;
 
 export default function ClaimPage() {
 	return (
@@ -34,39 +46,70 @@ export default function ClaimPage() {
 function ClaimPanel() {
 	const searchParams = useSearchParams();
 	const props: MetroGameBoardProps = useContext(GameContext);
-	const claimRegion = searchParams.get("zone");
-	const steps = [ChooseChallenge, Evidence, ConfirmClaim];
+	const claimedZone = searchParams.get("zone");
 	const [step, setStep] = useState(0);
+	const router = useRouter();
 	const claimForm = useForm({
 		mode: "uncontrolled",
+		initialValues: {
+			challenge: "None",
+			evidence: "",
+			test: "test",
+		},
 	});
-	function nextStep() {
-		setStep(step + 1);
-		console.log("next step");
+	if (!claimedZone) {
+		return <h1>No zone selected</h1>;
+	}
+	function claimZone() {
+		props.moves.claimZone(claimedZone);
+		router.push("/game");
 	}
 	return (
 		<Center>
 			<Stack>
-				<h1>Claiming {props.G.zoneData[Number(claimRegion)].name}</h1>
+				<h1>Claiming {props.G.zoneData[Number(claimedZone)].name}</h1>
 				<Stepper active={step}>
 					<Stepper.Step>
 						<ChooseChallenge props={props} claimForm={claimForm} />
 					</Stepper.Step>
-					<Stepper.Step>Upload evidence</Stepper.Step>
-					<Stepper.Step>Confirm claim</Stepper.Step>
+					<Stepper.Step>
+						<Evidence props={props} claimForm={claimForm} />
+					</Stepper.Step>
+					<Stepper.Completed>
+						<ConfirmClaim
+							props={props}
+							claimForm={claimForm}
+							claimedZone={claimedZone}
+						/>
+					</Stepper.Completed>
 				</Stepper>
 				<Group justify="center" mt="xl">
-					<Button variant="default" onClick={() => setStep(step - 1)}>
-						Back
-					</Button>
-					<Button onClick={() => setStep(step + 1)}>Next step</Button>
+					{step !== 2 ? (
+						<>
+							<Button onClick={() => setStep(step + 1)}>
+								Next step
+							</Button>
+							<Button
+								variant="default"
+								onClick={() => setStep(step - 1)}>
+								Back
+							</Button>
+						</>
+					): <Button onClick={claimZone}>Claim</Button>
+					}
 				</Group>
 			</Stack>
 		</Center>
 	);
 }
 
-function ChooseChallenge(props: MetroGameBoardProps, claimForm: Form) {
+function ChooseChallenge({
+	props,
+	claimForm,
+}: {
+	props: MetroGameBoardProps;
+	claimForm: Form;
+}) {
 	const { allTeamsData, allPlayersData } = props.G;
 	const playerData = allPlayersData[props.initialPlayerData.playerID];
 	const myTeam = playerData.teamColor;
@@ -91,6 +134,11 @@ function ChooseChallenge(props: MetroGameBoardProps, claimForm: Form) {
 	});
 	return (
 		<Container>
+			<TextInput
+				label="test"
+				key={claimForm.key("test")}
+				{...claimForm.getInputProps("test")}
+			/>
 			<Radio.Group
 				label="Choose a challenge"
 				key={claimForm.key("challenge")}
@@ -101,21 +149,44 @@ function ChooseChallenge(props: MetroGameBoardProps, claimForm: Form) {
 	);
 }
 
-function Evidence(props: MetroGameBoardProps, claimForm: Form) {
+function Evidence({
+	props,
+	claimForm,
+}: {
+	props: MetroGameBoardProps;
+	claimForm: Form;
+}) {
 	return (
-			<FileInput
-				label="Photo evidence"
-				key={claimForm.key("evidence")}
-				{...claimForm.getInputProps("evidence")}
-			/>
+		<FileInput
+			label="Photo evidence"
+			key={claimForm.key("evidence")}
+			{...claimForm.getInputProps("evidence")}
+		/>
 	);
 }
 
-function ConfirmClaim(props: MetroGameBoardProps, claimForm: Form, claimRegion: string) {
+function ConfirmClaim({
+	props,
+	claimForm,
+	claimedZone: claimZone,
+}: {
+	props: MetroGameBoardProps;
+	claimForm: Form;
+	claimedZone: string;
+}) {
 	return (
 		<>
-			<Text>Claiming {props.G.zoneData[Number(claimRegion)].name} with challenge {claimForm.values.challenge}</Text>
-			<Image src={claimForm.values.evidence} alt="evidence"/>
+			<Text>
+				Claiming {props.G.zoneData[Number(claimZone)].name} with
+				challenge {claimForm.getValues().challenge}
+			</Text>
+			<Image
+				h={300}
+				src={URL.createObjectURL(
+					claimForm.getValues().evidence as unknown as File
+				)}
+				alt="evidence"
+			/>
 		</>
 	);
 }
