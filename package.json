@@ -22,6 +22,7 @@
     "@types/geojson": "^7946.0.15",
     "@types/point-in-polygon": "^1.1.5",
     "boardgame.io": "^0.50.2",
+    "lodash": "^4.17.21",
     "next": "15.1.5",
     "point-in-polygon": "^1.1.0",
     "react": "^19.0.0",
@@ -32,6 +33,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/google.maps": "^3.58.1",
+    "@types/lodash": "^4.17.15",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

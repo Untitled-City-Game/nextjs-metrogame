@@ -58,7 +58,13 @@ export type TeamData = {
 	challengeDiscard : Challenge[];
 }
 
-export type AllTeamsData = Partial<Record<Color, TeamData>>
+type AtLeastOneColor<T extends string> = {
+	[K in T]?: TeamData; // Values can be anything, change type as needed
+  } & {
+	[K in T]: TeamData;
+  }
+  
+export type AllTeamsData = AtLeastOneColor<Color>;
 
 export interface GameState {
 	zoneData: zoneData[],
@@ -85,6 +91,13 @@ export type MetroGameBoardProps = BoardProps<GameState> & GameSetupData & {
 	children?: React.ReactNode;
 }
 
+export type LogMetadata = {
+	date: Date;
+	evidence?: File;
+	challenge?: string;
+	zone?: number;
+	team: Color;
+}
 
 
 type RGB = `rgb(${number}, ${number}, ${number})`;

@@ -20,6 +20,7 @@ import { Suspense, useContext, useState } from "react";
 import { MetroGameBoardProps } from "../../scripts/types";
 import { useRouter } from "next/navigation";
 import { useForm, UseFormReturnType } from "@mantine/form";
+import { ClaimStateMoves } from "@/scripts/Game";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Form = UseFormReturnType<
@@ -46,6 +47,7 @@ export default function ClaimPage() {
 function ClaimPanel() {
 	const searchParams = useSearchParams();
 	const props: MetroGameBoardProps = useContext(GameContext);
+	const moves = props.moves as ClaimStateMoves;
 	const claimedZone = searchParams.get("zone");
 	const [step, setStep] = useState(0);
 	const router = useRouter();
@@ -60,8 +62,11 @@ function ClaimPanel() {
 	if (!claimedZone) {
 		return <h1>No zone selected</h1>;
 	}
-	function claimZone() {
-		props.moves.claimZone(claimedZone);
+	function claimZone(zone : string, challenge : string, evidence : File) {
+		moves.completeChallengeAndClaim(Number(zone), challenge, evidence);
+		// moves.claimZone(Number(zone));
+		// moves.discardChallenge(challenge);
+		// moves.drawToFull();
 		router.push("/game");
 	}
 	return (
@@ -95,7 +100,7 @@ function ClaimPanel() {
 								Back
 							</Button>
 						</>
-					): <Button onClick={claimZone}>Claim</Button>
+					): <Button onClick={() => claimZone(claimedZone, claimForm.getValues().challenge, claimForm.getValues().evidence as unknown as File)}>Claim</Button>
 					}
 				</Group>
 			</Stack>
@@ -180,6 +185,7 @@ function ConfirmClaim({
 				Claiming {props.G.zoneData[Number(claimZone)].name} with
 				challenge {claimForm.getValues().challenge}
 			</Text>
+			{claimForm.getValues().evidence && (
 			<Image
 				h={300}
 				src={URL.createObjectURL(
@@ -187,6 +193,7 @@ function ConfirmClaim({
 				)}
 				alt="evidence"
 			/>
+			)}
 		</>
 	);
 }
