@@ -6,7 +6,7 @@ export default function Home() {
 	return (
 		<Container mih="100vh" h={0} px={0}>
 			<Tabs defaultValue={"map"} h="100%" variant="pills" radius="xs">
-				<TabsPanel value="cards" style={panelStyles}>
+				<TabsPanel value="challenges" style={panelStyles}>
 					<Challenges />
 				</TabsPanel>
 				<TabsPanel value="map" className="mapPanel" style={panelStyles}>
@@ -24,7 +24,7 @@ export default function Home() {
 					w="100%"
 					bg="white"
 					grow={true}>
-					<TabsTab value="cards">Cards</TabsTab>
+					<TabsTab value="challenges">Challenges</TabsTab>
 					<TabsTab value="map">Map</TabsTab>
 					<TabsTab value="log">Log</TabsTab>
 				</TabsList>

@@ -5,7 +5,6 @@ import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
 import type { ClientSetupData, GameSetupData, MetroGameBoardProps, PlayerData } from "@/scripts/types";
 import JoinGameLobby from "./lobby/JoinGame";
-import CreateGameLobby from "./lobby/CreateGame";
 import { LobbyClient } from "boardgame.io/client";
 import { Center, Stack, Text } from "@mantine/core";
 

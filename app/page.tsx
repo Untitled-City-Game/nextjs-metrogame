@@ -5,14 +5,13 @@ import MapBoard from "@/components/googleMaps/mapAsBoardgame";
 import { MetroGameBoardProps } from "@/scripts/types";
 import { Tabs, TabsTab, TabsList, TabsPanel, Container, Stack, Center, Text, Button } from "@mantine/core";
 import { useContext } from "react";
-import { useRouter } from 'next/navigation'
+import { redirect } from 'next/navigation'
 
 export default function Home() {
 	const props: MetroGameBoardProps = useContext(GameContext);
 	const playerData = props.G.allPlayersData
-	const router = useRouter()
 	if(props.G.active) {
-		router.push('/game');
+		redirect('/game')
 	}
 	return (
 		<Center>
@@ -24,7 +23,6 @@ export default function Home() {
 					return <Container key={index}>{player.name}, {player.teamColor} team</Container>
 				})}
 				<Button onClick={() => {
-					router.push("/game")
 					props.moves.startGame()
 				}
 				}>Start the Game</Button>

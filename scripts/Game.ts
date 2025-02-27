@@ -41,7 +41,11 @@ function teamSetup(teams : AllTeamsData, random : RandomAPI){
 	for (const teamColor in teams){
 		console.log("team color: ", teamColor);
 		const shuffledDeck = random.Shuffle(challengeData);
-		teams[teamColor as Color] = {challengeDeck: shuffledDeck}
+		teams[teamColor as Color] = {
+			challengeDeck: shuffledDeck, 
+			challengeHand: shuffledDeck.slice(0, 5),
+			challengeDiscard: []
+		}
 	}
 }
 
@@ -87,7 +91,7 @@ function gameSetup(internalSetupData: PolyData[], ctx: Ctx): GameState {
 		allTeamsData : {
 			red: undefined,
 			blue: undefined
-		}
+		} as AllTeamsData,
 	};
 }
 

@@ -53,7 +53,9 @@ export type Challenge = {
 export type ChallengeData = Challenge[]
 
 export type TeamData = {
-	challengeDeck : Challenge[]
+	challengeDeck : Challenge[];
+	challengeHand : Challenge[];
+	challengeDiscard : Challenge[];
 }
 
 export type AllTeamsData = Partial<Record<Color, TeamData>>
