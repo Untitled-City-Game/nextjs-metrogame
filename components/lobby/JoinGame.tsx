@@ -41,7 +41,7 @@ export default function JoinGameLobby({
 				<div>
 					<Text>{item.label}</Text>
 					<Text>
-						{ item.members?.length ? `Current members: ${item.members.join(" ")}` : 'Empty' }
+						{ item.members?.length ? `Current members: ${item.members.join(", ")}` : 'Empty' }
 					</Text>
 				</div>
 			</Group>

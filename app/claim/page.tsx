@@ -21,18 +21,18 @@ import { MetroGameBoardProps } from "../../scripts/types";
 import { useRouter } from "next/navigation";
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { ClaimStateMoves } from "@/scripts/Game";
+import Header from "@/components/userInterface/Header";
+import Link from "next/link";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Form = UseFormReturnType<
 	{
 		challenge: string;
 		evidence: string;
-		test: string;
 	},
-	(values: { challenge: string; evidence: string; test: string }) => {
+	(values: { challenge: string; evidence: string; }) => {
 		challenge: string;
 		evidence: string;
-		test: string;
 	}
 >;
 
@@ -56,7 +56,6 @@ function ClaimPanel() {
 		initialValues: {
 			challenge: "None",
 			evidence: "",
-			test: "test",
 		},
 	});
 	if (!claimedZone) {
@@ -70,10 +69,17 @@ function ClaimPanel() {
 		router.push("/game");
 	}
 	return (
+		<>
+		<Header>
+			<h1>Claiming {props.G.zoneData[Number(claimedZone)].name}</h1>
+		</Header>
 		<Center>
-			<Stack>
-				<h1>Claiming {props.G.zoneData[Number(claimedZone)].name}</h1>
-				<Stepper active={step}>
+			<Stack pb="md">
+				<Stepper active={step}
+					styles={{
+						steps : {display: 'none'}
+					}}
+				>
 					<Stepper.Step>
 						<ChooseChallenge props={props} claimForm={claimForm} />
 					</Stepper.Step>
@@ -94,17 +100,16 @@ function ClaimPanel() {
 							<Button onClick={() => setStep(step + 1)}>
 								Next step
 							</Button>
-							<Button
-								variant="default"
-								onClick={() => setStep(step - 1)}>
-								Back
-							</Button>
+							{step === 0 ? 
+								<Button component={Link} href="/game">Back</Button>: <Button variant="default"onClick={() => setStep(step - 1)}>Back</Button>
+							}
 						</>
 					): <Button onClick={() => claimZone(claimedZone, claimForm.getValues().challenge, claimForm.getValues().evidence as unknown as File)}>Claim</Button>
 					}
 				</Group>
 			</Stack>
 		</Center>
+		</>
 	);
 }
 
@@ -129,8 +134,8 @@ function ChooseChallenge({
 					<Group wrap="nowrap" align="center">
 						<Radio.Indicator size="lg" />
 						<div>
-							<h3>{challenge.title}</h3>
-							<Text>{challenge.description}</Text>
+							<Text fz="lg" fw="bold">{challenge.title}</Text>
+							{/* <Text>{challenge.description}</Text> */}
 						</div>
 					</Group>
 				</Paper>
@@ -139,16 +144,13 @@ function ChooseChallenge({
 	});
 	return (
 		<Container>
-			<TextInput
-				label="test"
-				key={claimForm.key("test")}
-				{...claimForm.getInputProps("test")}
-			/>
 			<Radio.Group
 				label="Choose a challenge"
 				key={claimForm.key("challenge")}
 				{...claimForm.getInputProps("challenge")}>
+				<Group>
 				{challengeCards}
+				</Group>
 			</Radio.Group>
 		</Container>
 	);
@@ -180,7 +182,7 @@ function ConfirmClaim({
 	claimedZone: string;
 }) {
 	return (
-		<>
+		<Container>
 			<Text>
 				Claiming {props.G.zoneData[Number(claimZone)].name} with
 				challenge {claimForm.getValues().challenge}
@@ -194,6 +196,6 @@ function ConfirmClaim({
 				alt="evidence"
 			/>
 			)}
-		</>
+		</Container>
 	);
 }

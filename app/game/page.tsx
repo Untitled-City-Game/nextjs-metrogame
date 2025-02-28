@@ -1,6 +1,6 @@
-import Challenges from "@/components/Challenges";
-import GameLog from "@/components/GameLog";
-import MapBoard from "@/components/googleMaps/mapAsBoardgame";
+import Challenges from "@/components/gameTabs/Challenges";
+import GameLog from "@/components/gameTabs/GameLog";
+import MapBoard from "@/components/gameTabs/mapAsBoardgame";
 import { Tabs, TabsTab, TabsList, TabsPanel, Container } from "@mantine/core";
 export default function Home() {
 	return (
@@ -10,7 +10,6 @@ export default function Home() {
 					<Challenges />
 				</TabsPanel>
 				<TabsPanel value="map" className="mapPanel" style={panelStyles}>
-					<h1>Map</h1>
 					<MapBoard />
 				</TabsPanel>
 				<TabsPanel value="log" style={panelStyles}>
@@ -40,7 +39,7 @@ const panelStyles: React.CSSProperties = {
 	display: "flex",
 	flexDirection: "column",
 	alignItems: "stretch",
-	height: "100%",
+	minHeight: "100%",
 	flexGrow: 10,
 };
 

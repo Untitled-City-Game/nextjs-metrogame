@@ -1,21 +1,24 @@
 import { zoneData } from "@/scripts/types";
-import { Paper, Button } from "@mantine/core";
+import { Paper, Button, Container, Center } from "@mantine/core";
 import Link from "next/link";
 
 export default function SelectedZonePopup ({currentZone}: {currentZone: zoneData | undefined}) {
 	return (
 		currentZone ? (
-			<Paper style={infoZoneStyles}>
-				{currentZone.name}
+			<Center style={infoZoneStyles}>
+				<Container>
+			<Paper >
 				<Button
 					component={Link}
 					href={{
 						pathname: "/claim",
 						query: { zone: currentZone.id },
 					}}>
-					Claim
+					Claim {currentZone.name}
 				</Button>
 			</Paper>
+			</Container>
+			</Center>
 		) : null
 
 	)
