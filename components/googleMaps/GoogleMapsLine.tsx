@@ -5,7 +5,6 @@ import { Fragment } from "react";
 export default function MapLine({
 	line,
 	lineVisibility = false,
-	index,
 }: {
 	line: LineData;
 	lineVisibility: boolean;

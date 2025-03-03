@@ -1,4 +1,4 @@
-import { LineFeature } from "@/scripts/types";
+import { LineData, LineFeature } from "@/scripts/types";
 import { Position } from "geojson";
 
 export default function makeLines(regionDataObj: GeoJSON.FeatureCollection) {
@@ -11,7 +11,7 @@ export default function makeLines(regionDataObj: GeoJSON.FeatureCollection) {
 	const validPolyLines = polyLines.filter(isValidPolyLine);
 
 	//Create the lines
-	const regionLines = validPolyLines.map((line: LineFeature) => {
+	const regionLines : LineData[] = validPolyLines.map((line: LineFeature) => {
 		const lineName: string = line.properties.Name
 		//convert coords to latlong
 		const lineCoords = line.geometry.coordinates.map((coord: Position) => {

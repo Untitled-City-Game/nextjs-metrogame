@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
 import { MetroGameBoardProps, zoneData } from "@/scripts/types.js";
@@ -72,7 +72,7 @@ export default function MapBoard() {
 		return (
 			<ZonePolygon
 				zone={zone}
-				onClick={onClick}
+				handleZoneClick={onClick}
 				currentZone={currentZone}
 				highlightedZones={highlightedZones}
 				highlightColor={highlightColor}

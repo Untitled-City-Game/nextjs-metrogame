@@ -1,11 +1,11 @@
-import { PlayerData, Color } from "@/scripts/types";
-import { Radio, Paper, Group, Center, Stack, TextInput, Button, Text, NumberInput } from "@mantine/core";
+import { PlayerData } from "@/scripts/types";
+import { Center, Stack, NumberInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { LobbyClient } from "boardgame.io/client";
 import { Dispatch, SetStateAction } from "react";
 
 export default function CreateGameLobby({
-	setPlayerData, lobbyClient, gameSetupData
+	lobbyClient, gameSetupData
 } : {
 	setPlayerData: Dispatch<SetStateAction<PlayerData | undefined>>,
 	lobbyClient : LobbyClient,

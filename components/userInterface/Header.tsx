@@ -1,5 +1,5 @@
 import { theme } from "@/styles/theme";
-import { Box, Container, Group } from "@mantine/core";
+import { Container, Group } from "@mantine/core";
 import { Text } from '@mantine/core';
 
 export default function Header({ children }: { children: React.ReactNode }) {

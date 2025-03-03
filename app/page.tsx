@@ -1,7 +1,7 @@
 'use client'
 import { GameContext } from "@/components/ClientContainer";
 import { MetroGameBoardProps } from "@/scripts/types";
-import { Tabs, TabsTab, TabsList, TabsPanel, Container, Stack, Center, Text, Button } from "@mantine/core";
+import { Container, Stack, Center, Button } from "@mantine/core";
 import { useContext } from "react";
 import { redirect } from 'next/navigation'
 

@@ -12,12 +12,10 @@ export default function JoinGameLobby({
 	lobbyClient : LobbyClient,
 	gameSetupData : unknown
 }) {
-	const [matchData, setMatchData] = useState<LobbyAPI.Match>()
 	const [teamMembers, setTeamMembers] = useState<Record<string, string[]>>()
 	useEffect(() => {
 		console.log('saving')
 		lobbyClient.listMatches('metro-mayhem').then(res => {
-			setMatchData(res.matches[0])
 			setTeamMembers(sortTeamPlayers(res.matches[0]))
 		}
 		);

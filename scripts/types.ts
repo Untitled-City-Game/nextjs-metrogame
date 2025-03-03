@@ -1,8 +1,6 @@
 import { LineString } from "geojson";
 import { ReactElement } from "react";
 import { BoardProps } from 'boardgame.io/react';
-import { LogEntry } from "boardgame.io";
-import { PlayerAPI } from "boardgame.io/dist/types/src/plugins/plugin-player";
 
 export type geospatialFeature = {
 	featureName : string,

@@ -21,10 +21,10 @@ async function buildServer(){
 		games: [MetroMayhem(mapData.zonePolygons)],
 		origins: [Origins.LOCALHOST],
 	});
-	server.router.get('/hello', (ctx, next) => {
+	server.router.get('/hello', (ctx) => {
 		ctx.body = 'Hello ee!';
 	  });
-	server.router.get('/map-data', (ctx, next) => {
+	server.router.get('/map-data', (ctx) => {
 		ctx.body = mapData;
 	  });
 	server.run(8000, () => console.log("server running..."));

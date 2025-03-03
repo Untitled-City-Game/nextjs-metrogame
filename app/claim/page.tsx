@@ -11,9 +11,7 @@ import {
 	FileInput,
 	Stepper,
 	Container,
-	TextInput,
 	Image,
-	Code,
 } from "@mantine/core";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useContext, useState } from "react";
@@ -24,7 +22,6 @@ import { ClaimStateMoves } from "@/scripts/Game";
 import Header from "@/components/userInterface/Header";
 import Link from "next/link";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Form = UseFormReturnType<
 	{
 		challenge: string;
@@ -157,7 +154,6 @@ function ChooseChallenge({
 }
 
 function Evidence({
-	props,
 	claimForm,
 }: {
 	props: MetroGameBoardProps;
