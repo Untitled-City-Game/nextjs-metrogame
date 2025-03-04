@@ -55,7 +55,7 @@ export default function ClientContainer(
 		)
 	}
 	
-	const lobbyClient = new LobbyClient({ server: 'http://localhost:8000' });
+	const lobbyClient = new LobbyClient({ server: 'https://game-server-staging-fp7r.onrender.com' });
 	return (
 	<Center>
 		<Stack>
