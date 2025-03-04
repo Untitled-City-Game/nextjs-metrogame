@@ -34,7 +34,7 @@ export default function ClientContainer(
 		},
 		numPlayers: 10,
 		multiplayer: SocketIO({
-			server: process.env.GAME_SERVER,
+			server: process.env.NEXT_PUBLIC_GAME_SERVER,
 		}),
 	}) as React.JSXElementConstructor<ClientSetupData>
 	
@@ -55,7 +55,7 @@ export default function ClientContainer(
 		)
 	}
 	
-	const lobbyClient = new LobbyClient({ server: 'https://game-server-staging-fp7r.onrender.com' });
+	const lobbyClient = new LobbyClient({ server: process.env.NEXT_PUBLIC_GAME_SERVER });
 	return (
 	<Center>
 		<Stack>

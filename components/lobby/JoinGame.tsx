@@ -2,7 +2,7 @@ import { PlayerData, Color } from "@/scripts/types";
 import { Radio, Paper, Group, Center, Stack, TextInput, Button, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { LobbyAPI } from "boardgame.io";
-import { LobbyClient } from "boardgame.io/client";
+import type { LobbyClient } from "boardgame.io/client";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 export default function JoinGameLobby({
