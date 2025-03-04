@@ -34,7 +34,7 @@ export default function ClientContainer(
 		},
 		numPlayers: 10,
 		multiplayer: SocketIO({
-			server: "localhost:8000",
+			server: process.env.GAME_SERVER,
 		}),
 	}) as React.JSXElementConstructor<ClientSetupData>
 	
