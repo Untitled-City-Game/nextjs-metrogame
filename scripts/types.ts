@@ -37,6 +37,7 @@ export type PlayerData = {
 	name: string;
 	teamColor: Color;
 	playerCredentials?: string;
+	matchID?: string;
 }
 
 export type AllPlayersData = {
@@ -80,8 +81,9 @@ export type GameSetupData = {
 
 export interface ClientSetupData extends GameSetupData {
 	initialPlayerData: PlayerData;
-	playerID : `${number}`
-	credentials?: string
+	matchID: string;
+	playerID : `${number}`;
+	credentials?: string;
 }
 
 export type MetroGameBoardProps = BoardProps<GameState> & GameSetupData & {

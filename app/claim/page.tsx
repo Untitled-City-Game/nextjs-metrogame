@@ -59,6 +59,7 @@ function ClaimPanel() {
 		return <h1>No zone selected</h1>;
 	}
 	function claimZone(zone : string, challenge : string, evidence : File) {
+		console.log("claiming zone on client", zone, challenge, evidence)
 		moves.completeChallengeAndClaim(Number(zone), challenge, evidence);
 		// moves.claimZone(Number(zone));
 		// moves.discardChallenge(challenge);

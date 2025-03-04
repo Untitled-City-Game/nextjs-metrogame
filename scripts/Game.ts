@@ -2,7 +2,6 @@ import { GameState, AllPlayersData, PolyData, zoneData, zoneStatus, PlayerData, 
 import type { Ctx, FnContext, Game } from "boardgame.io";
 import { LogAPI } from "boardgame.io/dist/types/src/plugins/plugin-log";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
-import { log } from "console";
 import challengeDataJSON from 'data/challenges.json'
 const challengeData : ChallengeData = challengeDataJSON
 import { remove } from "lodash";

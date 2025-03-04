@@ -76,6 +76,7 @@ export default function JoinGameLobby({
 					const playerData : PlayerData = {
 						name: values.PlayerName, 
 						playerID: res.playerID as `${number}`, 
+						matchID: matchID,
 						playerCredentials: res.playerCredentials,
 						teamColor: values.teamID as Color,
 					};

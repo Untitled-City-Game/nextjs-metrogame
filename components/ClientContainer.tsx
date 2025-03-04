@@ -32,7 +32,6 @@ export default function ClientContainer(
 		debug: {
 			collapseOnLoad: true,
 		},
-		numPlayers: 10,
 		multiplayer: SocketIO({
 			server: process.env.NEXT_PUBLIC_GAME_SERVER,
 		}),
@@ -51,7 +50,7 @@ export default function ClientContainer(
 
 	if (initialPlayerData){
 		return (
-			<GameClient initialPlayerData={initialPlayerData} playerID={initialPlayerData.playerID} credentials = {initialPlayerData.playerCredentials} {...props} />
+			<GameClient matchID={initialPlayerData.matchID || "default"} initialPlayerData={initialPlayerData} playerID={initialPlayerData.playerID} credentials = {initialPlayerData.playerCredentials} {...props} />
 		)
 	}
 	
