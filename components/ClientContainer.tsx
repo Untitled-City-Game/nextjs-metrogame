@@ -7,7 +7,6 @@ import type { ClientSetupData, GameSetupData, MetroGameBoardProps, PlayerData } 
 import JoinGameLobby from "./lobby/JoinGame";
 import { LobbyClient } from "boardgame.io/client";
 import { Center, Stack, Text } from "@mantine/core";
-
 export const GameContext = createContext({} as MetroGameBoardProps);
 
 export default function ClientContainer(

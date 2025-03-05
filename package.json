@@ -22,11 +22,13 @@
     "@types/geojson": "^7946.0.15",
     "@types/point-in-polygon": "^1.1.5",
     "boardgame.io": "^0.50.2",
+    "firebase": "^11.4.0",
     "lodash": "^4.17.21",
     "next": "15.1.5",
     "point-in-polygon": "^1.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-router": "^7.2.0",
     "react-router-dom": "^7.2.0"
   },

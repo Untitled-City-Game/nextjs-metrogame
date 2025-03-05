@@ -1,5 +1,7 @@
 "use client";
 import { GameContext } from "@/components/ClientContainer";
+import { getDownloadURL, ref, uploadBytes} from "firebase/storage";
+import { storage } from "@/scripts/firebase";
 import {
 	Button,
 	Radio,
@@ -21,6 +23,7 @@ import { useForm, UseFormReturnType } from "@mantine/form";
 import { ClaimStateMoves } from "@/scripts/Game";
 import Header from "@/components/userInterface/Header";
 import Link from "next/link";
+
 
 type Form = UseFormReturnType<
 	{
@@ -58,12 +61,18 @@ function ClaimPanel() {
 	if (!claimedZone) {
 		return <h1>No zone selected</h1>;
 	}
-	function claimZone(zone : string, challenge : string, evidence : File) {
-		console.log("claiming zone on client", zone, challenge, evidence)
-		moves.completeChallengeAndClaim(Number(zone), challenge, evidence);
-		// moves.claimZone(Number(zone));
-		// moves.discardChallenge(challenge);
-		// moves.drawToFull();
+	async function claimZone(zone : string, challenge : string, evidence : File) {
+		console.log("claiming zone on client", zone, challenge, evidence);
+		const imageRef = ref(storage, `images/zone${zone}player${props.playerID}${Date.now()}.jpg`);
+		try {
+            const uploadTask = await uploadBytes(imageRef, evidence);
+            console.log("Uploaded bytes to: ", uploadTask.metadata.fullPath);
+          } catch (e) {
+            console.error("Error adding document: ", e);
+          }
+		const evidenceURL = await getDownloadURL(imageRef)
+
+		moves.completeChallengeAndClaim(Number(zone), challenge, evidenceURL);
 		router.push("/game");
 	}
 	return (

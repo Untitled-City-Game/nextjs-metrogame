@@ -1,9 +1,8 @@
 "use client";
 import { useContext } from "react";
 import { GameContext } from "../ClientContainer";
-import { Alert, Container, Stack, Text } from "@mantine/core";
+import { Alert, Container, Stack, Text, Image } from "@mantine/core";
 import { LogMetadata, MetroGameBoardProps } from "@/scripts/types";
-import Image from "next/image";
 import Header from "../userInterface/Header";
 
 export default function GameLog() {
@@ -59,22 +58,13 @@ function MetadataRenderer({ metadata }: { metadata: LogMetadata}) {
 	if (!metadata){
 		return <Text>No metadata</Text>
 		}
-		let evidenceURL = "";
-		if (metadata.evidence){
-			// Convert ArrayBuffer to a Blob
-			const blob = new Blob([metadata.evidence]);
-
-			// Optionally convert to an Object URL for display
-			evidenceURL = URL.createObjectURL(blob);
-			
-		}
 		return (
 			<Stack>
 				<Text>Date: {metadata.date.toLocaleString()}</Text>
 				<Text>Team: {metadata.team}</Text>
 				{metadata.challenge && <Text>Challenge: {metadata.challenge}</Text>}
 				{metadata.zone && <Text>Zone: {metadata.zone}</Text>}
-				{metadata.evidence && <Image src={evidenceURL} alt="evidence" width={300} height={300} />}
+				{metadata.evidence && <Image src={metadata.evidence} alt="evidence" w={300} h={300} />}
 				</Stack>
 			)
 }

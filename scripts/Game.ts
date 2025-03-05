@@ -1,4 +1,4 @@
-import { GameState, AllPlayersData, PolyData, zoneData, zoneStatus, PlayerData, AllTeamsData, Color, ChallengeData, TeamData, LogMetadata } from "@/scripts/types";
+import { GameState, AllPlayersData, PolyData, zoneData, PlayerData, AllTeamsData, Color, ChallengeData, TeamData, LogMetadata } from "@/scripts/types";
 import type { Ctx, FnContext, Game } from "boardgame.io";
 import { LogAPI } from "boardgame.io/dist/types/src/plugins/plugin-log";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
@@ -22,7 +22,7 @@ function completeChallengeAndClaim(
 	{ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
 	zoneID: number,
 	challenge: string,
-	evidence: File
+	evidence: string
 ) {
 	completeChallenge({ G, log, playerID }, challenge, evidence);
 	claimZone({ G, log, playerID }, zoneID);
@@ -44,14 +44,14 @@ function claimZone(
 
 function completeChallenge({ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
 	challenge: string,
-	evidence: File
+	evidence: string
 ){
 	discardChallenge({ G, log, playerID }, challenge);
 	addLogMetadata({log}, {date: new Date(), challenge, evidence, team: G.allPlayersData[playerID].teamColor});
 }
 
 function discardChallenge(
-	{ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
+	{ G, playerID }: { G: GameState, log : LogAPI , playerID: string },
 	challenge: string,
 ) {
 	const team = G.allPlayersData[playerID].teamColor
