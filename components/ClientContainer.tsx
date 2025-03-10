@@ -7,6 +7,7 @@ import type { ClientSetupData, GameSetupData, MetroGameBoardProps, PlayerData } 
 import JoinGameLobby from "./lobby/JoinGame";
 import { LobbyClient } from "boardgame.io/client";
 import { Center, Stack, Text } from "@mantine/core";
+import GameOver from "./lobby/GameOver";
 export const GameContext = createContext({} as MetroGameBoardProps);
 
 export default function ClientContainer(
@@ -46,10 +47,10 @@ export default function ClientContainer(
 			</Center>
 		)
 	}
-
+	
 	if (initialPlayerData){
 		return (
-			<GameClient matchID={initialPlayerData.matchID || "default"} initialPlayerData={initialPlayerData} playerID={initialPlayerData.playerID} credentials = {initialPlayerData.playerCredentials} {...props} />
+			<GameClient matchID={initialPlayerData.matchID || "default"} playerData={{data: initialPlayerData, setter: setPlayerData}} playerID={initialPlayerData.playerID} credentials = {initialPlayerData.playerCredentials} {...props} />
 		)
 	}
 	
@@ -66,7 +67,8 @@ export default function ClientContainer(
 
 function AppAsBoardgame(props: MetroGameBoardProps) {
 	const { children, ...rest } = props;
-	const { moves, playerID, initialPlayerData } = props;
+	const { moves, playerID} = props;
+	const initialPlayerData = props.playerData.data;
 	sessionStorage.setItem("sessionPlayerData", JSON.stringify(initialPlayerData));
 	const triedConnect = useRef(false)
 	useEffect(() => {
@@ -80,8 +82,15 @@ function AppAsBoardgame(props: MetroGameBoardProps) {
 	if(playerID &&!props.G.allPlayersData[playerID]){
 		return <Text>Loading...</Text>
 	}
+	if(props.G.gameOver){
+		return <GameOver setter={props.playerData.setter}/>
+	}
 	return (
 		<GameContext.Provider value={{ ...rest }}>
+			<p>Player ID: {playerID}</p>
+			<p>Team: {playerID && props.G.allPlayersData[playerID].teamColor}</p>
+			<p>Game state: {props.G.active ? "active" : "inactive"}</p>
+			<p>Gameover: {props.G.gameOver ? "true" : "false"}</p>
 			{children}
 		</GameContext.Provider>
 	);

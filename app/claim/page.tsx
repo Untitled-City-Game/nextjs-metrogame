@@ -128,7 +128,7 @@ function ChooseChallenge({
 	claimForm: Form;
 }) {
 	const { allTeamsData, allPlayersData } = props.G;
-	const playerData = allPlayersData[props.initialPlayerData.playerID];
+	const playerData = allPlayersData[props.playerData.data.playerID];
 	const myTeam = playerData.teamColor;
 	const challengeHand = allTeamsData[myTeam]?.challengeHand;
 	if (!challengeHand) {

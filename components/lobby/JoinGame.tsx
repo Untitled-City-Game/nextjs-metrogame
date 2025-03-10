@@ -16,7 +16,9 @@ export default function JoinGameLobby({
 	useEffect(() => {
 		console.log('saving')
 		lobbyClient.listMatches('metro-mayhem').then(res => {
-			setTeamMembers(sortTeamPlayers(res.matches[0]))
+			console.log("matches", res.matches);
+			const activeMatches = res.matches.filter(match => !match.gameover);
+			setTeamMembers(sortTeamPlayers(activeMatches[0]));
 		}
 		);
 	}, [lobbyClient])
@@ -52,15 +54,16 @@ export default function JoinGameLobby({
 			<form
 				onSubmit={joinGameForm.onSubmit(async (values) => {
 					const { matches } = await lobbyClient.listMatches('metro-mayhem');
+					const activeMatches = matches.filter(match => !match.gameover);
 					let matchID = 'default';
-					if(matches.length == 0){
+					if(activeMatches.length == 0){
 						const res = await lobbyClient.createMatch('metro-mayhem', {
 							numPlayers: 20,
 							setupData: gameSetupData
 						})
 						matchID = res.matchID;
 					} else {
-						matchID = matches[0].matchID;
+						matchID = activeMatches[0].matchID;
 					}
 					const res = await lobbyClient.joinMatch(
 						'metro-mayhem',

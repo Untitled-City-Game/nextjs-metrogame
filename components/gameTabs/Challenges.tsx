@@ -7,10 +7,9 @@ import Header from "@/components/userInterface/Header";
 
 export default function Challenges(){
 	const props: MetroGameBoardProps = useContext(GameContext);
-	console.log("player data", props.initialPlayerData);
 	//TODO: hoist this
 	const { allTeamsData, allPlayersData } = props.G; 
-	const playerData = allPlayersData[props.initialPlayerData.playerID]
+	const playerData = allPlayersData[props.playerData.data.playerID]
 	const myTeam = playerData.teamColor
 	const challengeHand = allTeamsData[myTeam]?.challengeHand;
 	if(!challengeHand){

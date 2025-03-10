@@ -15,7 +15,7 @@ const handSize = 5;
 
 function addLogMetadata({log} : {log : LogAPI}, metadata: LogMetadata){
 	console.log("adding metadata", metadata)
-	log.setMetadata(metadata);
+	log.setMetadata({...metadata, date: new Date()});
 }
 
 function completeChallengeAndClaim(
@@ -123,12 +123,20 @@ function teamSetup(teams : AllTeamsData, random : RandomAPI){
 	}
 }
 
+function endGame({G, log, ctx} : FnContext<GameState>){
+	console.log("ending game");
+	log.setMetadata("game end");
+	G.gameOver = true;
+	G.active = false;
+}
+
 export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
 	console.log("running metromayhem function")
 	return {
 		name: "metro-mayhem",
 		//set up game board using map json info
 		setup: ({ctx}) => gameSetup(internalSetupData, ctx),
+		endIf: ({G}) => G.gameOver,
 		moves: {
 			claimZone,
 			startGame,
@@ -148,6 +156,7 @@ export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
 				},
 			},
 		},
+		
 	};
 };
 
@@ -158,7 +167,8 @@ const claimStateMoves ={
 	drawToFull,
 	discardChallenge,
 	completeChallenge,
-	completeChallengeAndClaim
+	completeChallengeAndClaim,
+	endGame
 }
 
 export type ClaimStateMoves = StripContext<typeof claimStateMoves>
@@ -170,6 +180,7 @@ function gameSetup(internalSetupData: PolyData[], ctx: Ctx): GameState {
 	return {
 		zoneData: createBoardFromMapJson(internalSetupData),
 		active: false,
+		gameOver: false,
 		allPlayersData : {} as AllPlayersData,
 		//declare allteamsdata as AllTeamsData object
 		allTeamsData : {

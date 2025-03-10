@@ -1,9 +1,9 @@
-import { Server, Origins } from 'boardgame.io/server';
-import { MetroMayhem } from '@/scripts/Game';
+import { Server, Origins, FlatFile } from 'boardgame.io/server';
+import {promises as fs} from 'fs';
+import { LineData, PolyData, GameSetupData } from './types';
 import makeLines from '@/components/geojson/makeLines';
 import makePolygons from '@/components/geojson/makePolygons';
-import { GameSetupData, LineData, PolyData } from './types';
-import {promises as fs} from 'fs';
+import { MetroMayhem } from './Game';
 
 
 async function fetchData(){
@@ -19,7 +19,11 @@ async function buildServer(){
 	const mapData : GameSetupData = await fetchData();
 	const server = Server({
 		games: [MetroMayhem(mapData.zonePolygons)],
-		origins: ["https://next-metrogame.netlify.app"],
+		origins: [Origins.LOCALHOST, "https://next-metrogame.netlify.app"],
+		db: new FlatFile({
+			dir: process.cwd() + '/db',
+			logging: false,
+		})
 	});
 	server.router.get('/hello', (ctx) => {
 		ctx.body = 'Hello ee!';
@@ -27,8 +31,8 @@ async function buildServer(){
 	server.router.get('/map-data', (ctx) => {
 		ctx.body = mapData;
 	  });
-	server.run(8000, () => console.log("server running..."));
+	const PORT = parseInt(process.env.PORT || "8000");
+	server.run(PORT, () => console.log("server running..."));
 }
 
 buildServer();
-

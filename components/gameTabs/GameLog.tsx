@@ -1,55 +1,67 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GameContext } from "../ClientContainer";
-import { Alert, Container, Stack, Text, Image } from "@mantine/core";
-import { LogMetadata, MetroGameBoardProps } from "@/scripts/types";
+import { Alert, Container, Stack, Text, Image, Group, Button, Box } from "@mantine/core";
+import { GameState, LogMetadata, MetroGameBoardProps, PlayerData } from "@/scripts/types";
 import Header from "../userInterface/Header";
+import { useRouter } from "next/navigation";
+import { ClaimStateMoves } from "@/scripts/Game";
+import { LogEntry } from "boardgame.io";
 
 export default function GameLog() {
 	const props: MetroGameBoardProps = useContext(GameContext);
+	const moves = props.moves as ClaimStateMoves;
+	const playerData = props.playerData.data;
+	const router = useRouter();
 	const dummyMessages = Array.from({ length: 15 }, () => "wheee");
-	console.log("log", props.log);
+	function handleEndGame(){
+		console.log("ending game");
+		moves.endGame();
+		props.playerData.setter(undefined);
+	}
 	return (
 		<>
 			<Header>
 				<h1>Game Log</h1>
+				<p>Game will end at GAME END TIME</p>
+				<Group>
+					<Button variant="outline">Pause Game</Button>
+					<Button onClick={handleEndGame}>End Game</Button>
+				</Group>
 			</Header>
-			<Container mt="md" mb="md">
-				<Stack>
+			<Box m="md">
+				<Stack align="flex-start">
 					{props.log
 						.map((entry, index) => (
-							<MessageBox key={index}>
+							<MessageBox key={index} entry={entry} gameData={props.G} playerData={playerData}>
 								<Text>
-									Team: {entry.action.payload.playerID}
+									Move: {entry.action.payload.type}
 								</Text>
-								<Text>
-									payload type: {entry.action.payload.type}
-								</Text>
-								<Text>action type: {entry.action.type}</Text>
-								<Text>metadata: {JSON.stringify(entry.metadata)}</Text>
-								<MetadataRenderer metadata={entry.metadata} />
-								<Text>stateid: {entry._stateID}</Text>
-								<Text>turn: {entry.turn}</Text>
 							</MessageBox>
 						))
 						.toReversed()}
-					{/* Some dummy messages for testing */}
-					{dummyMessages.map((message, index) => (
-						<MessageBox key={index}>
-							<Text>{message}</Text>
-						</MessageBox>
-					))}
 				</Stack>
-			</Container>
+			</Box>
 		</>
 	);
 }
 
-function MessageBox({ children }: { children: React.ReactNode }) {
+function MessageBox({ children, entry, gameData, playerData }: { children: React.ReactNode, entry: LogEntry, gameData: GameState, playerData: PlayerData }) {
+	const [timestamp, setTimestamp] = useState("");
+	const metadata = entry.metadata ? entry.metadata as LogMetadata : undefined;
+	useEffect(() => {
+		if(metadata && metadata.date){
+			const date = new Date(metadata.date);
+			setTimestamp(date.toLocaleTimeString());
+			return;
+		}
+	}, [metadata]);
+	const senderData = gameData.allPlayersData[entry.action.payload.playerID];
 	return (
-		<Alert maw="max-content" miw="40%" title="Username">
-			<Text>Red team</Text>
+		<Alert maw="max-content" miw="40%" title={senderData.name} color={senderData.teamColor} ml={senderData.playerID === playerData.playerID ? "auto" : "0"}>
+			<Text fs="italic">{senderData.teamColor} team</Text>
 			{children}
+			<Text>{timestamp}</Text>
 		</Alert>
 	);
 }

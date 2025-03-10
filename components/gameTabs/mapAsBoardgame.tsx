@@ -93,7 +93,13 @@ export default function MapBoard() {
 				<GoogleMap
 					mapContainerStyle={containerStyle}
 					center={gameLocationCenter}
-					zoom={12}>
+					zoom={12}
+					onClick={() => {
+						setCurrentZone(undefined);
+						setLineVisibility({});
+						setHighlightedZones({});		
+					}}
+					>
 					{/* This does the montreal grid */}
 					{zoneElements}
 					<>{lineElements}</>

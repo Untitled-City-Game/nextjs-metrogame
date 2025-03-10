@@ -1,5 +1,5 @@
 import { LineString } from "geojson";
-import { ReactElement } from "react";
+import { Dispatch, ReactElement, SetStateAction } from "react";
 import { BoardProps } from 'boardgame.io/react';
 
 export type geospatialFeature = {
@@ -69,7 +69,8 @@ export interface GameState {
 	zoneData: zoneData[],
 	active: boolean,
 	allPlayersData : AllPlayersData,
-	allTeamsData : AllTeamsData
+	allTeamsData : AllTeamsData,
+	gameOver : boolean
 }
 
 export type zoneStatus = Color | "empty";
@@ -80,14 +81,20 @@ export type GameSetupData = {
 }
 
 export interface ClientSetupData extends GameSetupData {
-	initialPlayerData: PlayerData;
+	playerData: {
+		data: PlayerData;
+		setter: Dispatch<SetStateAction<PlayerData | undefined>>
+	};
 	matchID: string;
 	playerID : `${number}`;
 	credentials?: string;
 }
 
 export type MetroGameBoardProps = BoardProps<GameState> & GameSetupData & {
-	initialPlayerData: PlayerData;
+	playerData: {
+		data: PlayerData;
+		setter: Dispatch<SetStateAction<PlayerData | undefined>>
+	};
 	children?: React.ReactNode;
 }
 
