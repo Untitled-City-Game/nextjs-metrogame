@@ -8,7 +8,7 @@ runConfig:
   # memoryMiB: 512
 
 # Environment variables and secrets.
-# env:
+env:
   # Configure environment variables.
   # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
   # - variable: MESSAGE
@@ -16,8 +16,15 @@ runConfig:
   #   availability:
   #     - BUILD
   #     - RUNTIME
-
+  - variable: MAPS_API
+    value: AIzaSyAhg8bq82cx8W6bqb-KTjk1QmrgOi43gdA
+    
+  - variable: GAME_SERVER
+      value: https://game-server-staging-fp7r.onrender.com
+      
+  - variable: NEXT_PUBLIC_GAME_SERVER
+      value: https://game-server-staging-fp7r.onrender.com
   # Grant access to secrets in Cloud Secret Manager.
   # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
-  # - variable: MY_SECRET
+  # - variable: GAME_SERVER
   #   secret: mySecretRef
