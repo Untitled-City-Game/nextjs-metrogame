@@ -123,7 +123,7 @@ function teamSetup(teams : AllTeamsData, random : RandomAPI){
 	}
 }
 
-function endGame({G, log, ctx} : FnContext<GameState>){
+function endGame({G, log} : FnContext<GameState>){
 	console.log("ending game");
 	log.setMetadata("game end");
 	G.gameOver = true;

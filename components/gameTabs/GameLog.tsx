@@ -1,10 +1,9 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
 import { GameContext } from "../ClientContainer";
-import { Alert, Container, Stack, Text, Image, Group, Button, Box } from "@mantine/core";
+import { Alert, Stack, Text, Group, Button, Box } from "@mantine/core";
 import { GameState, LogMetadata, MetroGameBoardProps, PlayerData } from "@/scripts/types";
 import Header from "../userInterface/Header";
-import { useRouter } from "next/navigation";
 import { ClaimStateMoves } from "@/scripts/Game";
 import { LogEntry } from "boardgame.io";
 
@@ -12,8 +11,6 @@ export default function GameLog() {
 	const props: MetroGameBoardProps = useContext(GameContext);
 	const moves = props.moves as ClaimStateMoves;
 	const playerData = props.playerData.data;
-	const router = useRouter();
-	const dummyMessages = Array.from({ length: 15 }, () => "wheee");
 	function handleEndGame(){
 		console.log("ending game");
 		moves.endGame();
@@ -66,17 +63,17 @@ function MessageBox({ children, entry, gameData, playerData }: { children: React
 	);
 }
 
-function MetadataRenderer({ metadata }: { metadata: LogMetadata}) {
-	if (!metadata){
-		return <Text>No metadata</Text>
-		}
-		return (
-			<Stack>
-				<Text>Date: {metadata.date.toLocaleString()}</Text>
-				<Text>Team: {metadata.team}</Text>
-				{metadata.challenge && <Text>Challenge: {metadata.challenge}</Text>}
-				{metadata.zone && <Text>Zone: {metadata.zone}</Text>}
-				{metadata.evidence && <Image src={metadata.evidence} alt="evidence" w={300} h={300} />}
-				</Stack>
-			)
-}
+// function MetadataRenderer({ metadata }: { metadata: LogMetadata}) {
+// 	if (!metadata){
+// 		return <Text>No metadata</Text>
+// 		}
+// 		return (
+// 			<Stack>
+// 				<Text>Date: {metadata.date.toLocaleString()}</Text>
+// 				<Text>Team: {metadata.team}</Text>
+// 				{metadata.challenge && <Text>Challenge: {metadata.challenge}</Text>}
+// 				{metadata.zone && <Text>Zone: {metadata.zone}</Text>}
+// 				{metadata.evidence && <Image src={metadata.evidence} alt="evidence" w={300} h={300} />}
+// 				</Stack>
+// 			)
+// }
