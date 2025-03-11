@@ -11,7 +11,7 @@ import GameOver from "@components/lobby/GameOver";
 export const GameContext = createContext({} as MetroGameBoardProps);
 
 export default function ClientContainer(
-	props: GameSetupData & { children: React.ReactNode }
+	props: { children: React.ReactNode }
 ) {
 	const [initialPlayerData, setPlayerData] = useState<PlayerData>();
 	const [busy, setBusy] = useState(true);
@@ -39,20 +39,8 @@ export default function ClientContainer(
 		}
 		fetchData();
 	}, [gameSetupData]);
-		
-
-	const GameClient = Client({
-		game: MetroMayhem(props.zonePolygons),
-		board: AppAsBoardgame,
-		debug: {
-			collapseOnLoad: true,
-		},
-		multiplayer: SocketIO({
-			server: process.env.NEXT_PUBLIC_GAME_SERVER,
-		}),
-	}) as React.JSXElementConstructor<ClientSetupData>
-	
-	if (busy){
+			
+	if (busy || !gameSetupData){
 		return (
 			<Center>
 				<Stack>
@@ -64,8 +52,18 @@ export default function ClientContainer(
 	}
 	
 	if (initialPlayerData){
+		const GameClient = Client({
+			game: MetroMayhem(gameSetupData.zonePolygons),
+			board: AppAsBoardgame,
+			debug: {
+				collapseOnLoad: true,
+			},
+			multiplayer: SocketIO({
+				server: process.env.NEXT_PUBLIC_GAME_SERVER,
+			}),
+		}) as React.JSXElementConstructor<ClientSetupData>
 		return (
-			<GameClient matchID={initialPlayerData.matchID || "default"} playerData={{data: initialPlayerData, setter: setPlayerData}} playerID={initialPlayerData.playerID} credentials = {initialPlayerData.playerCredentials} {...props} />
+			<GameClient matchID={initialPlayerData.matchID || "default"} playerData={{data: initialPlayerData, setter: setPlayerData}} playerID={initialPlayerData.playerID} credentials = {initialPlayerData.playerCredentials} {...gameSetupData} {...props} />
 		)
 	}
 	
@@ -74,7 +72,7 @@ export default function ClientContainer(
 	<Center>
 		<Stack>
 			<h1>Untitled City Game</h1>
-			<JoinGameLobby setPlayerData={setPlayerData} lobbyClient={lobbyClient} gameSetupData={props.zonePolygons}/>
+			<JoinGameLobby setPlayerData={setPlayerData} lobbyClient={lobbyClient} gameSetupData={gameSetupData.zonePolygons}/>
 		</Stack>
 	</Center>
 	)

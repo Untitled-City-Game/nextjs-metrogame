@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "@styles/globals.css";
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
-import GameContainer from "@components/GameContainer";
 import { theme } from "@styles/theme";
+import ClientContainer from "../components/ClientContainer";
 
 export const metadata: Metadata = {
   title: "Untitled Metro Game",
@@ -23,7 +23,7 @@ export default function RootLayout({
 
       <body style={{ backgroundColor: theme.white }}>
         <MantineProvider theme={theme}>
-          <GameContainer> {children} </GameContainer>
+          <ClientContainer> {children} </ClientContainer>
         </MantineProvider>
       </body>
     </html>
