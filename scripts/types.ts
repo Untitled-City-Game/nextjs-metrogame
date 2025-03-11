@@ -103,6 +103,7 @@ export type LogMetadata = {
 	evidence?: string;
 	challenge?: string;
 	zone?: number;
+	zoneName?: string;
 	team: Color;
 }
 

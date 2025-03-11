@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
 import { GameContext } from "../ClientContainer";
-import { Alert, Stack, Text, Group, Button, Box } from "@mantine/core";
+import { Alert, Stack, Text, Group, Button, Box, Image } from "@mantine/core";
 import { GameState, LogMetadata, MetroGameBoardProps, PlayerData } from "@/scripts/types";
 import Header from "../userInterface/Header";
 import { ClaimStateMoves } from "@/server/connect_four";
@@ -31,9 +31,7 @@ export default function GameLog() {
 					{props.log
 						.map((entry, index) => (
 							<MessageBox key={index} entry={entry} gameData={props.G} playerData={playerData}>
-								<Text>
-									Move: {entry.action.payload.type}
-								</Text>
+								{entry.action.payload.type === "completeChallengeAndClaim" ? <ChallengeCompleted metadata={entry.metadata as LogMetadata} /> : entry.action.type}
 							</MessageBox>
 						))
 						.toReversed()}
@@ -56,13 +54,26 @@ function MessageBox({ children, entry, gameData, playerData }: { children: React
 	const senderData = gameData.allPlayersData[entry.action.payload.playerID];
 	return (
 		<Alert maw="max-content" miw="40%" title={senderData.name} color={senderData.teamColor} ml={senderData.playerID === playerData.playerID ? "auto" : "0"}>
-			<Text fs="italic">{senderData.teamColor} team</Text>
+			<Text fs="italic" mt="0" size="xs"><span className="capitalize">{senderData.teamColor}</span> team</Text>
 			{children}
 			<Text>{timestamp}</Text>
 		</Alert>
 	);
 }
 
+function ChallengeCompleted({ metadata }: { metadata: LogMetadata }) {
+	return (
+		<>
+			<Text>
+				<span className="capitalize">{metadata.team}</span> team completed challenge {'"'}{metadata.challenge}{'"'} to claim {metadata.zoneName || metadata.zone}
+			</Text>
+			{metadata.evidence && (
+				<Image src={metadata.evidence} alt={`${metadata.team} team completed challenge ${metadata.challenge} to claim zone ${metadata.zone}`} w={300} h={300} />
+			)}
+		</>
+	)
+
+}
 // function MetadataRenderer({ metadata }: { metadata: LogMetadata}) {
 // 	if (!metadata){
 // 		return <Text>No metadata</Text>
