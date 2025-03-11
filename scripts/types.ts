@@ -1,6 +1,6 @@
-import { LineString } from "geojson";
-import { Dispatch, ReactElement, SetStateAction } from "react";
 import { BoardProps } from 'boardgame.io/react';
+import { LineString } from 'geojson';
+import { Dispatch, ReactElement, SetStateAction } from 'react';
 
 export type geospatialFeature = {
 	featureName : string,

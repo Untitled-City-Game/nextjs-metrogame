@@ -21,10 +21,10 @@
     "baseUrl" : "./",
     "paths": {
       "@/*": ["./*"],
-      "@components/*": ["components/*"],
-      "react": ["./node_modules/@types/react/index"],
+      "@components/*": ["next-app/components/*"],
+      "react": ["next-app/node_modules/@types/react/index"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["next-app/next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["next-app/node_modules"]
 }
