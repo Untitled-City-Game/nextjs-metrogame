@@ -2,16 +2,18 @@
   "name": "metro-game-root",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "private": true,
   "workspaces": [
     "next-app",
     "server"
     ],
+  "scripts": {
+    "server:dev": "npm run dev -w server",
+    "site:dev": "npm run dev -w next-app"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
   "dependencies": {
     "firebase": "^11.4.0",
     "boardgame.io": "^0.50.2"

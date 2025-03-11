@@ -1,5 +1,5 @@
-import { GameSetupData } from '@/scripts/types';
-import ClientContainer from './ClientContainer';
+import { GameSetupData } from '@scripts/types';
+import ClientContainer from '@components/ClientContainer';
 
 export default async function GameContainer({
 	children,

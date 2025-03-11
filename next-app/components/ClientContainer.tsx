@@ -1,13 +1,13 @@
 "use client";
-import { MetroMayhem } from "@/server/connect_four";
+import { MetroMayhem } from "@server/connect_four";
 import { createContext, useEffect, useRef, useState } from "react";
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import type { ClientSetupData, GameSetupData, MetroGameBoardProps, PlayerData } from "@/scripts/types";
-import JoinGameLobby from "./lobby/JoinGame";
+import type { ClientSetupData, GameSetupData, MetroGameBoardProps, PlayerData } from "@scripts/types";
+import JoinGameLobby from "@components/lobby/JoinGame";
 import { LobbyClient } from "boardgame.io/client";
 import { Center, Stack, Text } from "@mantine/core";
-import GameOver from "./lobby/GameOver";
+import GameOver from "@components/lobby/GameOver";
 export const GameContext = createContext({} as MetroGameBoardProps);
 
 export default function ClientContainer(

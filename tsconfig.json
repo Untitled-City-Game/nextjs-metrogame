@@ -21,7 +21,11 @@
     "baseUrl" : "./",
     "paths": {
       "@/*": ["./*"],
-      "@components/*": ["next-app/components/*"],
+      "@components/*": ["./next-app/components/*"],
+      "@scripts/*": ["scripts/*"],
+      "@server/*": ["server/*"],
+      "@data/*": ["./data/*"],
+      "@styles/*": ["next-app/styles/*"],
       "react": ["next-app/node_modules/@types/react/index"],
     }
   },
