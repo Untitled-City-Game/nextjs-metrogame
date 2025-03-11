@@ -44,7 +44,7 @@ export default function MapBoard() {
 		id: "google-map-script",
 		googleMapsApiKey: "AIzaSyAhg8bq82cx8W6bqb-KTjk1QmrgOi43gdA",
 		libraries: libraries,
-		mapIds: ["b2dce7601d050c0a"]
+		mapIds: ["fc1cd512863f2ee3"]
 	});
 
 	//Render zone lines
@@ -95,7 +95,12 @@ export default function MapBoard() {
 					mapContainerStyle={containerStyle}
 					center={gameLocationCenter}
 					zoom={12}
-					options={{ mapId: "b2dce7601d050c0a" }}
+					options={{ 
+						mapId: "fc1cd512863f2ee3",
+						streetViewControl: false,
+						fullscreenControl: false,
+						mapTypeControl: false,
+					}}
 					onClick={() => {
 						setCurrentZone(undefined);
 						setLineVisibility({});
