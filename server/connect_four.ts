@@ -27,7 +27,7 @@ function completeChallengeAndClaim(
 	completeChallenge({ G, log, playerID }, challenge, evidence);
 	claimZone({ G, log, playerID }, zoneID);
 	drawToFull({ G, playerID });
-	addLogMetadata({log}, {date: new Date(), zone: zoneID, team: G.allPlayersData[playerID].teamColor, challenge, evidence});
+	addLogMetadata({log}, {date: new Date(), zone: zoneID, zoneName: G.zoneData[zoneID].name, team: G.allPlayersData[playerID].teamColor, challenge, evidence});
 }
 
 function claimZone(

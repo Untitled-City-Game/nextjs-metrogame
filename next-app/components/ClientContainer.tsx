@@ -15,7 +15,8 @@ export default function ClientContainer(
 ) {
 	const [initialPlayerData, setPlayerData] = useState<PlayerData>();
 	const [busy, setBusy] = useState(true);
-	
+	const [gameSetupData, setGameSetupData] = useState<GameSetupData>();
+
 	useEffect(() => {
 		const sessionPlayerData = sessionStorage.getItem("sessionPlayerData");
 		if (sessionPlayerData){
@@ -25,6 +26,20 @@ export default function ClientContainer(
 		}
 		setBusy(false);
 	}, []);
+
+	useEffect(() => {
+		async function fetchData(){
+			if (gameSetupData === undefined){
+				const res = await fetch(process.env.NEXT_PUBLIC_GAME_SERVER + "/map-data")
+				res.json().then(data => {
+					setGameSetupData(data);
+				});
+				return;
+			}
+		}
+		fetchData();
+	}, [gameSetupData]);
+		
 
 	const GameClient = Client({
 		game: MetroMayhem(props.zonePolygons),
