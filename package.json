@@ -10,7 +10,7 @@
   "scripts": {
     "server:dev": "npm run dev -w server",
     "site:dev": "npm run dev -w next-app",
-    "start": "npm run start -w server"
+    "build": "npm run build -w next-app"
   },
   "author": "",
   "license": "ISC",
