@@ -1,0 +1,92 @@
+[debug] [2025-03-10T19:06:33.143Z] ----------------------------------------------------------------------
+[debug] [2025-03-10T19:06:33.145Z] Command:       C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\firebase-tools\lib\bin\firebase.js apphosting:backends:create --project metro-game-474bc --location us-central1
+[debug] [2025-03-10T19:06:33.145Z] CLI Version:   13.33.0
+[debug] [2025-03-10T19:06:33.146Z] Platform:      win32
+[debug] [2025-03-10T19:06:33.146Z] Node Version:  v20.8.0
+[debug] [2025-03-10T19:06:33.146Z] Time:          Mon Mar 10 2025 15:06:33 GMT-0400 (Eastern Daylight Time)
+[debug] [2025-03-10T19:06:33.146Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2025-03-10T19:06:33.364Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:33.364Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:33.365Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/firebaseapphosting.googleapis.com [none]
+[debug] [2025-03-10T19:06:33.365Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/firebaseapphosting.googleapis.com x-goog-quota-user=projects/metro-game-474bc
+[debug] [2025-03-10T19:06:34.044Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/firebaseapphosting.googleapis.com 200
+[debug] [2025-03-10T19:06:34.044Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/firebaseapphosting.googleapis.com [omitted]
+[debug] [2025-03-10T19:06:34.044Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.044Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.044Z] >>> [apiv2][query] GET https://mobilesdk-pa.googleapis.com/v1/accessmanagement/tos:getStatus [none]
+[debug] [2025-03-10T19:06:34.445Z] <<< [apiv2][status] GET https://mobilesdk-pa.googleapis.com/v1/accessmanagement/tos:getStatus 200
+[debug] [2025-03-10T19:06:34.445Z] <<< [apiv2][body] GET https://mobilesdk-pa.googleapis.com/v1/accessmanagement/tos:getStatus {"overallStatus":"ACCEPTED","uTosStatus":{"tos":{"id":"firebase","tosId":"FIREBASE_UNIVERSAL"},"status":"ACCEPTED"},"childTosStatus":[{"tos":{"id":"cloud","tosId":"CLOUD_PLATFORM"},"status":"ACCEPTED"},{"tos":{"id":"firebase_b2b","tosId":"FIREBASE_B2B"},"status":"ACCEPTED"},{"tos":{"id":"universal","tosId":"GOOGLE_APIS"},"status":"ACCEPTED"}],"termsUrl":"https://firebase.google.com/terms","perServiceStatus":[{"tosId":"APP_CHECK","serviceStatus":{"tos":{"id":"app_check","tosId":"APP_CHECK"},"status":"ACCEPTED"}},{"tosId":"APP_HOSTING_TOS","serviceStatus":{"tos":{"id":"app_hosting","tosId":"APP_HOSTING_TOS"},"status":"ACCEPTED"}},{"tosId":"FIREBASE_DATA_CONNECT","serviceStatus":{"tos":{"id":"data_connect","tosId":"FIREBASE_DATA_CONNECT"},"status":"ACCEPTED"}},{"tosId":"CORE_APPS","serviceStatus":{"tos":{"id":"core_apps","tosId":"CORE_APPS"},"status":"ACCEPTED"}},{"tosId":"VERTEX_AI_IN_FIREBASE","serviceStatus":{"tos":{"id":"vertex_ai_in_firebase","tosId":"VERTEX_AI_IN_FIREBASE"},"status":"ACCEPTED"}},{"tosId":"FIREBASE_CRASHLYTICS_APP_DISTRIBUTION","serviceStatus":{"tos":{"id":"firebase_crashlytics_app_distribution","tosId":"FIREBASE_CRASHLYTICS_APP_DISTRIBUTION"},"status":"ACCEPTED"}},{"tosId":"GENERATIVE_LANGUAGE","serviceStatus":{"tos":{"id":"generative-language-api","tosId":"GENERATIVE_LANGUAGE"},"status":"NEVER_ACCEPTED"}}]}
+[warn] !  --location is being removed in the next major release. The CLI will prompt for a Primary Region where appropriate. 
+[debug] [2025-03-10T19:06:34.450Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.450Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.450Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.450Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.451Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.451Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.451Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.451Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.452Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.452Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.452Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.452Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:34.452Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/developerconnect.googleapis.com [none]
+[debug] [2025-03-10T19:06:34.452Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/developerconnect.googleapis.com x-goog-quota-user=projects/metro-game-474bc
+[debug] [2025-03-10T19:06:34.454Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/cloudbuild.googleapis.com [none]
+[debug] [2025-03-10T19:06:34.454Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/cloudbuild.googleapis.com x-goog-quota-user=projects/metro-game-474bc
+[debug] [2025-03-10T19:06:34.458Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/secretmanager.googleapis.com [none]
+[debug] [2025-03-10T19:06:34.458Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/secretmanager.googleapis.com x-goog-quota-user=projects/metro-game-474bc
+[debug] [2025-03-10T19:06:34.462Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/run.googleapis.com [none]
+[debug] [2025-03-10T19:06:34.462Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/run.googleapis.com x-goog-quota-user=projects/metro-game-474bc
+[debug] [2025-03-10T19:06:34.465Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/artifactregistry.googleapis.com [none]
+[debug] [2025-03-10T19:06:34.466Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/artifactregistry.googleapis.com x-goog-quota-user=projects/metro-game-474bc
+[debug] [2025-03-10T19:06:34.469Z] >>> [apiv2][query] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/iam.googleapis.com [none]
+[debug] [2025-03-10T19:06:34.469Z] >>> [apiv2][(partial)header] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/iam.googleapis.com x-goog-quota-user=projects/metro-game-474bc
+[debug] [2025-03-10T19:06:34.764Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/developerconnect.googleapis.com 200
+[debug] [2025-03-10T19:06:34.765Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/developerconnect.googleapis.com [omitted]
+[debug] [2025-03-10T19:06:34.999Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/secretmanager.googleapis.com 200
+[debug] [2025-03-10T19:06:35.000Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/secretmanager.googleapis.com [omitted]
+[debug] [2025-03-10T19:06:35.003Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/run.googleapis.com 200
+[debug] [2025-03-10T19:06:35.003Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/run.googleapis.com [omitted]
+[debug] [2025-03-10T19:06:35.005Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/iam.googleapis.com 200
+[debug] [2025-03-10T19:06:35.005Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/iam.googleapis.com [omitted]
+[debug] [2025-03-10T19:06:35.008Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/cloudbuild.googleapis.com 200
+[debug] [2025-03-10T19:06:35.008Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/cloudbuild.googleapis.com [omitted]
+[debug] [2025-03-10T19:06:35.009Z] <<< [apiv2][status] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/artifactregistry.googleapis.com 200
+[debug] [2025-03-10T19:06:35.010Z] <<< [apiv2][body] GET https://serviceusage.googleapis.com/v1/projects/metro-game-474bc/services/artifactregistry.googleapis.com [omitted]
+[debug] [2025-03-10T19:06:35.010Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:35.011Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:35.011Z] >>> [apiv2][query] POST https://iam.googleapis.com/v1/projects/metro-game-474bc/serviceAccounts/firebase-app-hosting-compute@metro-game-474bc.iam.gserviceaccount.com:testIamPermissions [none]
+[debug] [2025-03-10T19:06:35.011Z] >>> [apiv2][(partial)header] POST https://iam.googleapis.com/v1/projects/metro-game-474bc/serviceAccounts/firebase-app-hosting-compute@metro-game-474bc.iam.gserviceaccount.com:testIamPermissions x-goog-quota-user=projects/metro-game-474bc
+[debug] [2025-03-10T19:06:35.011Z] >>> [apiv2][body] POST https://iam.googleapis.com/v1/projects/metro-game-474bc/serviceAccounts/firebase-app-hosting-compute@metro-game-474bc.iam.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-03-10T19:06:35.420Z] <<< [apiv2][status] POST https://iam.googleapis.com/v1/projects/metro-game-474bc/serviceAccounts/firebase-app-hosting-compute@metro-game-474bc.iam.gserviceaccount.com:testIamPermissions 200
+[debug] [2025-03-10T19:06:35.421Z] <<< [apiv2][body] POST https://iam.googleapis.com/v1/projects/metro-game-474bc/serviceAccounts/firebase-app-hosting-compute@metro-game-474bc.iam.gserviceaccount.com:testIamPermissions {"permissions":["iam.serviceAccounts.actAs"]}
+[debug] [2025-03-10T19:06:35.421Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:35.421Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:35.422Z] >>> [apiv2][query] GET https://firebaseapphosting.googleapis.com/v1beta/projects/metro-game-474bc/locations 
+[debug] [2025-03-10T19:06:35.913Z] <<< [apiv2][status] GET https://firebaseapphosting.googleapis.com/v1beta/projects/metro-game-474bc/locations 200
+[debug] [2025-03-10T19:06:35.913Z] <<< [apiv2][body] GET https://firebaseapphosting.googleapis.com/v1beta/projects/metro-game-474bc/locations {"locations":[{"name":"projects/metro-game-474bc/locations/asia-east1","locationId":"asia-east1","displayName":"Taiwan"},{"name":"projects/metro-game-474bc/locations/europe-west4","locationId":"europe-west4","displayName":"Netherlands"},{"name":"projects/metro-game-474bc/locations/us-central1","locationId":"us-central1","displayName":"Iowa"}]}
+[info] i  === Import a GitHub repository 
+[debug] [2025-03-10T19:06:35.916Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:35.916Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:35.916Z] >>> [apiv2][query] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/firebase-app-hosting-github-oauth [none]
+[debug] [2025-03-10T19:06:36.356Z] <<< [apiv2][status] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/firebase-app-hosting-github-oauth 200
+[debug] [2025-03-10T19:06:36.356Z] <<< [apiv2][body] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/firebase-app-hosting-github-oauth {"name":"projects/metro-game-474bc/locations/us-central1/connections/firebase-app-hosting-github-oauth","createTime":"2025-03-10T18:01:54.511866195Z","updateTime":"2025-03-10T18:02:30.337004570Z","githubConfig":{"githubApp":"FIREBASE","authorizerCredential":{"oauthTokenSecretVersion":"projects/metro-game-474bc/secrets/firebase-app-hosting-github-oauth-github-oauthtoken-b70e66/versions/latest","username":"tichaelmurvey"},"appInstallationId":"62401154","installationUri":"https://github.com/organizations/Untitled-City-Game/settings/installations/62401154"},"installationState":{"stage":"COMPLETE"}}
+[info] +  Connected with GitHub successfully
+ 
+[debug] [2025-03-10T19:06:36.358Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:36.359Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:36.359Z] >>> [apiv2][query] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/firebase-app-hosting-github-oauth:fetchGitHubInstallations [none]
+[debug] [2025-03-10T19:06:36.737Z] <<< [apiv2][status] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/firebase-app-hosting-github-oauth:fetchGitHubInstallations 200
+[debug] [2025-03-10T19:06:36.738Z] <<< [apiv2][body] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/firebase-app-hosting-github-oauth:fetchGitHubInstallations {"installations":[{"id":"62401154","name":"Untitled-City-Game","type":"organization"}]}
+[debug] [2025-03-10T19:06:50.796Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:50.796Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:50.796Z] >>> [apiv2][query] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections pageSize=1000&pageToken=
+[debug] [2025-03-10T19:06:51.160Z] <<< [apiv2][status] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections 200
+[debug] [2025-03-10T19:06:51.160Z] <<< [apiv2][body] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections {"connections":[{"name":"projects/metro-game-474bc/locations/us-central1/connections/apphosting-github-conn-fqsc5rs","createTime":"2025-03-10T18:02:31.925946245Z","updateTime":"2025-03-10T18:02:32.747022910Z","githubConfig":{"githubApp":"FIREBASE","authorizerCredential":{"oauthTokenSecretVersion":"projects/metro-game-474bc/secrets/firebase-app-hosting-github-oauth-github-oauthtoken-b70e66/versions/latest","username":"tichaelmurvey"},"appInstallationId":"62401154","installationUri":"https://github.com/organizations/Untitled-City-Game/settings/installations/62401154"},"installationState":{"stage":"COMPLETE"}},{"name":"projects/metro-game-474bc/locations/us-central1/connections/firebase-app-hosting-github-oauth","createTime":"2025-03-10T18:01:54.511866195Z","updateTime":"2025-03-10T18:02:30.337004570Z","githubConfig":{"githubApp":"FIREBASE","authorizerCredential":{"oauthTokenSecretVersion":"projects/metro-game-474bc/secrets/firebase-app-hosting-github-oauth-github-oauthtoken-b70e66/versions/latest","username":"tichaelmurvey"},"appInstallationId":"62401154","installationUri":"https://github.com/organizations/Untitled-City-Game/settings/installations/62401154"},"installationState":{"stage":"COMPLETE"}}]}
+[info] i  Reusing matching connection apphosting-github-conn-fqsc5rs 
+[debug] [2025-03-10T19:06:51.163Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:51.163Z] Checked if tokens are valid: true, expires at: 1741636425265
+[debug] [2025-03-10T19:06:51.164Z] >>> [apiv2][query] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/apphosting-github-conn-fqsc5rs:fetchLinkableGitRepositories pageSize=1000&pageToken=
+[debug] [2025-03-10T19:06:51.527Z] <<< [apiv2][status] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/apphosting-github-conn-fqsc5rs:fetchLinkableGitRepositories 200
+[debug] [2025-03-10T19:06:51.527Z] <<< [apiv2][body] GET https://developerconnect.googleapis.com/v1/projects/metro-game-474bc/locations/us-central1/connections/apphosting-github-conn-fqsc5rs:fetchLinkableGitRepositories {"linkableGitRepositories":[{"cloneUri":"https://github.com/Untitled-City-Game/nextjs-metrogame.git"}]}
