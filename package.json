@@ -17,9 +17,32 @@
   "description": "",
   "dependencies": {
     "firebase": "^11.4.0",
-    "boardgame.io": "^0.50.2"
+    "@mantine/core": "^7.16.2",
+    "@mantine/form": "^7.17.0",
+    "@mantine/hooks": "^7.16.2",
+    "@mantine/modals": "^7.16.2",
+    "@mantine/notifications": "^7.16.2",
+    "@react-google-maps/api": "^2.20.5",
+    "@types/point-in-polygon": "^1.1.5",
+    "bgio-firebase": "^0.5.0",
+    "boardgame.io": "^0.50.2",
+    "lodash": "^4.17.21",
+    "next": "15.1.5",
+    "point-in-polygon": "^1.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-firebase-hooks": "^5.1.1",
+    "react-router": "^7.2.0",
+    "react-router-dom": "^7.2.0"
+
   },
   "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@types/google.maps": "^3.58.1",
+    "@types/node": "^20",
+    "@types/react-dom": "^19",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
     "@types/geojson": "^7946.0.15",
     "@types/react": "^19",
     "@types/lodash": "^4.17.15",
