@@ -1,15 +1,13 @@
 {
-  "name": "metro-game-root",
+  "name": "metro-game",
   "version": "1.0.0",
-  "main": "index.js",
-  "private": true,
   "workspaces": [
     "server"
     ],
   "scripts": {
-    "server:dev": "npm run dev -w server",
     "site:dev": "next dev",
-    "build": "next build"
+    "build": "next build",
+    "server:dev": "npm run dev -w server"
   },
   "author": "",
   "license": "ISC",
