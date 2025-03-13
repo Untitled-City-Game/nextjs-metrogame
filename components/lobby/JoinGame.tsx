@@ -1,3 +1,4 @@
+'use client'
 import { PlayerData, Color } from "@/scripts/types";
 import { Radio, Paper, Group, Center, Stack, TextInput, Button, Text } from "@mantine/core";
 import { useForm } from "@mantine/form";

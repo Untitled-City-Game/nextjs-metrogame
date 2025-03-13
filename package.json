@@ -1,8 +1,6 @@
 {
-  "name": "metro-game-root",
+  "name": "metro-game",
   "version": "1.0.0",
-  "main": "index.js",
-  "private": true,
   "workspaces": [
     "server"
     ],
