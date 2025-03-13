@@ -21,14 +21,14 @@
     "baseUrl" : "./",
     "paths": {
       "@/*": ["./*"],
-      "@components/*": ["./next-app/components/*"],
+      "@components/*": ["components/*"],
       "@scripts/*": ["scripts/*"],
       "@server/*": ["server/*"],
       "@data/*": ["./data/*"],
-      "@styles/*": ["next-app/styles/*"],
+      "@styles/*": ["styles/*"],
       "react": ["next-app/node_modules/@types/react/index"],
     }
   },
-  "include": ["next-app/next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["**/node_modules"]
 }

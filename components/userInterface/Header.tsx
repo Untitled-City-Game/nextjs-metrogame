@@ -1,4 +1,4 @@
-import { theme } from "@/next-app/styles/theme";
+import { theme } from "@/styles/theme";
 import { Container, Group } from "@mantine/core";
 import { Text } from '@mantine/core';
 

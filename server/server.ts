@@ -1,8 +1,8 @@
 import { Server, Origins, FlatFile } from 'boardgame.io/server';
 import {promises as fs} from 'fs';
 import { LineData, PolyData, GameSetupData } from '@/scripts/types';
-import makeLines from '@/next-app/components/geojson/makeLines';
-import makePolygons from '@/next-app/components/geojson/makePolygons';
+import makeLines from '@/components/geojson/makeLines';
+import makePolygons from '@/components/geojson/makePolygons';
 import { MetroMayhem } from './connect_four';
 
 async function fetchData(){

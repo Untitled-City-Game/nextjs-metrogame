@@ -1,5 +1,5 @@
 'use client'
-import { GameContext } from "@/next-app/components/ClientContainer";
+import { GameContext } from "@/components/ClientContainer";
 import { MetroGameBoardProps } from "@/scripts/types";
 import { Container, Stack, Center, Button } from "@mantine/core";
 import { useContext } from "react";

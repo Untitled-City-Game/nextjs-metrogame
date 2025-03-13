@@ -1,9 +1,9 @@
 'use client'
 import { MetroGameBoardProps } from "@/scripts/types";
 import { useContext } from "react";
-import { GameContext } from "@/next-app/components/ClientContainer";
+import { GameContext } from "@/components/ClientContainer";
 import { Stack, Container, Paper, Group, Button } from "@mantine/core";
-import Header from "@/next-app/components/userInterface/Header";
+import Header from "@/components/userInterface/Header";
 
 export default function Challenges(){
 	const props: MetroGameBoardProps = useContext(GameContext);

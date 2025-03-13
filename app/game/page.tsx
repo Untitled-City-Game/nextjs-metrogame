@@ -1,6 +1,6 @@
-import Challenges from "@/next-app/components/gameTabs/Challenges";
-import GameLog from "@/next-app/components/gameTabs/GameLog";
-import MapBoard from "@/next-app/components/gameTabs/mapAsBoardgame";
+import Challenges from "@/components/gameTabs/Challenges";
+import GameLog from "@/components/gameTabs/GameLog";
+import MapBoard from "@/components/gameTabs/mapAsBoardgame";
 import { Tabs, TabsTab, TabsList, TabsPanel, Container } from "@mantine/core";
 export default function Home() {
 	return (

@@ -4,13 +4,12 @@
   "main": "index.js",
   "private": true,
   "workspaces": [
-    "next-app",
     "server"
     ],
   "scripts": {
     "server:dev": "npm run dev -w server",
-    "site:dev": "npm run dev -w next-app",
-    "build": "npm run build -w next-app"
+    "site:dev": "next dev",
+    "build": "next build"
   },
   "author": "",
   "license": "ISC",

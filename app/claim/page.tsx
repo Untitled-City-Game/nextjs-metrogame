@@ -1,5 +1,5 @@
 "use client";
-import { GameContext } from "@/next-app/components/ClientContainer";
+import { GameContext } from "@/components/ClientContainer";
 import { getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import { storage } from "@/scripts/firebase";
 import {
@@ -21,7 +21,7 @@ import { MetroGameBoardProps } from "@/scripts/types";
 import { useRouter } from "next/navigation";
 import { useForm, UseFormReturnType } from "@mantine/form";
 import { ClaimStateMoves } from "@/server/connect_four";
-import Header from "@/next-app/components/userInterface/Header";
+import Header from "@/components/userInterface/Header";
 import Link from "next/link";
 
 

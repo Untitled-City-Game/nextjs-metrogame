@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "@styles/globals.css";
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
-import { theme } from "@styles/theme";
+import { theme } from "@/styles/theme";
 import ClientContainer from "../components/ClientContainer";
 
 export const metadata: Metadata = {
