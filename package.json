@@ -7,9 +7,7 @@
     "server"
     ],
   "scripts": {
-    "server:dev": "npm run dev -w server",
-    "site:dev": "next dev",
-    "build": "next build"
+    "start": "npm run start -w server"
   },
   "author": "",
   "license": "ISC",
