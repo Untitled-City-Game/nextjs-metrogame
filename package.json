@@ -1,6 +1,6 @@
 {
-  "name": "metro-game",
-  "version": "1.0.0",
+  "name": "my-app",
+  "version": "0.1.0",
   "scripts": {
     "site:dev": "next dev",
     "build": "next build",
