@@ -5,8 +5,8 @@ import makeLines from '@/components/geojson/makeLines';
 import makePolygons from '@/components/geojson/makePolygons';
 import { MetroMayhem } from './connect_four';
 
-async function fetchData(){
-	const zoneData = await fs.readFile(process.cwd() + '/../data/melbourne.geojson', 'utf8');
+async function fetchData(cityName : string = "melbourne"){
+	const zoneData = await fs.readFile(process.cwd() + `/../data/${cityName}.geojson`, 'utf8');
 	const zoneDataObj: GeoJSON.FeatureCollection = JSON.parse(zoneData);
 	const zoneLines: LineData[] = makeLines(zoneDataObj);
 	const zonePolygons: PolyData[] = makePolygons(zoneDataObj, zoneLines);
