@@ -1,12 +1,10 @@
 {
   "name": "metro-game",
   "version": "1.0.0",
-  "workspaces": [
-    "server"
-    ],
   "scripts": {
     "site:dev": "next dev",
     "build": "next build",
+    "start": "next start",
     "server:dev": "npm run dev -w server"
   },
   "author": "",
