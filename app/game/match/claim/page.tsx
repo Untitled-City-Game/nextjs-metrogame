@@ -73,7 +73,7 @@ function ClaimPanel() {
 		const evidenceURL = await getDownloadURL(imageRef)
 
 		moves.completeChallengeAndClaim(Number(zone), challenge, evidenceURL);
-		router.push("/game");
+		router.push("/game/match");
 	}
 	return (
 		<>
@@ -108,7 +108,7 @@ function ClaimPanel() {
 								Next step
 							</Button>
 							{step === 0 ? 
-								<Button component={Link} href="/game">Back</Button>: <Button variant="default"onClick={() => setStep(step - 1)}>Back</Button>
+								<Button component={Link} href="/game/match">Back</Button>: <Button variant="default"onClick={() => setStep(step - 1)}>Back</Button>
 							}
 						</>
 					): <Button onClick={() => claimZone(claimedZone, claimForm.getValues().challenge, claimForm.getValues().evidence as unknown as File)}>Claim</Button>
