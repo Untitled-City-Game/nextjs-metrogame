@@ -1,6 +1,7 @@
 {
   "name": "metro-game",
   "version": "1.0.0",
+  "workspaces": ["server"],
   "scripts": {
     "site:dev": "next dev",
     "build": "next build",

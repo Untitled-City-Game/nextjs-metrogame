@@ -5,12 +5,12 @@ import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
 import { MetroGameBoardProps, zoneData } from "@/scripts/types.js";
 import { gameLocationCenter, highlightColor } from "@/scripts/consts";
-import { GameContext } from "../ClientContainer";
-import LocationMarker from "../googleMaps/location";
-import MapLine from "../googleMaps/GoogleMapsLine";
-import ZonePolygon from "../googleMaps/GoogleMapsPolygon";
-import SelectedZonePopup from "../googleMaps/SelectedZonePopup";
-import Header from "../userInterface/Header";
+import { GameContext } from "@components/Board";
+import LocationMarker from "@components/googleMaps/location";
+import MapLine from "@components/googleMaps/GoogleMapsLine";
+import ZonePolygon from "@components/googleMaps/GoogleMapsPolygon";
+import SelectedZonePopup from "@components/googleMaps/SelectedZonePopup";
+import Header from "@components/userInterface/Header";
 
 const libraries: Library[] = ["places", "geometry"];
 

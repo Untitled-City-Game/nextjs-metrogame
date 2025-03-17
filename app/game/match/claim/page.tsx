@@ -1,5 +1,4 @@
 "use client";
-import { GameContext } from "@/components/ClientContainer";
 import { getDownloadURL, ref, uploadBytes} from "firebase/storage";
 import { storage } from "@/scripts/firebase";
 import {
@@ -23,6 +22,7 @@ import { useForm, UseFormReturnType } from "@mantine/form";
 import { ClaimStateMoves } from "@/server/connect_four";
 import Header from "@/components/userInterface/Header";
 import Link from "next/link";
+import { GameContext } from "@/components/Board";
 
 
 type Form = UseFormReturnType<
