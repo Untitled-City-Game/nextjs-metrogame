@@ -1,6 +1,6 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
-import { GameContext } from "../ClientContainer";
+import { GameContext } from "@components/Board";
 import { Alert, Stack, Text, Group, Button, Box, Image } from "@mantine/core";
 import { GameState, LogMetadata, MetroGameBoardProps, PlayerData } from "@/scripts/types";
 import Header from "../userInterface/Header";

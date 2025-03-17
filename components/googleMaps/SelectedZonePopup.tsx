@@ -11,7 +11,7 @@ export default function SelectedZonePopup ({currentZone}: {currentZone: zoneData
 				<Button
 					component={Link}
 					href={{
-						pathname: "/claim",
+						pathname: "/game/match/claim",
 						query: { zone: currentZone.id },
 					}}>
 					Claim {currentZone.name}

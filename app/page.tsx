@@ -1,29 +1,14 @@
-'use client'
-import { GameContext } from "@/components/ClientContainer";
-import { MetroGameBoardProps } from "@/scripts/types";
-import { Container, Stack, Center, Button } from "@mantine/core";
-import { useContext } from "react";
-import { redirect } from 'next/navigation'
+import { Button, Center, Stack } from "@mantine/core";
+import Link from "next/link";
 
 export default function Home() {
-	const props: MetroGameBoardProps = useContext(GameContext);
-	const playerData = props.G.allPlayersData
-	if(props.G.active) {
-		redirect('/game')
-	}
 	return (
 		<Center>
 			<Stack>
-				<h1>Untitled City Game</h1>
-				<h2>Your game is waiting to start</h2>
-				<p>Players can still join.</p>
-				{Object.values(playerData).map((player, index) => {
-					return <Container key={index}>{player.name}, {player.teamColor} team</Container>
-				})}
-				<Button onClick={() => {
-					props.moves.startGame()
-				}
-				}>Start the Game</Button>
+			<div>
+				<h1>Untitled Metro Game</h1>
+				<Button component={Link} href="/game/lobby">Join Game</Button>
+			</div>
 			</Stack>
 		</Center>
 	)

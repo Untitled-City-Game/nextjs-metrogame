@@ -1,23 +1,41 @@
+import { fetchMapData } from '@scripts/fetchMapData';
 import { Server, Origins, FlatFile } from 'boardgame.io/server';
-import {promises as fs} from 'fs';
 import { LineData, PolyData, GameSetupData } from '@/scripts/types';
 import makeLines from '@/components/geojson/makeLines';
 import makePolygons from '@/components/geojson/makePolygons';
-import { MetroMayhem } from './connect_four';
+import { ConnectFour } from './connect_four';
+import { cities } from '@/scripts/consts';
 
-async function fetchData(){
-	const zoneData = await fs.readFile(process.cwd() + '/../data/melbourne.geojson', 'utf8');
-	const zoneDataObj: GeoJSON.FeatureCollection = JSON.parse(zoneData);
-	const zoneLines: LineData[] = makeLines(zoneDataObj);
-	const zonePolygons: PolyData[] = makePolygons(zoneDataObj, zoneLines);
-	return {zonePolygons : zonePolygons, winningLines: zoneLines};
+
+
+async function fetchAllData(){
+	const allData : Record<string, GameSetupData> = {};
+	for (const city of cities){
+		let data : GameSetupData;
+		try {
+			const mapData = await fetchMapData(city);
+			data = {
+				city: city,
+				...mapData
+			}
+			console.log("fetched data for city", city);
+			allData[city] = data;
+			continue;
+			} catch (e){
+				console.log("error fetching data for city", city);
+				console.log(e);
+				continue;
+			}
+	}
+	return allData;
 }
+
 
 async function buildServer(){
 	console.log("building server")
-	const mapData : GameSetupData = await fetchData();
+	const AllMapsData : Record<string, GameSetupData> = await fetchAllData();
 	const server = Server({
-		games: [MetroMayhem(mapData.zonePolygons)],
+		games: [ConnectFour],
 		origins: [Origins.LOCALHOST, "https://nextjs-metrogame--metro-game-474bc.us-central1.hosted.app"],
 		db: new FlatFile({
 			dir: process.cwd() + '/db',
@@ -27,8 +45,9 @@ async function buildServer(){
 	server.router.get('/hello', (ctx) => {
 		ctx.body = 'Hello ee!';
 	  });
-	server.router.get('/map-data', (ctx) => {
-		ctx.body = mapData;
+	server.router.get('/map-data/:city', (ctx) => {
+		console.log("getting map data for city", ctx.params.city);
+		ctx.body = AllMapsData[ctx.params.city] ? AllMapsData[ctx.params.city] : {};
 	  });
 	const PORT = parseInt(process.env.PORT || "8000");
 	server.run(PORT, () => console.log("server running..."));

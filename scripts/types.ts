@@ -1,6 +1,7 @@
 import { BoardProps } from 'boardgame.io/react';
 import { LineString } from 'geojson';
 import { Dispatch, ReactElement, SetStateAction } from 'react';
+import { cities } from './consts';
 
 export type geospatialFeature = {
 	featureName : string,
@@ -75,9 +76,17 @@ export interface GameState {
 
 export type zoneStatus = Color | "empty";
 
-export type GameSetupData = {
+export interface MapData {
 	zonePolygons: PolyData[];
 	winningLines: LineData[];
+}
+
+export interface GameSetupData extends MapData {
+	city : typeof cities[number];
+}
+
+export type ConnectFourSetupData = {
+	city : typeof cities[number];
 }
 
 export interface ClientSetupData extends GameSetupData {

@@ -29,6 +29,6 @@
       "react": ["next-app/node_modules/@types/react/index"],
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", ".next/types/app/page.tsx"],
   "exclude": ["**/node_modules"]
 }

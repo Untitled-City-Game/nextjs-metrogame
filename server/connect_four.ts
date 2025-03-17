@@ -1,9 +1,21 @@
-import { GameState, AllPlayersData, PolyData, zoneData, PlayerData, AllTeamsData, Color, ChallengeData, TeamData, LogMetadata } from "@/scripts/types";
+import {
+	GameState,
+	AllPlayersData,
+	PolyData,
+	zoneData,
+	PlayerData,
+	AllTeamsData,
+	Color,
+	ChallengeData,
+	TeamData,
+	LogMetadata,
+	GameSetupData,
+} from "@/scripts/types";
 import type { Ctx, FnContext, Game } from "boardgame.io";
 import { LogAPI } from "boardgame.io/dist/types/src/plugins/plugin-log";
 import { RandomAPI } from "boardgame.io/dist/types/src/plugins/random/random";
-import challengeDataJSON from 'data/challenges.json'
-const challengeData : ChallengeData = challengeDataJSON
+import challengeDataJSON from "data/challenges.json";
+const challengeData: ChallengeData = challengeDataJSON;
 import { remove } from "lodash";
 // function functionMove({G, ctx, playerID}: FnContext<GameState>, claimId: number, teamID: zoneNames, ...args: unknown[]){
 // 	G.zones[claimId] = teamID;
@@ -13,13 +25,13 @@ import { remove } from "lodash";
 
 const handSize = 5;
 
-function addLogMetadata({log} : {log : LogAPI}, metadata: LogMetadata){
-	console.log("adding metadata", metadata)
-	log.setMetadata({...metadata, date: new Date()});
+function addLogMetadata({ log }: { log: LogAPI }, metadata: LogMetadata) {
+	console.log("adding metadata", metadata);
+	log.setMetadata({ ...metadata, date: new Date() });
 }
 
 function completeChallengeAndClaim(
-	{ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
+	{ G, log, playerID }: { G: GameState; log: LogAPI; playerID: string },
 	zoneID: number,
 	challenge: string,
 	evidence: string
@@ -27,13 +39,22 @@ function completeChallengeAndClaim(
 	completeChallenge({ G, log, playerID }, challenge, evidence);
 	claimZone({ G, log, playerID }, zoneID);
 	drawToFull({ G, playerID });
-	addLogMetadata({log}, {date: new Date(), zone: zoneID, zoneName: G.zoneData[zoneID].name, team: G.allPlayersData[playerID].teamColor, challenge, evidence});
+	addLogMetadata(
+		{ log },
+		{
+			date: new Date(),
+			zone: zoneID,
+			zoneName: G.zoneData[zoneID].name,
+			team: G.allPlayersData[playerID].teamColor,
+			challenge,
+			evidence,
+		}
+	);
 }
 
 function claimZone(
-	{ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
-	zoneID: number,
-
+	{ G, log, playerID }: { G: GameState; log: LogAPI; playerID: string },
+	zoneID: number
 ) {
 	const claimedZone = G.zoneData[zoneID];
 	claimedZone.color = G.allPlayersData[playerID].teamColor;
@@ -42,125 +63,111 @@ function claimZone(
 	//addLogMetadata({log}, {date: new Date(), zone: zoneID, team: claimedZone.color});
 }
 
-function completeChallenge({ G, log, playerID }: { G: GameState, log : LogAPI , playerID: string },
+function completeChallenge(
+	{ G, log, playerID }: { G: GameState; log: LogAPI; playerID: string },
 	challenge: string,
 	evidence: string
-){
+) {
 	discardChallenge({ G, log, playerID }, challenge);
-	addLogMetadata({log}, {date: new Date(), challenge, evidence, team: G.allPlayersData[playerID].teamColor});
+	addLogMetadata(
+		{ log },
+		{
+			date: new Date(),
+			challenge,
+			evidence,
+			team: G.allPlayersData[playerID].teamColor,
+		}
+	);
 }
 
 function discardChallenge(
-	{ G, playerID }: { G: GameState, log : LogAPI , playerID: string },
-	challenge: string,
+	{ G, playerID }: { G: GameState; log: LogAPI; playerID: string },
+	challenge: string
 ) {
-	const team = G.allPlayersData[playerID].teamColor
+	const team = G.allPlayersData[playerID].teamColor;
 	//remove challenge from challenge hand
-	const teamData = G.allTeamsData[team]
-	const removedChallenge = remove(teamData.challengeHand, challengeInHand => challengeInHand.title === challenge)
-	teamData.challengeDiscard.concat(removedChallenge)
+	const teamData = G.allTeamsData[team];
+	const removedChallenge = remove(
+		teamData.challengeHand,
+		(challengeInHand) => challengeInHand.title === challenge
+	);
+	teamData.challengeDiscard.concat(removedChallenge);
 	console.log("removed challenge from hand", challenge);
 }
 
-function drawChallenge(
-	{ G, playerID }: { G: GameState, playerID: string },
-){
+function drawChallenge({ G, playerID }: { G: GameState; playerID: string }) {
 	//draw a challenge from deck
-	const teamData = G.allTeamsData[G.allPlayersData[playerID].teamColor]
-	const drawnChallenge = teamData.challengeDeck.pop()
-	if (drawnChallenge){
-		teamData.challengeHand.push(drawnChallenge)
-		console.log("drawn challenge", drawnChallenge.title)
-	}
-	else{
-		console.log("no cards left in deck")
+	const teamData = G.allTeamsData[G.allPlayersData[playerID].teamColor];
+	const drawnChallenge = teamData.challengeDeck.pop();
+	if (drawnChallenge) {
+		teamData.challengeHand.push(drawnChallenge);
+		console.log("drawn challenge", drawnChallenge.title);
+	} else {
+		console.log("no cards left in deck");
 		//TODO: add error message
 	}
 }
 
-function drawToFull(
-	{ G, playerID }: { G: GameState, playerID: string },
-){
+function drawToFull({ G, playerID }: { G: GameState; playerID: string }) {
 	let i = 0;
-	const teamData = G.allTeamsData[G.allPlayersData[playerID].teamColor]
+	const teamData = G.allTeamsData[G.allPlayersData[playerID].teamColor];
 	while (teamData.challengeHand.length < handSize) {
 		drawChallenge({ G, playerID });
 		i++;
-		if (i > handSize){
-			console.log("error: couldn't draw to full")
+		if (i > handSize) {
+			console.log("error: couldn't draw to full");
 			break;
 		}
 	}
 }
 
 function playerSetup(
-	{ G, playerID }: { G: GameState , playerID: string },
-	newPlayerData : PlayerData
-){
-	G.allPlayersData[playerID] = newPlayerData
-	console.log("added player data for", playerID, newPlayerData, newPlayerData.name, newPlayerData.teamColor)
+	{ G, playerID }: { G: GameState; playerID: string },
+	newPlayerData: PlayerData
+) {
+	G.allPlayersData[playerID] = newPlayerData;
+	console.log(
+		"added player data for",
+		playerID,
+		newPlayerData,
+		newPlayerData.name,
+		newPlayerData.teamColor
+	);
 }
 
 function startGame({ events, G, random, log }: FnContext<GameState>) {
 	//shuffle and create decks
 	events.setActivePlayers({ all: "claim" });
-	teamSetup(G.allTeamsData, random)
+	teamSetup(G.allTeamsData, random);
 	G.active = true;
-	addLogMetadata({log}, {date : new Date(), team : G.allPlayersData[0].teamColor});
+	addLogMetadata(
+		{ log },
+		{ date: new Date(), team: G.allPlayersData[0].teamColor }
+	);
 }
 
-function teamSetup(teams : AllTeamsData, random : RandomAPI){
-	console.log("setting up teams")
+function teamSetup(teams: AllTeamsData, random: RandomAPI) {
+	console.log("setting up teams");
 	//iterate over keys in teams object
-	for (const teamColor in teams){
+	for (const teamColor in teams) {
 		console.log("team color: ", teamColor);
 		const shuffledDeck = random.Shuffle(challengeData);
 		teams[teamColor as Color] = {
-			challengeDeck: shuffledDeck, 
+			challengeDeck: shuffledDeck,
 			challengeHand: shuffledDeck.slice(0, 5),
-			challengeDiscard: []
-		}
+			challengeDiscard: [],
+		};
 	}
 }
 
-function endGame({G, log} : FnContext<GameState>){
+function endGame({ G, log }: FnContext<GameState>) {
 	console.log("ending game");
 	log.setMetadata("game end");
 	G.gameOver = true;
 	G.active = false;
 }
 
-export const MetroMayhem = (internalSetupData: PolyData[]): Game<GameState> => {
-	console.log("running metromayhem function")
-	return {
-		name: "metro-mayhem",
-		//set up game board using map json info
-		setup: ({ctx}) => gameSetup(internalSetupData, ctx),
-		endIf: ({G}) => G.gameOver,
-		moves: {
-			claimZone,
-			startGame,
-			playerSetup,
-		},
-		turn: {
-			onBegin: ({events}) => {events.setActivePlayers({all: "join"})},
-			stages: {
-				join: {
-					moves: {
-						playerSetup,
-						startGame
-					}
-				},
-				claim: {
-					moves: claimStateMoves
-				},
-			},
-		},
-		
-	};
-};
-
-const claimStateMoves ={
+const claimStateMoves = {
 	claimZone,
 	playerSetup,
 	drawChallenge,
@@ -168,42 +175,69 @@ const claimStateMoves ={
 	discardChallenge,
 	completeChallenge,
 	completeChallengeAndClaim,
-	endGame
+	endGame,
+};
+
+export const ConnectFour: Game<GameState> = {
+	name: `connect-four`,
+	//set up game board using map json info
+	setup: ({ ctx }, setupData) => gameSetup(setupData, ctx),
+	endIf: ({ G }) => {G.gameOver ? "Game ended" : null},
+	moves: {
+		claimZone,
+		startGame,
+		playerSetup,
+	},
+	turn: {
+		onBegin: ({ events }) => {
+			events.setActivePlayers({ all: "join" });
+		},
+		stages: {
+			join: {
+				moves: {
+					playerSetup,
+					startGame,
+				},
+			},
+			claim: {
+				moves: claimStateMoves,
+			},
+		},
+	},
 }
 
-export type ClaimStateMoves = StripContext<typeof claimStateMoves>
+export type ClaimStateMoves = StripContext<typeof claimStateMoves>;
 
-function gameSetup(internalSetupData: PolyData[], ctx: Ctx): GameState {
+function gameSetup(setupData: GameSetupData, ctx: Ctx): GameState {
 	console.log("Setting up game of metromayhem");
 	console.log("players: ", ctx.numPlayers);
 	console.log("currentplayer ", ctx.currentPlayer);
 	return {
-		zoneData: createBoardFromMapJson(internalSetupData),
+		zoneData: createBoardFromMapJson(setupData.zonePolygons),
 		active: false,
 		gameOver: false,
-		allPlayersData : {} as AllPlayersData,
+		allPlayersData: {} as AllPlayersData,
 		//declare allteamsdata as AllTeamsData object
-		allTeamsData : {
+		allTeamsData: {
 			red: {} as TeamData,
-			blue: {} as TeamData
+			blue: {} as TeamData,
 		} as AllTeamsData,
 	};
 }
 
-function createBoardFromMapJson(internalSetupData: PolyData[]): zoneData[] {
-	return internalSetupData.map((zone, index) => {
+function createBoardFromMapJson(mapData: PolyData[]): zoneData[] {
+	return mapData.map((zone, index) => {
 		return {
 			id: index,
 			status: "empty",
 			name: zone.featureName,
 			color: "grey",
 		};
-	}
-	);
+	});
 }
 
 type StripContext<T> = {
-    [K in keyof T]: T[K] extends (context: infer C, ...args: infer A) => infer R
-        ? (...args: A) => R
-        : never;
+	[K in keyof T]: T[K] extends (context: infer C, ...args: infer A) => infer R
+		? (...args: A) => R
+		: never;
 };

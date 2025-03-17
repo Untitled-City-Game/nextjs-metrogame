@@ -3,7 +3,6 @@ import "@styles/globals.css";
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
 import { theme } from "@/styles/theme";
-import ClientContainer from "../components/ClientContainer";
 
 export const metadata: Metadata = {
   title: "Untitled Metro Game",
@@ -23,7 +22,7 @@ export default function RootLayout({
 
       <body style={{ backgroundColor: theme.white }}>
         <MantineProvider theme={theme}>
-          <ClientContainer> {children} </ClientContainer>
+          {children}
         </MantineProvider>
       </body>
     </html>
