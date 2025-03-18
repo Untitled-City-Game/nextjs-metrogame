@@ -1,7 +1,9 @@
 {
   "name": "metro-game",
   "version": "1.0.0",
-  "workspaces": ["server"],
+  "workspaces": [
+    "server"
+  ],
   "scripts": {
     "start": "npm run start -w server"
   },
@@ -9,7 +11,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "firebase": "^11.4.0",
     "@mantine/core": "^7.16.2",
     "@mantine/form": "^7.17.0",
     "@mantine/hooks": "^7.16.2",
@@ -19,6 +20,7 @@
     "@types/point-in-polygon": "^1.1.5",
     "bgio-firebase": "^0.5.0",
     "boardgame.io": "^0.50.2",
+    "firebase": "^11.4.0",
     "lodash": "^4.17.21",
     "next": "15.1.5",
     "point-in-polygon": "^1.1.0",
@@ -27,20 +29,19 @@
     "react-firebase-hooks": "^5.1.1",
     "react-router": "^7.2.0",
     "react-router-dom": "^7.2.0"
-
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/google.maps": "^3.58.1",
-    "@types/node": "^20",
-    "@types/react-dom": "^19",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
     "@types/geojson": "^7946.0.15",
-    "@types/react": "^19",
+    "@types/google.maps": "^3.58.1",
     "@types/lodash": "^4.17.15",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.1.5",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5"
   }
 }
