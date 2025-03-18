@@ -5,8 +5,17 @@ import makeLines from '@/components/geojson/makeLines';
 import makePolygons from '@/components/geojson/makePolygons';
 import { ConnectFour } from './connect_four';
 import { cities } from '@/scripts/consts';
+import { firebaseConfig } from '@/scripts/firebase';
+import admin from 'firebase-admin';
+import { Firestore } from 'bgio-firebase';
 
-
+const database = new Firestore({
+	config: {
+		credential: admin.credential.applicationDefault(),
+		databaseURL: 'https://metro-game-474bc.firebaseio.com',
+	},
+  });
+  
 
 async function fetchAllData(){
 	const allData : Record<string, GameSetupData> = {};
@@ -37,10 +46,7 @@ async function buildServer(){
 	const server = Server({
 		games: [ConnectFour],
 		origins: [Origins.LOCALHOST, "https://nextjs-metrogame--metro-game-474bc.us-central1.hosted.app"],
-		db: new FlatFile({
-			dir: process.cwd() + '/db',
-			logging: false,
-		})
+		db: database,
 	});
 	server.router.get('/hello', (ctx) => {
 		ctx.body = 'Hello ee!';
