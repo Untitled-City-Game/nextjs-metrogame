@@ -26,7 +26,7 @@ export interface PolygonFeature extends GeoJSON.Feature {
 		properties: GeoJSON.GeoJsonProperties & {Name: string};
 	}
 
-export type zoneData = {
+export type ZoneData = {
 	id: number;
 	status: zoneStatus;
 	name: string;
@@ -67,7 +67,7 @@ type AtLeastOneColor<T extends string> = {
 export type AllTeamsData = AtLeastOneColor<Color>;
 
 export interface GameState {
-	zoneData: zoneData[],
+	zoneData: ZoneData[],
 	active: boolean,
 	allPlayersData : AllPlayersData,
 	allTeamsData : AllTeamsData,
@@ -115,7 +115,6 @@ export type LogMetadata = {
 	zoneName?: string;
 	team: Color;
 }
-
 
 type RGB = `rgb(${number}, ${number}, ${number})`;
 type RGBA = `rgba(${number}, ${number}, ${number}, ${number})`;

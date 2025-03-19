@@ -1,13 +1,13 @@
-import { PolyData, zoneData, Color } from "@/scripts/types";
+import { PolyData, ZoneData, Color } from "@/scripts/types";
 import { Polygon } from "@react-google-maps/api";
 
 type ZonePolygonProps = {
 	zone: PolyData, 
 	handleZoneClick: (lineVisibility: {[key: string]: boolean}, polygonVisibility: {[key: string]: boolean}) => void,
-	currentZone: zoneData | undefined, 
+	currentZone: ZoneData | undefined, 
 	highlightedZones: {[key: string]: boolean,}, 
 	highlightColor: Color,
-	zoneGameData: zoneData,
+	zoneGameData: ZoneData,
 }
 
 export default function ZonePolygon({zone, handleZoneClick, currentZone, highlightedZones, highlightColor, zoneGameData} : ZonePolygonProps){

@@ -1,5 +1,5 @@
-'use client'
 import ClientContainer from "@/components/ClientContainer";
+import { Suspense } from "react";
 
 export default function MatchLayout({
 	children,
@@ -7,5 +7,11 @@ export default function MatchLayout({
 	children: React.ReactNode;
   }>) 
   {
-	 return <ClientContainer>{children}</ClientContainer>
+	 return (
+    <ClientContainer>
+      <Suspense>
+      {children}
+      </Suspense>
+    </ClientContainer>
+    )
   }

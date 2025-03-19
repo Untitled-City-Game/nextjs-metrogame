@@ -1,14 +1,12 @@
-"use client";
+'use client'
 import { ConnectFour } from "@server/connect_four";
-import { createContext, Dispatch, SetStateAction, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import type { ClientSetupData, GameSetupData, MapData, MetroGameBoardProps, PlayerData } from "@scripts/types";
-import { Center, Stack, Text } from "@mantine/core";
+import type { ClientSetupData, GameSetupData, MapData, PlayerData } from "@scripts/types";
+import { Text } from "@mantine/core";
 import { LobbyClient } from "boardgame.io/client";
 import Board from "@components/Board";
-
-
 
 export default function ClientContainer(
 	props: { children: React.ReactNode }
@@ -19,6 +17,7 @@ export default function ClientContainer(
 	const lobbyClient = useMemo(() => new LobbyClient({ server: process.env.NEXT_PUBLIC_GAME_SERVER }), []);
 	//Check if session is already part of a game
 	useEffect(() => {
+		console.log("running session playerdata effect")
 		if (!playerData){
 			const sessionPlayerData = sessionStorage.getItem("sessionPlayerData");
 			if (sessionPlayerData){
@@ -31,6 +30,7 @@ export default function ClientContainer(
 	
 	//get map data if needed
 	useEffect(() => {
+		console.log("running mapdata effect")
 		if(!gameSetupData && playerData?.matchID){
 			lobbyClient.getMatch("connect-four", playerData.matchID).then(async res => {
 				const cityName = res.setupData.city;
@@ -60,7 +60,9 @@ export default function ClientContainer(
 			}),
 		}) as React.JSXElementConstructor<ClientSetupData>
 		return (
+			<Suspense>
 			<GameClient matchID={playerData.matchID || "default"} playerData={{data: playerData, setter: setPlayerData}} playerID={playerData.playerID} credentials = {playerData.playerCredentials} {...gameSetupData} {...props} />
+			</Suspense>
 		)
 	} else {
 		return <Text>Game loading...</Text>

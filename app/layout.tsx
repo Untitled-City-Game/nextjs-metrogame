@@ -14,6 +14,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  console.log("rendering rootlayout")
   return (
     <html lang="en" {...mantineHtmlProps}>
       <head>

@@ -46,7 +46,10 @@ async function buildServer(){
 	const server = Server({
 		games: [ConnectFour],
 		origins: [Origins.LOCALHOST, "https://nextjs-metrogame--metro-game-474bc.us-central1.hosted.app"],
+<<<<<<< HEAD
 		db: database,
+=======
+>>>>>>> dev
 	});
 	server.router.get('/hello', (ctx) => {
 		ctx.body = 'Hello ee!';
