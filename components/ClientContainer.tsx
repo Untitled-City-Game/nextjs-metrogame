@@ -1,14 +1,12 @@
 'use client'
 import { ConnectFour } from "@server/connect_four";
-import { createContext, Dispatch, SetStateAction, Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { Client } from "boardgame.io/react";
 import { SocketIO } from "boardgame.io/multiplayer";
-import type { ClientSetupData, GameSetupData, MapData, MetroGameBoardProps, PlayerData } from "@scripts/types";
-import { Center, Stack, Text } from "@mantine/core";
+import type { ClientSetupData, GameSetupData, MapData, PlayerData } from "@scripts/types";
+import { Text } from "@mantine/core";
 import { LobbyClient } from "boardgame.io/client";
 import Board from "@components/Board";
-
-
 
 export default function ClientContainer(
 	props: { children: React.ReactNode }

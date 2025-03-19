@@ -2,7 +2,7 @@ import {
 	GameState,
 	AllPlayersData,
 	PolyData,
-	zoneData,
+	ZoneData,
 	PlayerData,
 	AllTeamsData,
 	Color,
@@ -225,7 +225,7 @@ function gameSetup(setupData: GameSetupData, ctx: Ctx): GameState {
 	};
 }
 
-function createBoardFromMapJson(mapData: PolyData[]): zoneData[] {
+function createBoardFromMapJson(mapData: PolyData[]): ZoneData[] {
 	return mapData.map((zone, index) => {
 		return {
 			id: index,

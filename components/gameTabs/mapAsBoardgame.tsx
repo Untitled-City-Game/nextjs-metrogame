@@ -3,7 +3,7 @@
 import { useState, useContext } from "react";
 import { GoogleMap, useJsApiLoader } from "@react-google-maps/api";
 import { Library } from "@googlemaps/js-api-loader";
-import { MetroGameBoardProps, zoneData } from "@/scripts/types.js";
+import { MetroGameBoardProps, ZoneData } from "@/scripts/types.js";
 import { gameLocationCenter, highlightColor } from "@/scripts/consts";
 import { GameContext } from "@components/Board";
 import LocationMarker from "@components/googleMaps/location";
@@ -37,7 +37,7 @@ export default function MapBoard() {
 			: {}
 	);
 
-	const [currentZone, setCurrentZone] = useState<zoneData>();
+	const [currentZone, setCurrentZone] = useState<ZoneData>();
 
 	//Load the map
 	const { isLoaded } = useJsApiLoader({
