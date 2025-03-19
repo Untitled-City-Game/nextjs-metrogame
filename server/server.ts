@@ -1,12 +1,11 @@
 import { fetchMapData } from '@scripts/fetchMapData';
-import { Server, Origins, FlatFile } from 'boardgame.io/server';
-import { LineData, PolyData, GameSetupData } from '@/scripts/types';
-import makeLines from '@/components/geojson/makeLines';
-import makePolygons from '@/components/geojson/makePolygons';
+import { Server, Origins } from 'boardgame.io/server';
+import {GameSetupData } from '@/scripts/types';
 import { ConnectFour } from './connect_four';
 import { cities } from '@/scripts/consts';
 
 
+//This is a comment
 
 async function fetchAllData(){
 	const allData : Record<string, GameSetupData> = {};
