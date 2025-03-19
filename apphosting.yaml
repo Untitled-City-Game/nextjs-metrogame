@@ -18,13 +18,7 @@ env:
   #     - RUNTIME
   - variable: MAPS_API
     value: AIzaSyAhg8bq82cx8W6bqb-KTjk1QmrgOi43gdA
-    
-  - variable: GAME_SERVER
-    value: https://game-server--metro-game-474bc.us-central1.hosted.app/
-
-  - variable: NEXT_PUBLIC_GAME_SERVER
-    value: https://game-server--metro-game-474bc.us-central1.hosted.app/
-  # Grant access to secrets in Cloud Secret Manager.
+      # Grant access to secrets in Cloud Secret Manager.
   # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
   # - variable: GAME_SERVER
   #   secret: mySecretRef
