@@ -1,11 +1,8 @@
 import { fetchMapData } from '@scripts/fetchMapData';
-import { Server, Origins, FlatFile } from 'boardgame.io/server';
-import { LineData, PolyData, GameSetupData } from '@/scripts/types';
-import makeLines from '@/components/geojson/makeLines';
-import makePolygons from '@/components/geojson/makePolygons';
+import { Server, Origins } from 'boardgame.io/server';
+import { GameSetupData } from '@/scripts/types';
 import { ConnectFour } from './connect_four';
 import { cities } from '@/scripts/consts';
-import { firebaseConfig } from '@/scripts/firebase';
 import admin from 'firebase-admin';
 import { Firestore } from 'bgio-firebase';
 
@@ -45,11 +42,8 @@ async function buildServer(){
 	const AllMapsData : Record<string, GameSetupData> = await fetchAllData();
 	const server = Server({
 		games: [ConnectFour],
-		origins: [Origins.LOCALHOST, "https://nextjs-metrogame--metro-game-474bc.us-central1.hosted.app"],
-<<<<<<< HEAD
+		origins: [Origins.LOCALHOST, "https://nextjs-metrogame--metro-game-474bc.us-central1.hosted.app", "https://otbg-live-test--metro-game-474bc.us-central1.hosted.app/"],
 		db: database,
-=======
->>>>>>> dev
 	});
 	server.router.get('/hello', (ctx) => {
 		ctx.body = 'Hello ee!';
