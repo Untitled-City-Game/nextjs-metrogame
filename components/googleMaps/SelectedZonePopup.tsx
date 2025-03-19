@@ -8,14 +8,15 @@ export default function SelectedZonePopup ({currentZone}: {currentZone: zoneData
 			<Center style={infoZoneStyles}>
 				<Container>
 			<Paper >
-				<Button
+				<Link href={`/game/match/claim?zone=${currentZone.id}`}>Claim {currentZone.name}</Link>
+				{/* <Button
 					component={Link}
 					href={{
 						pathname: "/game/match/claim",
 						query: { zone: currentZone.id },
 					}}>
 					Claim {currentZone.name}
-				</Button>
+				</Button> */}
 			</Paper>
 			</Container>
 			</Center>
