@@ -1,5 +1,5 @@
-import makeLines from "@/components/geojson/makeLines";
-import makePolygons from "@/components/geojson/makePolygons";
+import makeLines from "@/scripts/geojson/makeLines";
+import makePolygons from "@/scripts/geojson/makePolygons";
 import { LineData, PolyData } from "./types";
 import {promises as fs} from 'fs';
 
